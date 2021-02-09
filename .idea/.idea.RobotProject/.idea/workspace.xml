@@ -4,7 +4,7 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="Initial commit" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="Added project files" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1612859099490</updated>
       <workItem from="1612859115712" duration="1164000" />
-      <workItem from="1612899782103" duration="994000" />
+      <workItem from="1612899782103" duration="1737000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -62,7 +62,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612859570245</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added project files">
+      <created>1612900971160</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1612900971160</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -80,6 +87,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Added project files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added project files" />
   </component>
 </project>
