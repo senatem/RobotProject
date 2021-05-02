@@ -27,13 +27,9 @@
         </e>
         <e p="RobotProject.csproj" t="IncludeRecursive" />
         <e p="uiElements" t="Include">
-          <e p="Geometry.cs" t="Include" />
           <e p="Indicator.cs" t="Include" />
           <e p="ModifiedButton.cs" t="Include" />
           <e p="ModifiedLabel.cs" t="Include" />
-          <e p="ModifiedTextBox.cs" t="Include" />
-          <e p="References.cs" t="Include" />
-          <e p="TextPair.cs" t="Include" />
           <e p="UiElement.cs" t="Include" />
         </e>
       </e>
