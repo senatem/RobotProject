@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 using RobotProject.uiElements;
@@ -38,6 +39,7 @@ namespace RobotProject
         
         private void InitializeComponent()
         {
+            
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
@@ -45,8 +47,20 @@ namespace RobotProject
 
             this.tl = new ModifiedLabel("tl1","hey");
             this.mb = new ModifiedButton("mb1","button");
+            this.mb.clickAction = () =>
+            {
+                nbp.opening();
+                nbp.ShowDialog();
+                if (nbp.confirmed)
+                {
+                    mb.Text = nbp.att1.text;                    
+                }
+                else
+                {
+                    mb.Text = "hey";
+                }
+            };
             
-             
             tl.Reorient(w:500);
             //tl.ClickFunction = (object sender, EventArgs e) => { };
             tl.clickAction = () => {
@@ -59,6 +73,7 @@ namespace RobotProject
             systemControls.implement(this.Controls);
             connectionIndicators.implement(this.Controls);
             
+
         }
 
         #endregion
@@ -67,44 +82,62 @@ namespace RobotProject
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(200, 300, 400, 100);
         private ModifiedLabel tl;
         private ModifiedButton mb;
+        private NonBarcodePopup nbp = new NonBarcodePopup();
     }
 
+    /** Connection indicators are to indicate connection, this is achieved by calling indicator:
+     * plcIndicator.paint(Color.Red); or green
+     * new indicators are added to the initializer and as variables as needed
+     */
     class ConnectionIndicators
     {
         public ConnectionIndicators(int x, int y, int w, int h)
         {
-            Rectangle r = new Rectangle(w, h, new Point( (float)x,(float)y ));
-            this.plcIndicator = new Indicator("plc", "E:\\supreme_command\\cs_projects\\RobotProject\\RobotProject\\Images\\placeholder.jpg");
-            Rectangle r1 = r.sliceVertical(0.0f, 0.3f);
-            this.plcIndicator.Reorient((int)r1.x,(int)r1.y,(int)r1.w,(int)r1.h );
+            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( (float)x,(float)y ));
+            
+            // indicators
+            this.plcIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
+            Geometry.Rectangle r1 = r.sliceVertical(0.0f, 0.3f);
+            this.plcIndicator.Reorient(r1 );
+            
+            this.barcodeIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
+            Geometry.Rectangle r2 = r.sliceVertical(0.3f, 0.6f);
+            this.barcodeIndicator.Reorient(r2 );
+            
         }
         
         public void implement(Control.ControlCollection motherControlCollection)
         {
             motherControlCollection.Add(plcIndicator);
+            motherControlCollection.Add(barcodeIndicator);
         }
         
+        
+        
         private Indicator plcIndicator;
+        private Indicator barcodeIndicator;
     }
     
-    
+    /** Similar to indicators, but buttons instead
+     * a function adding mechanism is not included yet, but buttons are public so it can be done like that
+     */
     class SystemControls
     {
         public SystemControls(int x, int y, int w, int h)
         {
-            Rectangle r = new Rectangle(w, h, new Point( (float)x,(float)y ));
+            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( (float)x,(float)y ));
             this.runButton = new ModifiedButton("run", "run");
-            Rectangle r1 = r.sliceVertical(0.0f, 0.3f);
-            this.runButton.Reorient((int)r1.x,(int)r1.y,(int)r1.w,(int)r1.h );
+            Geometry.Rectangle r1 = r.sliceVertical(0.0f, 0.3f);
+            this.runButton.Reorient(r1 );
             //this.runButton.Reorient(50,300,50,100 );
             
             this.pauseButton = new ModifiedButton("pause", "pause");
-            Rectangle r2 = r.sliceVertical(0.35f, 0.65f);
-            this.pauseButton.Reorient((int)r2.x,(int)r2.y,(int)r2.w,(int)r2.h );
+            Geometry.Rectangle r2 = r.sliceVertical(0.35f, 0.65f);
+            this.pauseButton.Reorient(r2);
             
             this.stopButton = new ModifiedButton("stop", "stop");
-            Rectangle r3 = r.sliceVertical(0.7f, 1f);
-            this.stopButton.Reorient((int)r3.x,(int)r3.y,(int)r3.w,(int)r3.h );
+            Geometry.Rectangle r3 = r.sliceVertical(0.7f, 1f);
+            this.stopButton.Reorient(r3);
         }
 
         public void implement(Control.ControlCollection motherControlCollection)
@@ -114,66 +147,78 @@ namespace RobotProject
             motherControlCollection.Add(stopButton);
         }
         
-        private ModifiedButton runButton;
-        private ModifiedButton pauseButton;
-        private ModifiedButton stopButton;
+        public ModifiedButton runButton;
+        public ModifiedButton pauseButton;
+        public ModifiedButton stopButton;
     }
 
-    class Rectangle
+
+    /** This is the popup for non barcode units, necessary attributes will be added manually at initializer via adding new pairs to lines bit
+     * confirm or exit can be traced by confirmed boolean
+     * entered texts can be obtained by att1.text etc.
+     * reset function resets inputs, it may be added to exit or opening methods, new attributes must be added manually
+     * right now attributes are individual fields, they may be put into a list
+     */
+    class NonBarcodePopup : Form
     {
-        public Rectangle(float w, float h, Point p)
+        private IContainer components = null;
+        public NonBarcodePopup()
         {
-            this.w = w;
-            this.h = h;
-            this.x = p.x;
-            this.y = p.y;
-            this.l = this.x - w / 2;
-            this.r = this.x + w / 2;
-            this.t = this.y + h / 2;
-            this.b = this.y - h / 2;
-        }
+            this.components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size((int)w, (int)h);
+            this.Text = "Form2";
+            Geometry.Rectangle v = new Geometry.Rectangle(25f, w-25f, 50f, h-50f);
+            
+            // lines
+            var r1 = v.sliceHorizontal(0f, 0.2f);
+            att1 = new TextPair("att1", "attribute 1", r1); 
+            att1.implement(this.Controls);
+            
+            var r2 = v.sliceHorizontal(0.3f, 0.5f);
+            att2 = new TextPair("att2", "attribute 2", r2); 
+            att2.implement(this.Controls);
+            
+            
+            // buttons
+            var buttonsRect = v.sliceHorizontal(0.7f, 0.8f);
+            var conf = new ModifiedButton("confirm","confirm");
+            conf.Reorient(buttonsRect.sliceVertical(0.1f,0.4f));
+            conf.clickAction = () =>
+            {
+                confirmed = true;
+                this.Close();
+            };
+            
+            var exit  = new ModifiedButton("exit","exit");
+            exit.Reorient(buttonsRect.sliceVertical(0.6f,0.9f));
+            exit.clickAction = () =>
+            {
+                this.Close();
+            };
 
-        public Rectangle(float w1, float w2, float h1, float h2)
+            Controls.Add(conf);
+            Controls.Add(exit);
+        }
+        private float w = 400f;
+        private float h = 450f;
+
+        public void reset()
         {
-            this.b = Math.Min(h1, h2);
-            this.t = Math.Max(h1, h2);
-            this.l = Math.Min(w1, w2);
-            this.r = Math.Max(w1, w2);
-            this.x = (l + r) / 2;
-            this.y = (t + b) / 2;
-            this.w = r - l;
-            this.h = t - b;
+            att1.text = "0";
+            att2.text = "0";
         }
-
-        /** slice vertical slices the rectangle to floats ratios of 1
-         * 
-         */
-        public Rectangle sliceVertical(float wStart, float wEnd)
+        public void opening()
         {
-            return new Rectangle((int )(l + w * wStart), (int)( l + w * wEnd), b, t);
+            confirmed = false;
         }
+        public TextPair att1;
+        public TextPair att2;
+        public Boolean confirmed = false;
 
-        public float x;
-        public float y;
-        public float w;
-        public float h;
-        public float l;
-        public float r;
-        public float t;
-        public float b;
     }
 
-    class Point
-    {
-        public Point(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-        public float x;
-        public float y;
-    }
-
+    
 
 
 

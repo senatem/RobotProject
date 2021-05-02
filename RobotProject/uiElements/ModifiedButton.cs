@@ -28,6 +28,11 @@ namespace RobotProject.uiElements
             Size = new System.Drawing.Size(w??Size.Width, h??Size.Height);
         }
         
+        public void Reorient(Geometry.Rectangle r)
+        {
+            Reorient((int)r.l, (int)r.t, (int)r.w, (int)r.h);
+        }
+        
         public void ClickFunction(object sender, EventArgs e)
         {
             clickAction();

@@ -61,9 +61,13 @@
         </Compile>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="uiElements\Geometry.cs" />
         <Compile Include="uiElements\Indicator.cs" />
         <Compile Include="uiElements\ModifiedButton.cs" />
         <Compile Include="uiElements\ModifiedLabel.cs" />
+        <Compile Include="uiElements\ModifiedTextBox.cs" />
+        <Compile Include="uiElements\References.cs" />
+        <Compile Include="uiElements\TextPair.cs" />
         <Compile Include="uiElements\UiElement.cs" />
         <EmbeddedResource Include="Form1.resx">
           <DependentUpon>Form1.cs</DependentUpon>

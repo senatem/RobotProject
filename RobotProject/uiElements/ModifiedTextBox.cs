@@ -1,10 +1,9 @@
-using System;
-
 namespace RobotProject.uiElements
 {
-    public class ModifiedLabel: System.Windows.Forms.Label, UiElement
+    public class ModifiedTextBox: System.Windows.Forms.TextBox, UiElement
     {
-        public ModifiedLabel(string id, string text = "hey")
+        
+        public ModifiedTextBox(string id, string text = "hey")
         {
             Name = id;
             Text = text;
@@ -12,25 +11,21 @@ namespace RobotProject.uiElements
             Location = new System.Drawing.Point(30, 20);
             Size = new System.Drawing.Size(100, 30);
             TabIndex = 0;
-            Click += new System.EventHandler(this.ClickFunction);
         }
-
-        public void Reorient(int? x=null, int? y = null, int? w=null, int? h=null)
+        
+        /** Reorients by top left point, width and height 
+         * 
+         */ 
+        public void Reorient(int? x = null, int? y = null, int? w = null, int? h = null)
         {
             Location = new System.Drawing.Point(x??Location.X, y??Location.Y);
             Size = new System.Drawing.Size(w??Size.Width, h??Size.Height);
+            
         }
-        
+
         public void Reorient(Geometry.Rectangle r)
         {
             Reorient((int)r.l, (int)r.t, (int)r.w, (int)r.h);
-        }
-
-        public Action clickAction = () => { }; // can be used to change click function with an Action
-
-        public void ClickFunction(object sender, EventArgs e)
-        {
-            clickAction();
         }
     }
 }

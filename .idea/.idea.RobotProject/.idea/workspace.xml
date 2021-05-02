@@ -4,19 +4,18 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="Added project files">
-      <change afterPath="$PROJECT_DIR$/RobotProject/Form2.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/Images/placeholder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="as described in space">
+      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/References.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form1.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form1.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +33,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://E:/supreme_command/cs_projects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/RobotProject/Form1.Designer.cs" />
@@ -41,10 +43,14 @@
       <option value="$PROJECT_DIR$/RobotProject/Form2.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Program.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/UiForm.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/References.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
     </changedPaths>
   </component>
@@ -96,7 +102,8 @@
       <workItem from="1612961388832" duration="1226000" />
       <workItem from="1612963767082" duration="8180000" />
       <workItem from="1614247860507" duration="592000" />
-      <workItem from="1619631123843" duration="11198000" />
+      <workItem from="1619631123843" duration="11242000" />
+      <workItem from="1619958209416" duration="7280000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -112,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612900971160</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="as described in space">
+      <created>1619644037886</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1619644037886</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,25 +150,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added project files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added project files" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs</url>
-          <line>12</line>
-          <properties documentPath="E:\supreme_command\cs_projects\RobotProject\RobotProject\uiElements\Indicator.cs" initialLine="13" containingFunctionPresentation="constructor 'Indicator'">
-            <startOffsets>
-              <option value="353" />
-            </startOffsets>
-            <endOffsets>
-              <option value="369" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="as described in space" />
+    <option name="LAST_COMMIT_MESSAGE" value="as described in space" />
   </component>
 </project>
