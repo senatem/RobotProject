@@ -9,8 +9,10 @@ namespace RobotProject.uiElements
         {
             if (path != null)
             {
-                fig = new BetterBitmap(new Bitmap(path));
-                fig.tint = tint;
+                fig = new BetterBitmap(new Bitmap(path))
+                {
+                    tint = tint
+                };
                 BackgroundImage = fig.bitmap();
             }
             
