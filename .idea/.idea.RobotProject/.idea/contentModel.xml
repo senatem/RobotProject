@@ -8,12 +8,15 @@
       <e p="RobotProject" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="ConnectionManager.cs" t="Include" />
-        <e p="Form1.cs" t="Include" />
-        <e p="Form1.Designer.cs" t="Include" />
-        <e p="Form1.resx" t="Include" />
         <e p="Form2.cs" t="Include" />
         <e p="Form2.Designer.cs" t="Include" />
+        <e p="Form2Items" t="Include">
+          <e p="BoxVisuals.cs" t="Include" />
+          <e p="ConnectionIndicators.cs" t="Include" />
+          <e p="ConnectionManager.cs" t="Include" />
+          <e p="NonBarcodePopup.cs" t="Include" />
+          <e p="SingleBox.cs" t="Include" />
+        </e>
         <e p="Images" t="Include">
           <e p="placeholder.png" t="Include" />
         </e>
@@ -28,6 +31,7 @@
           <e p="Settings.settings" t="Include" />
         </e>
         <e p="RobotProject.csproj" t="IncludeRecursive" />
+        <e p="SystemControls.cs" t="Include" />
         <e p="uiElements" t="Include">
           <e p="Geometry.cs" t="Include" />
           <e p="Indicator.cs" t="Include" />

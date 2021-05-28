@@ -5,7 +5,7 @@ namespace RobotProject.uiElements
 {
     public class Indicator: ModifiedLabel
     {
-        public Indicator(string id, string? path=null, string text = "") : base(id, text)
+        public Indicator(string id, string? path=null, string text = "", ImageLayout il = ImageLayout.Stretch) : base(id, text)
         {
             if (path != null)
             {
@@ -13,6 +13,7 @@ namespace RobotProject.uiElements
                 {
                     tint = tint
                 };
+                BackgroundImageLayout = il;
                 BackgroundImage = fig.bitmap();
             }
             
