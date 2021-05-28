@@ -39,8 +39,8 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="EasyModbus, Version=5.6.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\packages\EasyModbusTCP.5.6.0\lib\net40\EasyModbus.dll</HintPath>
-            <Private>True</Private>
+          <HintPath>..\packages\EasyModbusTCP.5.6.0\lib\net40\EasyModbus.dll</HintPath>
+          <Private>True</Private>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />

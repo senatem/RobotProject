@@ -4,18 +4,10 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="as described in space">
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/References.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="relative path to working directory is written as References.cs (this can be improved)&#10;popup for non barcode is written to a generic level as NonBarcodePopup&#10;Geometry.cs is written that separates geometry operations">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +26,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://E:/supreme_command/cs_projects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form1.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -103,7 +100,8 @@
       <workItem from="1612963767082" duration="8180000" />
       <workItem from="1614247860507" duration="592000" />
       <workItem from="1619631123843" duration="11242000" />
-      <workItem from="1619958209416" duration="7280000" />
+      <workItem from="1619958209416" duration="7528000" />
+      <workItem from="1622208046839" duration="1298000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -126,7 +124,21 @@
       <option name="project" value="LOCAL" />
       <updated>1619644037886</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="relative path to working directory is written as References.cs (this can be improved)&#10;popup for non barcode is written to a generic level as NonBarcodePopup&#10;Geometry.cs is written that separates geometry operations">
+      <created>1619965819892</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1619965819892</updated>
+    </task>
+    <task id="LOCAL-00005" summary="relative path to working directory is written as References.cs (this can be improved)&#10;popup for non barcode is written to a generic level as NonBarcodePopup&#10;Geometry.cs is written that separates geometry operations">
+      <created>1619965836852</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1619965836852</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,6 +163,7 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added project files" />
     <MESSAGE value="as described in space" />
-    <option name="LAST_COMMIT_MESSAGE" value="as described in space" />
+    <MESSAGE value="relative path to working directory is written as References.cs (this can be improved)&#10;popup for non barcode is written to a generic level as NonBarcodePopup&#10;Geometry.cs is written that separates geometry operations" />
+    <option name="LAST_COMMIT_MESSAGE" value="relative path to working directory is written as References.cs (this can be improved)&#10;popup for non barcode is written to a generic level as NonBarcodePopup&#10;Geometry.cs is written that separates geometry operations" />
   </component>
 </project>
