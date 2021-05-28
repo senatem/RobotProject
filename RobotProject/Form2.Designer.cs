@@ -103,5 +103,12 @@ namespace RobotProject
         private NonBarcodePopup nbp = new NonBarcodePopup();
     }
 
+    /** Outside functions
+     * BoxVisuals.addToBoxes (adds a new item to the belt, the struct has id but it is not used, and order is used)
+     * BoxVisuals.robotOperation (input no robot operates on the next item on the list)
+     * BoxVisuals.emptyPallete (empties the pallete given as input)
+     * BoxVisuals.relevantPallete (used to change the type of pallete to be used)
+     * 
+     */
 
 }
