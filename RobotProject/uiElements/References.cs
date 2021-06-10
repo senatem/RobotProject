@@ -1,12 +1,15 @@
+using System;
+using System.Windows.Forms;
+
 namespace RobotProject.uiElements
 {
     public static class References
     {
-        public static string projectPath
+        public static string ProjectPath
         {
             get
             {
-                return  System.Windows.Forms.Application.ExecutablePath.Split(new string[] { "bin" },System.StringSplitOptions.None)[0];
+                return  Application.ExecutablePath.Split(new[] { "bin" },StringSplitOptions.None)[0];
             }
         }
 

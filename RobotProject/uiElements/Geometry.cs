@@ -8,68 +8,72 @@ namespace RobotProject.uiElements
             {
                 public Rectangle(float w, float h, Point p)
                 {
-                    this.w = w;
-                    this.h = h;
-                    this.x = p.x;
-                    this.y = p.y;
-                    this.l = this.x - w / 2;
-                    this.r = this.x + w / 2;
-                    this.t = this.y - h / 2;
-                    this.b = this.y + h / 2;
+                    float x1;
+                    float x;
+                    W = w;
+                    H = h;
+                    _x = p.X;
+                    _y = p.Y;
+                    L = _x - w / 2;
+                    _r = _x + w / 2;
+                    T = _y - h / 2;
+                    _b = _y + h / 2;
                 }
         
                 public Rectangle(float w1, float w2, float h1, float h2)
                 {
-                    this.b = Math.Max(h1, h2);
-                    this.t = Math.Min(h1, h2);
-                    this.l = Math.Min(w1, w2);
-                    this.r = Math.Max(w1, w2);
-                    this.x = (l + r) / 2;
-                    this.y = (t + b) / 2;
-                    this.w = r - l;
-                    this.h = b - t;
+                    float x1;
+                    float x;
+                    _b = Math.Max(h1, h2);
+                    T = Math.Min(h1, h2);
+                    L = Math.Min(w1, w2);
+                    _r = Math.Max(w1, w2);
+                    _x = (L + _r) / 2;
+                    _y = (T + _b) / 2;
+                    W = _r - L;
+                    H = _b - T;
                 }
         
                 /** slice vertical slices the rectangle to floats ratios of 1
                  * 
                  */
-                public Rectangle sliceVertical(float wStart, float wEnd)
+                public Rectangle SliceVertical(float wStart, float wEnd)
                 {
-                    return new Rectangle((int )(l + w * wStart), (int)( l + w * wEnd), b, t);
+                    return new Rectangle((int )(L + W * wStart), (int)( L + W * wEnd), _b, T);
                 }
                 
-                public Rectangle sliceHorizontal(float hStart, float hEnd)
+                public Rectangle SliceHorizontal(float hStart, float hEnd)
                 {
-                    return new Rectangle(l,r,(int )(t + h * hStart), (int)( t + h * hEnd));
+                    return new Rectangle(L,_r,(int )(T + H * hStart), (int)( T + H * hEnd));
                 }
 
                 /** Takes a rectangle, acts like this is unit rectangle and yields the resultingly sliced rectangle
                  */
-                public Rectangle SubRectangle(Geometry.Rectangle other)
+                public Rectangle SubRectangle(Rectangle other)
                 {
-                    return new Rectangle( l + w * other.l, l + w * other.r, t + h * other.b,
-                        t + h * other.t);
+                    return new Rectangle( L + W * other.L, L + W * other._r, T + H * other._b,
+                        T + H * other.T);
                 }
 
-                public float x;
-                public float y;
-                public float w;
-                public float h;
-                public float l;
-                public float r;
-                public float t;
-                public float b;
+                private readonly float _x;
+                private readonly float _y;
+                public readonly float W;
+                public readonly float H;
+                public readonly float L;
+                private readonly float _r;
+                public readonly float T;
+                private readonly float _b;
             }
         
             public class Point
             {
                 public Point(float x, float y)
                 {
-                    this.x = x;
-                    this.y = y;
+                    X = x;
+                    Y = y;
                 }
-                public float x;
-                public float y;
+                public readonly float X;
+                public readonly float Y;
             }
     }
 }

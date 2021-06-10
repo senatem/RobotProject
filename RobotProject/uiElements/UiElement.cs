@@ -1,6 +1,6 @@
 namespace RobotProject.uiElements
 {
-    public interface UiElement
+    public interface IUiElement
     {
         void Reorient(int? x = null, int? y = null, int? w = null, int? h = null);
 

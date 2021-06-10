@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
-
-namespace RobotProject
+namespace RobotProject.Form2Items
 {
     
     /** Stuff for displaying boxes on belt and pallets, a bit messy unfortunately,
@@ -13,116 +11,111 @@ namespace RobotProject
      */
     public class BoxVisuals
     {
-        private static int beltRow = 3;
-        private static int beltCol = 12;
-        private static int robotRow = 6;
-        private static int robotCol = 3;
+        private const int BeltRow = 3;
+        private const int BeltCol = 12;
+        private const int RobotRow = 6;
+        private const int RobotCol = 3;
         
         /** A box is added to the belt (or not belt depending on parameters)
          */
-        public bool addToBoxes(SingleBox s)
+        public void AddToBoxes(SingleBox s)
         {
-            boxes.Add(s);
-            refresh();
-            return true;
+            _boxes.Add(s);
+            Refresh();
         }
 
         /** Robot operated on the next item
          */
-        public bool robotOperation(int n)
+        private bool RobotOperation(int n)
         {
-            var b = boxes.FindIndex(e => (e.robotNo == n)&&(e.belt==true));
+            var b = _boxes.FindIndex(e => (e.RobotNo == n)&&(e.Belt));
             if (b == -1)
             {
                 return false;
             }
-            else
-            {
-                boxes[b] =  boxes[b].unBelt();
-                refresh();
-                return true;
-            }
+            _boxes[b] =  _boxes[b].UnBelt();
+            Refresh();
+            return true;
         }
 
         /** Clears the given pallete
          */
-        public bool emptyPallete(int n)
+        private void EmptyPallete(int n)
         {
-            boxes.RemoveAll(e => (e.robotNo == n) && (e.belt == false));
-            refresh();
-            return true;
+            _boxes.RemoveAll(e => (e.RobotNo == n) && (e.Belt == false));
+            Refresh();
         }
 
-        public bool relevantPallete(int n, string text)
+        public bool RelevantPallete(int n, string text)
         {
 
-            return (n < palleteIndicators.Count);
+            return (n < _palleteIndicators.Count);
         }
         public BoxVisuals(int x, int y, int w, int h, bool asVisual = false)
         {
-            this.asVisual = asVisual;
-            realSize = new Geometry.Rectangle(w, h, new Geometry.Point( (float)x,(float)y ));
+            this._asVisual = asVisual;
+            _realSize = new Geometry.Rectangle(w, h, new Geometry.Point(x,y ));
             if (asVisual)
             {
-                this.plotIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
-                plotIndicator.paint(Color.Chartreuse);
-                Geometry.Rectangle r3 = realSize.sliceVertical(0f, 1f);
-                this.plotIndicator.Reorient(r3 );
+                this._plotIndicator = new Indicator("plc", References.ProjectPath + "Images\\placeholder.jpg");
+                _plotIndicator.PaintIndicator(Color.Chartreuse);
+                Geometry.Rectangle r3 = _realSize.SliceVertical(0f, 1f);
+                this._plotIndicator.Reorient(r3 );
             }
             else
             {
                 // examples
                 var sb = new SingleBox("111", "elma", "15", "152", "154",true,0);
-                boxes.Add(sb);
+                _boxes.Add(sb);
                 var sb2 = new SingleBox("111", "elma", "25", "252", "254",true,1);
-                boxes.Add(sb2);
+                _boxes.Add(sb2);
                 var sb3 = new SingleBox("111", "elma3", "125", "152", "154",false,0);
-                boxes.Add(sb3);
+                _boxes.Add(sb3);
                 var sb4 = new SingleBox("111", "elma1", "225", "252", "254",false,1);
-                boxes.Add(sb4);
-                
-                
-                beltIndicator = new Indicator("beltIndicator");
-                beltIndicator.BackColor = Color.Black;
-                beltIndicator.Reorient(realSize.SubRectangle(beltRect));
+                _boxes.Add(sb4);
+
+
+                _beltIndicator = new Indicator("beltIndicator") {BackColor = Color.Black};
+                _beltIndicator.Reorient(_realSize.SubRectangle(_beltRect));
                 for (int i = 0; i < 3; i++)
                 {
-                    palleteIndicators[i].BackColor = Color.Black;
-                    palleteIndicators[i].Reorient(realSize.SubRectangle(palleteRects[i]));
-                    robotIndicators[i].TextAlign = ContentAlignment.MiddleCenter;
-                    robotIndicators[i].Reorient(realSize.SubRectangle(palleteRects[i]).SubRectangle(new Geometry.Rectangle(0.3f,0.7f,-0.15f,-0.05f)));
+                    _palleteIndicators[i].BackColor = Color.Black;
+                    _palleteIndicators[i].Reorient(_realSize.SubRectangle(_palleteRects[i]));
+                    _robotIndicators[i].TextAlign = ContentAlignment.MiddleCenter;
+                    _robotIndicators[i].Reorient(_realSize.SubRectangle(_palleteRects[i]).SubRectangle(new Geometry.Rectangle(0.3f,0.7f,-0.15f,-0.05f)));
                     var j = i;
-                    robotIndicators[i].clickAction = () =>
+                    _robotIndicators[i].ClickAction = () =>
                     {
-                        
-                        this.robotOperation(j);
+                        RobotOperation(j);
                     };
                 }
 
                 
-                for (int j = 0; j < beltCol; j++)
+                for (var j = 0; j < BeltCol; j++)
                 {
-                    for (int i = 0; i < beltRow; i++)
+                    for (var i = 0; i < BeltRow; i++)
                     {
-                        var ml = new ModifiedLabel("aa", String.Format("{0}, {0}",i,j),8f);
-                        ml.ForeColor = Color.Black;
-                        ml.BackColor = Color.Goldenrod;
-                        ml.TextAlign = ContentAlignment.TopCenter;
-                        var otb = new Geometry.Rectangle((float) j / beltCol,
-                            (float) (j + 1) / beltCol, (float) i / beltRow, (float)
-                            (i + 1) / beltRow);
-                        var tb = realSize.SubRectangle(beltRect.SubRectangle(otb)).SubRectangle(new Geometry.Rectangle(0.05f,0.95f,0.05f,0.95f));
+                        var ml = new ModifiedLabel("aa", $"{i}, {j}", 8f)
+                        {
+                            ForeColor = Color.Black,
+                            BackColor = Color.Goldenrod,
+                            TextAlign = ContentAlignment.TopCenter
+                        };
+                        var otb = new Geometry.Rectangle((float) j / BeltCol,
+                            (float) (j + 1) / BeltCol, (float) i / BeltRow, (float)
+                            (i + 1) / BeltRow);
+                        var tb = _realSize.SubRectangle(_beltRect.SubRectangle(otb)).SubRectangle(new Geometry.Rectangle(0.05f,0.95f,0.05f,0.95f));
                         ml.Reorient(tb);
-                        beltBoxLabels.Add(ml);
+                        _beltBoxLabels.Add(ml);
                     }
                 }
 
-                for (var i = 0; i < robotRow; i++)
+                for (var i = 0; i < RobotRow; i++)
                 {
-                    for (var j = 0; j < robotCol; j++)
+                    for (var j = 0; j < RobotCol; j++)
                     {
                         var index = 0;
-                        foreach (var e in palleteRects)
+                        foreach (var e in _palleteRects)
                         {
                             var ml = new ModifiedLabel("aa", $"{i}, {j}", 8f)
                             {
@@ -130,12 +123,12 @@ namespace RobotProject
                                 BackColor = Color.Goldenrod,
                                 TextAlign = ContentAlignment.TopCenter
                             };
-                            var otb = new Geometry.Rectangle((float) j / robotCol,
-                                (float) (j + 1) / robotCol, (float) i / robotRow, (float)
-                                (i + 1) / robotRow);
-                            var tb = realSize.SubRectangle(e.SubRectangle(otb)).SubRectangle(new Geometry.Rectangle(0.05f,0.95f,0.05f,0.95f));
+                            var otb = new Geometry.Rectangle((float) j / RobotCol,
+                                (float) (j + 1) / RobotCol, (float) i / RobotRow, (float)
+                                (i + 1) / RobotRow);
+                            var tb = _realSize.SubRectangle(e.SubRectangle(otb)).SubRectangle(new Geometry.Rectangle(0.05f,0.95f,0.05f,0.95f));
                             ml.Reorient(tb);
-                            robotLabels[index].Add(ml);
+                            _robotLabels[index].Add(ml);
                             index++;
                         }
                     }
@@ -144,21 +137,21 @@ namespace RobotProject
 
 
             }
-            refresh();
+            Refresh();
         }
 
         /** Refreshes the information displayed on the visuals
          */
-        public void refresh()
+        private void Refresh()
         {
             var index = 0;
 
-            var beltBoxes = boxes.FindAll(e => e.belt == true);
-            foreach (var item in beltBoxLabels)
+            var beltBoxes = _boxes.FindAll(e => e.Belt);
+            foreach (var item in _beltBoxLabels)
             {
                 if (index < beltBoxes.Count)
                 {
-                    item.Text = beltBoxes[index].fullText;
+                    item.Text = beltBoxes[index].FullText;
                     item.Visible = true;
                 }
                 else
@@ -170,14 +163,14 @@ namespace RobotProject
             
             for(int i=0;i<3;i++)
             {
-                var palleteBoxes = boxes.FindAll(e => (e.belt == false) && (e.robotNo == i));
+                var palleteBoxes = _boxes.FindAll(e => (e.Belt == false) && (e.RobotNo == i));
                 index = 0;
-                foreach (var item in robotLabels[i])
+                foreach (var item in _robotLabels[i])
                 {
                     
                     if (index < palleteBoxes.Count)
                     {
-                        item.Text = palleteBoxes[index].fullText;
+                        item.Text = palleteBoxes[index].FullText;
                         item.Visible = true;
                     }
                     else
@@ -191,31 +184,31 @@ namespace RobotProject
 
         }
 
-        public void implement(Control.ControlCollection motherControlCollection)
+        public void Implement(Control.ControlCollection motherControlCollection)
         {
-            if (asVisual)
+            if (_asVisual)
             {
-                motherControlCollection.Add(plotIndicator);
+                motherControlCollection.Add(_plotIndicator!);
             }
             else
             {                
-                foreach (var bb in beltBoxLabels)
+                foreach (var bb in _beltBoxLabels)
                 {
                     motherControlCollection.Add(bb);
                 }
-                foreach (var b in robotLabels)
+                foreach (var b in _robotLabels)
                 {
                     foreach (var bb in b)
                     {
                         motherControlCollection.Add(bb);                        
                     }
                 }
-                motherControlCollection.Add(beltIndicator);
-                foreach (var pi in palleteIndicators)
+                motherControlCollection.Add(_beltIndicator!);
+                foreach (var pi in _palleteIndicators)
                 {
                     motherControlCollection.Add(pi);
                 }
-                foreach (var pi in robotIndicators)
+                foreach (var pi in _robotIndicators)
                 {
                     motherControlCollection.Add(pi);
                 }
@@ -223,18 +216,18 @@ namespace RobotProject
 
             for (int i = 0; i < 3; i++)
             {
-                var e = new ModifiedButton(String.Format("c{0}",i), String.Format("{0}. robotu temizle ",i+1));
+                var e = new ModifiedButton($"c{i}", $"{i + 1}. robotu temizle ");
                 var j = i;
-                e.clickAction = () =>
+                e.ClickAction = () =>
                 {
-                    this.emptyPallete(j);
+                    this.EmptyPallete(j);
                 };
-                e.Reorient(realSize.SubRectangle(palleteRects[i]).SubRectangle(new Geometry.Rectangle(0f,1f,1.05f,1.15f)));
+                e.Reorient(_realSize.SubRectangle(_palleteRects[i]).SubRectangle(new Geometry.Rectangle(0f,1f,1.05f,1.15f)));
                 motherControlCollection.Add(e);
                 
-                palleteTypes[i].Reorient(realSize.SubRectangle(palleteRects[i]).SubRectangle(new Geometry.Rectangle(0f,1f,1.18f,1.25f)));
-                palleteTypes[i].TextAlign = ContentAlignment.TopCenter;
-                motherControlCollection.Add(palleteTypes[i]);
+                _palleteTypes[i].Reorient(_realSize.SubRectangle(_palleteRects[i]).SubRectangle(new Geometry.Rectangle(0f,1f,1.18f,1.25f)));
+                _palleteTypes[i].TextAlign = ContentAlignment.TopCenter;
+                motherControlCollection.Add(_palleteTypes[i]);
             }
             
             
@@ -245,30 +238,30 @@ namespace RobotProject
 
         
 
-        private Indicator plotIndicator;
-        private List<ModifiedLabel> beltBoxLabels = new List<ModifiedLabel>();
-        private List<List<ModifiedLabel>> robotLabels = new List<List<ModifiedLabel>>()
+        private readonly Indicator? _plotIndicator;
+        private readonly List<ModifiedLabel> _beltBoxLabels = new List<ModifiedLabel>();
+        private readonly List<List<ModifiedLabel>> _robotLabels = new List<List<ModifiedLabel>>()
         {
             new List<ModifiedLabel>(),new List<ModifiedLabel>(),new List<ModifiedLabel>()   
         };
-        private List<SingleBox> boxes = new List<SingleBox>();
-        private Indicator beltIndicator;
-        private List<Indicator> palleteIndicators = new List<Indicator>() // the bg
+        private readonly List<SingleBox> _boxes = new List<SingleBox>();
+        private readonly Indicator? _beltIndicator;
+        private readonly List<Indicator> _palleteIndicators = new List<Indicator>() // the bg
         {
             new Indicator("r1"), new Indicator("r2"), new Indicator("r3")
         };
-        private List<ModifiedLabel> robotIndicators = new List<ModifiedLabel>() // the bg
+        private readonly List<ModifiedLabel> _robotIndicators = new List<ModifiedLabel>() // the bg
         {
             new ModifiedLabel("r1","Robot 1"), new ModifiedLabel("r2","Robot 2"), new ModifiedLabel("r3","Robot 3")
         };
-        private List<ModifiedLabel> palleteTypes = new List<ModifiedLabel>() // the bg
+        private readonly List<ModifiedLabel> _palleteTypes = new List<ModifiedLabel>() // the bg
         {
             new ModifiedLabel("p1","1. tip palet",12), new ModifiedLabel("r2","2. tip palet",12), new ModifiedLabel("r3","12+3j tip palet",12)
         };
-        private bool asVisual = false;
-        private Geometry.Rectangle realSize;
-        private Geometry.Rectangle beltRect = new Geometry.Rectangle(0f, 1f, 0f, 0.2f);
-        private List<Geometry.Rectangle> palleteRects = new List<Geometry.Rectangle>()
+        private readonly bool _asVisual;
+        private readonly Geometry.Rectangle _realSize;
+        private readonly Geometry.Rectangle _beltRect = new Geometry.Rectangle(0f, 1f, 0f, 0.2f);
+        private readonly List<Geometry.Rectangle> _palleteRects = new List<Geometry.Rectangle>()
         {
             new Geometry.Rectangle(0.05f, 0.30f, 0.3f, 0.8f),
             new Geometry.Rectangle(0.35f, 0.60f, 0.3f, 0.8f),

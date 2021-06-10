@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using RobotProject.Form2Items;
 using RobotProject.uiElements;
 
 namespace RobotProject
@@ -14,8 +15,9 @@ namespace RobotProject
     {
         private static int appWidth = 1920;
         private static int appHeight = 1080;
-        
-        
+
+        private ConnectionManager conn = new ConnectionManager();
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -55,14 +57,14 @@ namespace RobotProject
 
             this.tl = new ModifiedLabel("tl1","hey");
             this.mb = new ModifiedButton("mb1","button");
-            this.mb.clickAction = () =>
+            this.mb.ClickAction = () =>
             {
-                nbp.opening();
+                nbp.Opening();
                 nbp.ShowDialog();
-                if (nbp.confirmed)
+                if (nbp.Confirmed)
                 {
-                    var  l = nbp.getLines;
-                    boxVisuals.addToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
+                    var  l = nbp.GetLines;
+                    boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                     //mb.Text = nbp.att1.text;
                 }
                 else
@@ -73,7 +75,7 @@ namespace RobotProject
             
             tl.Reorient(w:500);
             //tl.ClickFunction = (object sender, EventArgs e) => { };
-            tl.clickAction = () => {
+            tl.ClickAction = () => {
                 tl.Text = "heyoo";
             };
 
@@ -81,20 +83,17 @@ namespace RobotProject
             this.Controls.Add(mb);
             
             //NN nn = new NN();
-            systemControls.implement(this.Controls);
-            connectionIndicators.implement(this.Controls);
-            boxVisuals.implement(this.Controls);
-            
-            
-            
-
+            systemControls.Implement(this.Controls);
+            connectionIndicators.Implement(this.Controls);
+            boxVisuals.Implement(this.Controls);
+            conn.Init();
+            conn.Connect();
         }
 
         
 
         #endregion
 
-        private int counter = 0; 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/4, 50, appWidth/2, 100,false);
         private BoxVisuals boxVisuals = new BoxVisuals(3*appWidth/4, (appHeight-100)/2+100, appWidth/2, appHeight-100,false);

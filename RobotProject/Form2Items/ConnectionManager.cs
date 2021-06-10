@@ -1,33 +1,37 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EasyModbus;
 
-namespace RobotProject
+namespace RobotProject.Form2Items
 {
     public class ConnectionManager
     {
         private readonly ModbusClient _barcodeClient = new ModbusClient();
         private readonly ModbusClient _plcClient = new ModbusClient();
+        private readonly SqlCommunication _sql = new SqlCommunication();
 
         private Thread? _barcodeListener;
 
         private string? _receiveData;
         private string? _data;
 
-//        private readonly ModbusClient _bantClient = new ModbusClient(); //TODO enine bantlama bağlantısını koy
+        private List<Cell> _cells = new List<Cell>(3);
 
-        private void Init()
+        public void Init()
         {
             _barcodeClient.ReceiveDataChanged += UpdateReceiveData;
             _barcodeClient.ConnectedChanged += UpdateBarcodeConnectedChanged;
             _plcClient.ConnectedChanged += UpdatePlcConnectedChanged;
         }
 
-        private void Connect()
+        public void Connect()
         {
             try
             {
+                _sql.Connect();
                 if (_barcodeClient.Connected) _barcodeClient.Disconnect();
 
                 _barcodeClient.IPAddress = "tbd"; //TODO barcode ip ve portunu al
@@ -47,12 +51,12 @@ namespace RobotProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Bağlantı Hatası", MessageBoxButtons.OK,
+                MessageBox.Show(ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand); //TODO barkod ve plc bağlantısı için hataları ayır, mesaj daha iyi olsun
             }
         }
 
-        private void Disconnect()
+        public void Disconnect()
         {
             _barcodeClient.Disconnect();
             _plcClient.Disconnect();
@@ -75,16 +79,17 @@ namespace RobotProject
 
         private void UpdateReceiveTextBox()
         {
-            _data = ConvertFromHex(_receiveData.Trim());
-            Interpret(_data);
+            _data = ConvertFromHex(_receiveData!.Trim());
+            Console.WriteLine("Barcode data = " + _data);
+            //Interpret(_data);
         }
 
-        private string ConvertFromHex(string hexString)
+        private static string ConvertFromHex(string hexString)
         {
             char[] output = new char[15];
             string[] toClean = hexString.Split(' ');
 
-            for (int i = 0; i < toClean.Length; i++)
+            for (var i = 0; i < toClean.Length; i++)
             {
                 if (i < 15)
                     output[i] = (char) (Convert.ToInt32(toClean[i], 16));
@@ -97,7 +102,7 @@ namespace RobotProject
         {
             if (_barcodeClient.Connected)
             {
-                //TODO connection indicator green
+                //TODO connection indicator green (raise event)
             }
             else
             {
@@ -117,7 +122,7 @@ namespace RobotProject
             }
         }
 
-        private void ReadHoldingRegs(ModbusClient client)
+        private static void ReadHoldingRegs(ModbusClient client)
         {
             try
             {
@@ -125,12 +130,68 @@ namespace RobotProject
             }
             catch (Exception)
             {
+                // ignored
+            }
+        }
+
+        public void SendDataToPlc(int address, int data)
+        {
+            try
+            {
+                _plcClient.Connect();
+                _plcClient.WriteSingleRegister(address, data);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private Cell? GetCell(int type)
+        {
+            foreach (Cell cell in _cells)
+            {
+                if (cell.GetCellType() == type)
+                {
+                    return cell;
+                }
+            }
+            return null;
+        }
+
+        private bool NotAssigned(int type)
+        {
+            return GetCell(type) == null;
+        }
+
+        private IEnumerable<Cell> AssignCell(int type, int orderSize)
+        {
+            return _cells.Append(new Cell(type, orderSize));
+        }
+        
+        private void Interpret(string barcode)
+        {
+            if (barcode.IndexOf('?') != -1) {
+                //barkod okunamadı
+            }
+            else
+            {
+                Product product = _sql.Select("id", barcode);
+                var type = product.GetProductType();
+                if (NotAssigned(type))
+                {
+                    var orderSize = product.GetOrderSize();
+                    _cells = (List<Cell>) AssignCell(type, orderSize);
+                }
+                GetCell(product.GetProductType())!.AddProduct();
+                //gerekli sinyaller gönderilir
                 
             }
         }
 
-        private void Interpret(string barcode)
+        private void SendPlcSignals()
         {
+            _plcClient.Connect();
             
         }
     }
