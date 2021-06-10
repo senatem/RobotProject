@@ -49,6 +49,7 @@ namespace RobotProject
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
             this.Text = "Form2";
+            // this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             var n = 5;
             var n2 = String.Format("{0}", n);
