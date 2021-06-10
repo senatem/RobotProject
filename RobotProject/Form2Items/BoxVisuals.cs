@@ -13,10 +13,10 @@ namespace RobotProject
      */
     public class BoxVisuals
     {
-        private static int beltRow = 3;
+        private static int beltRow = 2;
         private static int beltCol = 12;
-        private static int robotRow = 6;
-        private static int robotCol = 3;
+        private static int robotRow = 4;
+        private static int robotCol = 4;
         
         /** A box is added to the belt (or not belt depending on parameters)
          */
@@ -270,9 +270,9 @@ namespace RobotProject
         private Geometry.Rectangle beltRect = new Geometry.Rectangle(0f, 1f, 0f, 0.2f);
         private List<Geometry.Rectangle> palleteRects = new List<Geometry.Rectangle>()
         {
-            new Geometry.Rectangle(0.05f, 0.30f, 0.3f, 0.8f),
-            new Geometry.Rectangle(0.35f, 0.60f, 0.3f, 0.8f),
-            new Geometry.Rectangle(0.65f, 0.90f, 0.3f, 0.8f)
+            new Geometry.Rectangle(0.01f, 0.33f, 0.3f, 0.8f),
+            new Geometry.Rectangle(0.34f, 0.66f, 0.3f, 0.8f),
+            new Geometry.Rectangle(0.67f, 0.99f, 0.3f, 0.8f)
         };
     }
 }

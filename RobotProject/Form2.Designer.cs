@@ -12,8 +12,8 @@ namespace RobotProject
 {
     partial class Form2
     {
-        private static int appWidth = 1920;
-        private static int appHeight = 1080;
+        private static int appWidth = 1280;
+        private static int appHeight = 720;
         
         
         /// <summary>
@@ -54,7 +54,7 @@ namespace RobotProject
             var n2 = String.Format("{0}", n);
 
             this.tl = new ModifiedLabel("tl1","hey");
-            this.mb = new ModifiedButton("mb1","button");
+            this.mb = new ModifiedButton("mb1","ürün ekle");
             this.mb.clickAction = () =>
             {
                 nbp.opening();
@@ -71,13 +71,15 @@ namespace RobotProject
                 }
             };
             
+            mb.Reorient(new Geometry.Rectangle(0,appWidth/8,100, 200));
+            
             tl.Reorient(w:500);
             //tl.ClickFunction = (object sender, EventArgs e) => { };
             tl.clickAction = () => {
                 tl.Text = "heyoo";
             };
 
-            this.Controls.Add(tl);
+            // this.Controls.Add(tl);
             this.Controls.Add(mb);
             
             //NN nn = new NN();
@@ -97,7 +99,7 @@ namespace RobotProject
         private int counter = 0; 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/4, 50, appWidth/2, 100,false);
-        private BoxVisuals boxVisuals = new BoxVisuals(3*appWidth/4, (appHeight-100)/2+100, appWidth/2, appHeight-100,false);
+        private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private ModifiedLabel tl;
         private ModifiedButton mb;
         private NonBarcodePopup nbp = new NonBarcodePopup();
