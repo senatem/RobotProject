@@ -64,6 +64,7 @@
         <Compile Include="Form2Items\BoxVisuals.cs" />
         <Compile Include="Form2Items\ConnectionIndicators.cs" />
         <Compile Include="Form2Items\ConnectionManager.cs" />
+        <Compile Include="Form2Items\GenericWarning.cs" />
         <Compile Include="Form2Items\NonBarcodePopup.cs" />
         <Compile Include="Form2Items\SingleBox.cs" />
         <Compile Include="Program.cs" />

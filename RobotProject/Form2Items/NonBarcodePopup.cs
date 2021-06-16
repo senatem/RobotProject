@@ -20,10 +20,12 @@ namespace RobotProject
 
         public NonBarcodePopup()
         {
+            
+            
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size((int) w, (int) h);
-            this.Text = "Form2";
+            this.Text = "Ürün Ekleme";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
@@ -40,7 +42,7 @@ namespace RobotProject
 
             // buttons
             var buttonsRect = v.sliceHorizontal(0.7f, 0.8f);
-            var conf = new ModifiedButton("confirm", "confirm");
+            var conf = new ModifiedButton("onay", "onay");
             conf.Reorient(buttonsRect.sliceVertical(0.1f, 0.4f));
             conf.clickAction = () =>
             {
@@ -48,7 +50,7 @@ namespace RobotProject
                 this.Close();
             };
 
-            var exit = new ModifiedButton("exit", "exit");
+            var exit = new ModifiedButton("çık", "çık");
             exit.Reorient(buttonsRect.sliceVertical(0.6f, 0.9f));
             exit.clickAction = () =>
             {

@@ -22,19 +22,19 @@ namespace RobotProject
             }
             else
             {
+                var a = r.Split(1, 4,0.05f,0.05f);
                 
-                this.runButton = new ModifiedButton("run", "run");
-                Geometry.Rectangle r1 = r.sliceVertical(0.0f, 0.3f);
-                this.runButton.Reorient(r1 );
-                //this.runButton.Reorient(50,300,50,100 );
+                this.runButton = new ModifiedButton("run", "çalıştır");
+                this.runButton.Reorient(a[0] );
             
-                this.pauseButton = new ModifiedButton("pause", "pause");
-                Geometry.Rectangle r2 = r.sliceVertical(0.35f, 0.65f);
-                this.pauseButton.Reorient(r2);
+                this.pauseButton = new ModifiedButton("pause", "duraklat");
+                this.pauseButton.Reorient(a[1]);
             
-                this.stopButton = new ModifiedButton("stop", "stop");
-                Geometry.Rectangle r3 = r.sliceVertical(0.7f, 1f);
-                this.stopButton.Reorient(r3);
+                this.stopButton = new ModifiedButton("stop", "durdur");
+                this.stopButton.Reorient(a[2]);
+
+                addProductButton = new ModifiedButton("ap", "ürün ekle");
+                this.addProductButton.Reorient(a[3]);
             }
 
             
@@ -50,13 +50,15 @@ namespace RobotProject
             {
                 motherControlCollection.Add(runButton);
                 motherControlCollection.Add(pauseButton);
-                motherControlCollection.Add(stopButton);                
+                motherControlCollection.Add(stopButton);
+                motherControlCollection.Add(addProductButton);    
             }
         }
         
         public ModifiedButton runButton;
         public ModifiedButton pauseButton;
         public ModifiedButton stopButton;
+        public ModifiedButton addProductButton;
         private Indicator plotIndicator;
         private bool asVisual = false;
     }

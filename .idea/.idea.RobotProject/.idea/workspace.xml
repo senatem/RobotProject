@@ -4,14 +4,15 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?">
-      <change afterPath="$PROJECT_DIR$/RobotProject/Images/barcode_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/Images/plc_on.png" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="new methods added to rectangle to handle slicing&#10;layout slightly polished&#10;visuals added for barcode and plc&#10;methods that directly handles disconnect colours added to ConnectionIndicators.cs">
+      <change afterPath="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SystemControls.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,15 +51,16 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Blocks.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/ConnectionIndicators.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/SingleBox.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -113,7 +115,7 @@
       <workItem from="1619958209416" duration="7528000" />
       <workItem from="1622208046839" duration="23900000" />
       <workItem from="1623319266711" duration="2904000" />
-      <workItem from="1623861951239" duration="3825000" />
+      <workItem from="1623861951239" duration="6577000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -185,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623321223615</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="new methods added to rectangle to handle slicing&#10;layout slightly polished&#10;visuals added for barcode and plc&#10;methods that directly handles disconnect colours added to ConnectionIndicators.cs">
+      <created>1623867942024</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1623867942024</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +225,7 @@
     <MESSAGE value="supplamentary:&#10;comment is added to Form2 that explains the interactions associated with visuals" />
     <MESSAGE value="visual order rearranged" />
     <MESSAGE value="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?" />
-    <option name="LAST_COMMIT_MESSAGE" value="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?" />
+    <MESSAGE value="new methods added to rectangle to handle slicing&#10;layout slightly polished&#10;visuals added for barcode and plc&#10;methods that directly handles disconnect colours added to ConnectionIndicators.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="new methods added to rectangle to handle slicing&#10;layout slightly polished&#10;visuals added for barcode and plc&#10;methods that directly handles disconnect colours added to ConnectionIndicators.cs" />
   </component>
 </project>

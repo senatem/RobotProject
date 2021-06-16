@@ -72,6 +72,7 @@ namespace RobotProject
             else
             {
                 // examples
+                /*
                 var sb = new SingleBox("111", "elma", "15", "152", "154",true,0);
                 boxes.Add(sb);
                 var sb2 = new SingleBox("111", "elma", "25", "252", "254",true,1);
@@ -80,6 +81,7 @@ namespace RobotProject
                 boxes.Add(sb3);
                 var sb4 = new SingleBox("111", "elma1", "225", "252", "254",false,1);
                 boxes.Add(sb4);
+                */
                 
                 
                 beltIndicator = new Indicator("beltIndicator");
@@ -263,7 +265,7 @@ namespace RobotProject
         };
         private List<ModifiedLabel> palleteTypes = new List<ModifiedLabel>() // the bg
         {
-            new ModifiedLabel("p1","1. tip palet",12), new ModifiedLabel("r2","2. tip palet",12), new ModifiedLabel("r3","12+3j tip palet",12)
+            new ModifiedLabel("p1","1. palet",12), new ModifiedLabel("r2","2. palet",12), new ModifiedLabel("r3","3. palet",12)
         };
         private bool asVisual = false;
         private Geometry.Rectangle realSize;
