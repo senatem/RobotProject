@@ -4,8 +4,14 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="visual order rearranged">
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?">
+      <change afterPath="$PROJECT_DIR$/RobotProject/Images/barcode_on.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/Images/plc_on.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,11 +53,12 @@
       <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/ConnectionIndicators.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/SingleBox.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -105,7 +112,8 @@
       <workItem from="1619631123843" duration="11242000" />
       <workItem from="1619958209416" duration="7528000" />
       <workItem from="1622208046839" duration="23900000" />
-      <workItem from="1623319266711" duration="1536000" />
+      <workItem from="1623319266711" duration="2904000" />
+      <workItem from="1623861951239" duration="3825000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -163,7 +171,21 @@
       <option name="project" value="LOCAL" />
       <updated>1622239900446</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="visual order rearranged">
+      <created>1623320983604</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1623320983604</updated>
+    </task>
+    <task id="LOCAL-00010" summary="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?">
+      <created>1623321223615</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1623321223615</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +214,8 @@
     <MESSAGE value="base update" />
     <MESSAGE value="a visual part is added which has:&#10;1- a belt and 3 pallete parts of relevant robot&#10;2- some example boxes are put for show&#10;3- hey button can create additional example boxes&#10;4- clear pallete buttons implemented and working&#10;5- for show, pressing robot name operates on the next box on the list&#10;6- pallete full information is not availiable, hence is not used&#10;7- pallete type displayer is added to display pallete types&#10;&#10;Furthermore:&#10;1- buttons and displayers are moved to the correct location&#10;2- Form2 is organized and looks neater (marginally)&#10;3- Geometry.Rectangle now has the fan favourite sub-rectangle feature" />
     <MESSAGE value="supplamentary:&#10;comment is added to Form2 that explains the interactions associated with visuals" />
-    <option name="LAST_COMMIT_MESSAGE" value="supplamentary:&#10;comment is added to Form2 that explains the interactions associated with visuals" />
+    <MESSAGE value="visual order rearranged" />
+    <MESSAGE value="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?" />
+    <option name="LAST_COMMIT_MESSAGE" value="at Form2.Designer.cs line 52, &#10;this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;&#10;burda, auto scale modelarını scalingden etkilenmeyeni bulacak şekilde deneyebilirsin?" />
   </component>
 </project>

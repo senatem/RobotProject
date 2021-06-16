@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace RobotProject.uiElements
 {
@@ -50,6 +51,38 @@ namespace RobotProject.uiElements
                     return new Rectangle( l + w * other.l, l + w * other.r, t + h * other.b,
                         t + h * other.t);
                 }
+
+                public List<Rectangle> Split(int rows, int cols, float wPad=0f, float hPad=0f)
+                {
+                    var a = new List<Rectangle>();
+                    for(float i=0;i<cols;i++)
+                    {
+                        for(float j=0;j<rows;j++)
+                        {
+                            a.Add(new Rectangle(l + w / cols * i, l + w / cols * (i + 1), t + h / rows * j,
+                                t + h / rows * (j + 1)).SubRectangle(new Rectangle(wPad,1-wPad,hPad,1-hPad))
+                            
+                            );
+                        }
+                    }
+                    return a;
+                }
+
+                public Rectangle FittingSquare(float n = 1f)
+                {
+                    return new Rectangle(ShortSide()*n, ShortSide()*n, new Point(x, y));
+                }
+
+                public float ShortSide()
+                {
+                    return Math.Min(w, h);
+                }
+                
+                public float LongSide()
+                {
+                    return Math.Max(w, h);
+                }
+
 
                 public float x;
                 public float y;

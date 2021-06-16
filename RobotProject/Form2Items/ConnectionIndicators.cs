@@ -5,7 +5,7 @@ using RobotProject.uiElements;
 namespace RobotProject
 {
 /** Connection indicators are to indicate connection, this is achieved by calling indicator:
-     * plcIndicator.paint(Color.Red); or green
+     * plcConnect, barcodeConnect or similar ease of access classes
      * new indicators are added to the initializer and as variables as needed
      */
     class ConnectionIndicators
@@ -25,16 +25,56 @@ namespace RobotProject
             else
             {
                 // indicators
-                this.plcIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
-                Geometry.Rectangle r1 = r.sliceVertical(0.0f, 0.3f);
-                this.plcIndicator.Reorient(r1 );
-            
-                this.barcodeIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
-                Geometry.Rectangle r2 = r.sliceVertical(0.3f, 0.6f);
-                this.barcodeIndicator.Reorient(r2 );
+                var a = r.Split(1, 2,0.05f,0.05f);
+                this.plcIndicator = new Indicator("plc", References.projectPath + "Images\\plc_on.png");
+                this.plcIndicator.Reorient(a[0].FittingSquare() );
+                this.barcodeIndicator = new Indicator("plc", References.projectPath + "Images\\barcode_on.png");
+                this.barcodeIndicator.Reorient(a[1].FittingSquare());
+            }
+        }
+
+        /** Simple access to break and open connection for plc
+         * ed: true => connected
+         * ed: false => not connected
+         */
+        public void plcConnect(bool ed)
+        {
+            if (ed != plcConnected)
+            {
+                if (ed)
+                {
+                    plcIndicator.paint();
+                }
+                else
+                {
+                    plcIndicator.paint(Color.Red);
+                }
+                plcConnected = ed;
             }
         }
         
+        /** Simple access to break and open connection for barcode
+         * ed: true => connected
+         * ed: false => not connected
+         */
+        public void barcodeConnect(bool ed)
+        {
+            if (ed != barcodeConnected)
+            {
+                if (ed)
+                {
+                    barcodeIndicator.paint();
+                }
+                else
+                {
+                    barcodeIndicator.paint(Color.Red);
+                }
+                barcodeConnected = ed;
+            }
+        }
+
+
+
         public void implement(Control.ControlCollection motherControlCollection)
         {
             if (asVisual)
@@ -52,7 +92,10 @@ namespace RobotProject
         
         private Indicator plcIndicator;
         private Indicator barcodeIndicator;
-        private Indicator plotIndicator;
+        private Indicator plotIndicator; // indicator of the empty plot for design purposes
+        private bool plcConnected = false;
+        private bool barcodeConnected = false; 
+        
         private bool asVisual = false;
     }
 }

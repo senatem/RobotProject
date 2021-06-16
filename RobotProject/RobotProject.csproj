@@ -101,7 +101,9 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Images\barcode_on.png" />
       <Content Include="Images\placeholder.png" />
+      <Content Include="Images\plc_on.png" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
