@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
-
-namespace RobotProject
+namespace RobotProject.Form2Items
 {
     /** This is the popup for non barcode units, necessary attributes will be added manually at initializer via adding new pairs to lines bit
      * confirm or exit can be traced by confirmed boolean
@@ -14,51 +13,52 @@ namespace RobotProject
      * reset function resets inputs, it may be added to exit or opening methods, new attributes must be added manually
      * right now attributes are individual fields, they may be put into a list
      */
-    class NonBarcodePopup : Form
+    internal class NonBarcodePopup : Form
     {
-        private IContainer components = null;
-
         public NonBarcodePopup()
         {
-            
-            
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size((int) w, (int) h);
-            this.Text = "Ürün Ekleme";
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size((int) w, (int) h);
+            Text = @"Ürün Ekleme";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                var r = v.sliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
+                var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
                 var att = new TextPair(lineStrings[i], lineStrings[i], r);
                 lines.Add(att);
-                att.implement(this.Controls);
+                att.Implement(Controls);
             }
 
 
 
 
             // buttons
-            var buttonsRect = v.sliceHorizontal(0.7f, 0.8f);
+            var buttonsRect = v.SliceHorizontal(0.7f, 0.8f);
             var conf = new ModifiedButton("onay", "onay");
-            conf.Reorient(buttonsRect.sliceVertical(0.1f, 0.4f));
-            conf.clickAction = () =>
+            conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
+            conf.ClickAction = () =>
             {
                 _confirmed = true;
-                this.Close();
+                Close();
             };
 
             var exit = new ModifiedButton("çık", "çık");
-            exit.Reorient(buttonsRect.sliceVertical(0.6f, 0.9f));
-            exit.clickAction = () =>
+            exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
+            exit.ClickAction = () =>
             {
-                this.Close();
+                Close();
             };
 
             Controls.Add(conf);
             Controls.Add(exit);
+        }
+
+        public sealed override string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
         }
 
         private float w = 400f;
@@ -68,7 +68,7 @@ namespace RobotProject
         {
             foreach (var tp in lines)
             {
-                tp.text = "";
+                tp.Text = "";
             }
         }
 
@@ -77,7 +77,7 @@ namespace RobotProject
             _confirmed = false;
         }
 
-        private Boolean _confirmed = false;
+        private Boolean _confirmed;
 
         public Boolean confirmed {
             get
@@ -91,12 +91,12 @@ namespace RobotProject
         {
             get
             {
-                return lines.Select(textPair => textPair.text).ToList();
+                return lines.Select(textPair => textPair.Text).ToList();
             }
         }
 
         public List<TextPair> lines = new List<TextPair>();
-        public List<string> lineStrings = new List<string>()
+        public List<string> lineStrings = new List<string>
         {
             "isim","en","boy","yükseklik"
         };

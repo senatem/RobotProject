@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,7 +18,7 @@ namespace RobotProject.Form2Items
     }
     public class ConnectionManager
     {
-        private int z = 0;
+        private const int Z = 0;
         private readonly ModbusClient _barcodeClient = new ModbusClient();
         private readonly ModbusClient _plcClient = new ModbusClient();
         private readonly SqlCommunication _sql = new SqlCommunication();
@@ -27,10 +26,10 @@ namespace RobotProject.Form2Items
         private Thread? _barcodeListener;
 
         private string? _receiveData;
-        public string? Data;
+        private string? _data;
 
         private List<Cell> _cells = new List<Cell>(3);
-        private OffsetCalculator _calculator = new OffsetCalculator();
+        private readonly OffsetCalculator _calculator = new OffsetCalculator();
         public event EventHandler BarcodeRead;
 
         public delegate void BarcodeReadEventHandler(object sender, BarcodeReadEventArgs e);
@@ -39,7 +38,7 @@ namespace RobotProject.Form2Items
         protected virtual void OnBarcodeRead(BarcodeReadEventArgs e)
         {
             EventHandler handler = BarcodeRead;
-            handler?.Invoke(this, e);
+            handler.Invoke(this, e);
         }
 
         public void Init()
@@ -101,9 +100,9 @@ namespace RobotProject.Form2Items
 
         private void UpdateReceiveTextBox()
         {
-            Data = ConvertFromHex(_receiveData!.Trim());
-            Interpret(Data);
-            BarcodeReadEventArgs args = new BarcodeReadEventArgs(Data);
+            _data = ConvertFromHex(_receiveData!.Trim());
+            Interpret(_data);
+            BarcodeReadEventArgs args = new BarcodeReadEventArgs(_data);
             OnBarcodeRead(args);
         }
 
@@ -115,7 +114,7 @@ namespace RobotProject.Form2Items
             for (var i = 0; i < toClean.Length; i++)
             {
                 if (i < 30)
-                    output[i] = (char) (Convert.ToByte(toClean[i], 16));
+                    output[i] = (char) Convert.ToByte(toClean[i], 16);
             }
 
             return new string(output);
@@ -125,16 +124,9 @@ namespace RobotProject.Form2Items
 
         private void UpdateBarcodeConnectedChanged(object sender)
         {
-            if (_barcodeClient.Connected)
-            {
-                //TODO connection indicator green (raise event)
-                Console.WriteLine(@"Connected to the barcode reader!");
-            }
-            else
-            {
-                //todo connection indicator red
-                Console.WriteLine(@"Disconnected from the barcode reader!");
-            }
+            Console.WriteLine(_barcodeClient.Connected
+                ? @"Connected to the barcode reader!"
+                : @"Disconnected from the barcode reader!");
         }
 
         private void UpdatePlcConnectedChanged(object sender)
@@ -217,7 +209,7 @@ namespace RobotProject.Form2Items
                 
                 
                 //offset hesapları
-                Offsets offsets = _calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(), product.GetYontem(), product.GetProductType());
+                Offsets offsets = _calculator.Calculate(product.GetHeight(), product.GetWidth(), Z, c.GetCounter(), product.GetYontem(), product.GetProductType());
 
                 var boxed = 0;
                 if (product.GetYontem() == 156)

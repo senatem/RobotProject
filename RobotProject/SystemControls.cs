@@ -15,9 +15,9 @@ namespace RobotProject
             this.asVisual = asVisual; 
             if (asVisual)
             {
-                this.plotIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
-                plotIndicator.paint(Color.Aquamarine);
-                Geometry.Rectangle r3 = r.sliceVertical(0f, 1f);
+                this.plotIndicator = new Indicator("plc", References.ProjectPath + "Images\\placeholder.jpg");
+                plotIndicator.PaintIndicator(Color.Aquamarine);
+                Geometry.Rectangle r3 = r.SliceVertical(0f, 1f);
                 this.plotIndicator.Reorient(r3 );
             }
             else

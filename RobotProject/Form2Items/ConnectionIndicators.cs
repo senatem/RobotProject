@@ -2,34 +2,34 @@ using System.Drawing;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
-namespace RobotProject
+namespace RobotProject.Form2Items
 {
 /** Connection indicators are to indicate connection, this is achieved by calling indicator:
      * plcConnect, barcodeConnect or similar ease of access classes
      * new indicators are added to the initializer and as variables as needed
      */
-    class ConnectionIndicators
+internal class ConnectionIndicators
     {
         public ConnectionIndicators(int x, int y, int w, int h, bool asVisual = false)
         {
-            this.asVisual = asVisual;
-            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( (float)x,(float)y ));
+            _asVisual = asVisual;
+            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( x,y ));
 
             if (asVisual)
             {
-                this.plotIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
-                plotIndicator.paint(Color.Fuchsia);
-                Geometry.Rectangle r3 = r.sliceVertical(0f, 1f);
-                this.plotIndicator.Reorient(r3 );
+                _plotIndicator = new Indicator("plc", References.ProjectPath + "Images\\placeholder.jpg");
+                _plotIndicator.PaintIndicator(Color.Fuchsia);
+                Geometry.Rectangle r3 = r.SliceVertical(0f, 1f);
+                _plotIndicator.Reorient(r3 );
             }
             else
             {
                 // indicators
                 var a = r.Split(1, 2,0.05f,0.05f);
-                this.plcIndicator = new Indicator("plc", References.projectPath + "Images\\plc_on.png");
-                this.plcIndicator.Reorient(a[0].FittingSquare() );
-                this.barcodeIndicator = new Indicator("plc", References.projectPath + "Images\\barcode_on.png");
-                this.barcodeIndicator.Reorient(a[1].FittingSquare());
+                _plcIndicator = new Indicator("plc", References.ProjectPath + "Images\\plc_on.png");
+                _plcIndicator.Reorient(a[0].FittingSquare() );
+                _barcodeIndicator = new Indicator("plc", References.ProjectPath + "Images\\barcode_on.png");
+                _barcodeIndicator.Reorient(a[1].FittingSquare());
             }
         }
 
@@ -37,19 +37,19 @@ namespace RobotProject
          * ed: true => connected
          * ed: false => not connected
          */
-        public void plcConnect(bool ed)
+        public void PlcConnect(bool ed)
         {
-            if (ed != plcConnected)
+            if (ed != _plcConnected)
             {
                 if (ed)
                 {
-                    plcIndicator.paint();
+                    _plcIndicator.PaintIndicator();
                 }
                 else
                 {
-                    plcIndicator.paint(Color.Red);
+                    _plcIndicator.PaintIndicator(Color.Red);
                 }
-                plcConnected = ed;
+                _plcConnected = ed;
             }
         }
         
@@ -57,45 +57,43 @@ namespace RobotProject
          * ed: true => connected
          * ed: false => not connected
          */
-        public void barcodeConnect(bool ed)
+        public void BarcodeConnect(bool ed)
         {
-            if (ed != barcodeConnected)
+            if (ed == _barcodeConnected) return;
+            if (ed)
             {
-                if (ed)
-                {
-                    barcodeIndicator.paint();
-                }
-                else
-                {
-                    barcodeIndicator.paint(Color.Red);
-                }
-                barcodeConnected = ed;
-            }
-        }
-
-
-
-        public void implement(Control.ControlCollection motherControlCollection)
-        {
-            if (asVisual)
-            {
-                motherControlCollection.Add(plotIndicator);
+                _barcodeIndicator.PaintIndicator();
             }
             else
             {
-                motherControlCollection.Add(plcIndicator);
-                motherControlCollection.Add(barcodeIndicator);                
+                _barcodeIndicator.PaintIndicator(Color.Red);
+            }
+            _barcodeConnected = ed;
+        }
+
+
+
+        public void Implement(Control.ControlCollection motherControlCollection)
+        {
+            if (_asVisual)
+            {
+                motherControlCollection.Add(_plotIndicator);
+            }
+            else
+            {
+                motherControlCollection.Add(_plcIndicator);
+                motherControlCollection.Add(_barcodeIndicator);                
             }
         }
         
         
         
-        private Indicator plcIndicator;
-        private Indicator barcodeIndicator;
-        private Indicator plotIndicator; // indicator of the empty plot for design purposes
-        private bool plcConnected = false;
-        private bool barcodeConnected = false; 
+        private readonly Indicator _plcIndicator;
+        private readonly Indicator _barcodeIndicator;
+        private readonly Indicator _plotIndicator; // indicator of the empty plot for design purposes
+        private bool _plcConnected;
+        private bool _barcodeConnected; 
         
-        private bool asVisual = false;
+        private readonly bool _asVisual;
     }
 }

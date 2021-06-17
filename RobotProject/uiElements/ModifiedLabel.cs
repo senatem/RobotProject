@@ -29,7 +29,7 @@ namespace RobotProject.uiElements
         
         public void Reorient(Geometry.Rectangle r)
         {
-            Reorient((int)r.L, (int)r.T, (int)r.W, (int)r.H);
+            Reorient((int)r.l, (int)r.t, (int)r.w, (int)r.h);
         }
 
         public Action ClickAction = () => { }; // can be used to change click function with an Action

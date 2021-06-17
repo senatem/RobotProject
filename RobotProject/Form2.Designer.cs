@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using RobotProject.Form2Items;
 using RobotProject.uiElements;
 
 namespace RobotProject
@@ -45,30 +46,30 @@ namespace RobotProject
             
             
             // example function implementation, other system controls should be implemented similarly
-            systemControls.addProductButton.clickAction = () =>
+            systemControls.addProductButton.ClickAction = () =>
             {
                 nbp.opening();
                 nbp.ShowDialog();
                 if (nbp.confirmed)
                 {
                     var  l = nbp.getLines;
-                    boxVisuals.addToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
+                    boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
 
-            systemControls.pauseButton.clickAction = () =>
+            systemControls.pauseButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem duraklatıldı.");
                 a.ShowDialog();
             };
             
-            systemControls.runButton.clickAction = () =>
+            systemControls.runButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem çalıştırıldı.");
                 a.ShowDialog();
             };
             
-            systemControls.stopButton.clickAction = () =>
+            systemControls.stopButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem durduruldu.");
                 a.ShowDialog();
@@ -76,8 +77,8 @@ namespace RobotProject
             
             
             systemControls.implement(this.Controls);
-            connectionIndicators.implement(this.Controls);
-            boxVisuals.implement(this.Controls);
+            connectionIndicators.Implement(this.Controls);
+            boxVisuals.Implement(this.Controls);
         }
 
         
