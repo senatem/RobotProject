@@ -93,6 +93,7 @@
         <Compile Include="Form2Items\BoxVisuals.cs" />
         <Compile Include="Form2Items\ConnectionIndicators.cs" />
         <Compile Include="Form2Items\ConnectionManager.cs" />
+        <Compile Include="Form2Items\GenericWarning.cs" />
         <Compile Include="Form2Items\NonBarcodePopup.cs" />
         <Compile Include="Form2Items\SingleBox.cs" />
         <Compile Include="OffsetCalculator.cs" />
@@ -133,7 +134,9 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Images\barcode_on.png" />
       <Content Include="Images\placeholder.png" />
+      <Content Include="Images\plc_on.png" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

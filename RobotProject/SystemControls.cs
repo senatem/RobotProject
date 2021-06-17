@@ -7,57 +7,59 @@ namespace RobotProject
     /** Similar to indicators, but buttons instead
      * a function adding mechanism is not included yet, but buttons are public so it can be done like that
      */
-    internal class SystemControls
+    class SystemControls
     {
         public SystemControls(int x, int y, int w, int h,bool asVisual = false)
         {
-            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point(x, y));
-            this._asVisual = asVisual; 
+            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( (float)x,(float)y ));
+            this.asVisual = asVisual; 
             if (asVisual)
             {
-                _plotIndicator = new Indicator("plc", References.ProjectPath + "Images\\placeholder.jpg");
-                _plotIndicator.PaintIndicator(Color.Aquamarine);
-                Geometry.Rectangle r3 = r.SliceVertical(0f, 1f);
-                _plotIndicator.Reorient(r3 );
+                this.plotIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
+                plotIndicator.paint(Color.Aquamarine);
+                Geometry.Rectangle r3 = r.sliceVertical(0f, 1f);
+                this.plotIndicator.Reorient(r3 );
             }
             else
             {
+                var a = r.Split(1, 4,0.05f,0.05f);
                 
-                _runButton = new ModifiedButton("run", "run");
-                Geometry.Rectangle r1 = r.SliceVertical(0.0f, 0.3f);
-                _runButton.Reorient(r1 );
-                //this.runButton.Reorient(50,300,50,100 );
+                this.runButton = new ModifiedButton("run", "çalıştır");
+                this.runButton.Reorient(a[0] );
             
-                _pauseButton = new ModifiedButton("pause", "pause");
-                Geometry.Rectangle r2 = r.SliceVertical(0.35f, 0.65f);
-                _pauseButton.Reorient(r2);
+                this.pauseButton = new ModifiedButton("pause", "duraklat");
+                this.pauseButton.Reorient(a[1]);
             
-                _stopButton = new ModifiedButton("stop", "stop");
-                Geometry.Rectangle r3 = r.SliceVertical(0.7f, 1f);
-                _stopButton.Reorient(r3);
+                this.stopButton = new ModifiedButton("stop", "durdur");
+                this.stopButton.Reorient(a[2]);
+
+                addProductButton = new ModifiedButton("ap", "ürün ekle");
+                this.addProductButton.Reorient(a[3]);
             }
 
             
         }
 
-        public void Implement(Control.ControlCollection motherControlCollection)
+        public void implement(Control.ControlCollection motherControlCollection)
         {
-            if (_asVisual)
+            if (asVisual)
             {
-                motherControlCollection.Add(_plotIndicator!);
+                motherControlCollection.Add(plotIndicator);
             }
             else
             {
-                motherControlCollection.Add(_runButton!);
-                motherControlCollection.Add(_pauseButton!);
-                motherControlCollection.Add(_stopButton!);                
+                motherControlCollection.Add(runButton);
+                motherControlCollection.Add(pauseButton);
+                motherControlCollection.Add(stopButton);
+                motherControlCollection.Add(addProductButton);    
             }
         }
-
-        private readonly ModifiedButton? _runButton;
-        private readonly ModifiedButton? _pauseButton;
-        private readonly ModifiedButton? _stopButton;
-        private readonly Indicator? _plotIndicator;
-        private readonly bool _asVisual;
+        
+        public ModifiedButton runButton;
+        public ModifiedButton pauseButton;
+        public ModifiedButton stopButton;
+        public ModifiedButton addProductButton;
+        private Indicator plotIndicator;
+        private bool asVisual = false;
     }
 }

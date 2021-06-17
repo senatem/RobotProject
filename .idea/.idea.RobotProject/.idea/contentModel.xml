@@ -16,11 +16,14 @@
           <e p="BoxVisuals.cs" t="Include" />
           <e p="ConnectionIndicators.cs" t="Include" />
           <e p="ConnectionManager.cs" t="Include" />
+          <e p="GenericWarning.cs" t="Include" />
           <e p="NonBarcodePopup.cs" t="Include" />
           <e p="SingleBox.cs" t="Include" />
         </e>
         <e p="Images" t="Include">
+          <e p="barcode_on.png" t="Include" />
           <e p="placeholder.png" t="Include" />
+          <e p="plc_on.png" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="OffsetCalculator.cs" t="Include" />

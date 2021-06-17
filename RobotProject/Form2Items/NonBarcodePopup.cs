@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
-namespace RobotProject.Form2Items
+
+namespace RobotProject
 {
     /** This is the popup for non barcode units, necessary attributes will be added manually at initializer via adding new pairs to lines bit
      * confirm or exit can be traced by confirmed boolean
@@ -12,87 +14,89 @@ namespace RobotProject.Form2Items
      * reset function resets inputs, it may be added to exit or opening methods, new attributes must be added manually
      * right now attributes are individual fields, they may be put into a list
      */
-    internal class NonBarcodePopup : Form
+    class NonBarcodePopup : Form
     {
-        private IContainer components;
+        private IContainer components = null;
 
         public NonBarcodePopup()
         {
-            components = new Container();
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size((int) w, (int) h);
-            Text = @"Form2";
+            
+            
+            this.components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size((int) w, (int) h);
+            this.Text = "Ürün Ekleme";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
-            for (var i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
-                var att = new TextPair(_lineStrings[i], _lineStrings[i], r);
-                _lines.Add(att);
-                att.Implement(this.Controls);
+                var r = v.sliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
+                var att = new TextPair(lineStrings[i], lineStrings[i], r);
+                lines.Add(att);
+                att.implement(this.Controls);
             }
 
 
 
 
             // buttons
-            var buttonsRect = v.SliceHorizontal(0.7f, 0.8f);
-            var conf = new ModifiedButton("confirm", "confirm");
-            conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
-            conf.ClickAction = () =>
+            var buttonsRect = v.sliceHorizontal(0.7f, 0.8f);
+            var conf = new ModifiedButton("onay", "onay");
+            conf.Reorient(buttonsRect.sliceVertical(0.1f, 0.4f));
+            conf.clickAction = () =>
             {
                 _confirmed = true;
-                Close();
+                this.Close();
             };
 
-            var exit = new ModifiedButton("exit", "exit");
-            exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
-            exit.ClickAction = Close;
+            var exit = new ModifiedButton("çık", "çık");
+            exit.Reorient(buttonsRect.sliceVertical(0.6f, 0.9f));
+            exit.clickAction = () =>
+            {
+                this.Close();
+            };
 
             Controls.Add(conf);
             Controls.Add(exit);
         }
 
-        public sealed override string Text
-        {
-            get => base.Text;
-            set => base.Text = value;
-        }
-
         private float w = 400f;
         private float h = 450f;
 
-        public void Reset()
+        public void reset()
         {
-            foreach (var tp in _lines)
+            foreach (var tp in lines)
             {
-                tp.Text = "";
+                tp.text = "";
             }
         }
 
-        public void Opening()
+        public void opening()
         {
             _confirmed = false;
         }
 
-        private bool _confirmed;
+        private Boolean _confirmed = false;
 
-        public bool Confirmed =>
-            // additional invalid conditions
-            _confirmed;
-
-        public List<string> GetLines
-        {
+        public Boolean confirmed {
             get
             {
-                return _lines.Select(textPair => textPair.Text).ToList();
+                // additional invalid conditions
+                return _confirmed;
             }
         }
 
-        private readonly List<TextPair> _lines = new List<TextPair>();
+        public List<string> getLines
+        {
+            get
+            {
+                return lines.Select(textPair => textPair.text).ToList();
+            }
+        }
 
-        private readonly List<string> _lineStrings = new List<string>()
+        public List<TextPair> lines = new List<TextPair>();
+        public List<string> lineStrings = new List<string>()
         {
             "isim","en","boy","yükseklik"
         };
