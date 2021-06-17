@@ -16,7 +16,7 @@ namespace RobotProject
         private static int appWidth = 1920;
         private static int appHeight = 1080;
 
-        private ConnectionManager conn = new ConnectionManager();
+        private static ConnectionManager conn = new ConnectionManager();
 
         /// <summary>
         /// Required designer variable.
@@ -75,8 +75,9 @@ namespace RobotProject
             
             tl.Reorient(w:500);
             //tl.ClickFunction = (object sender, EventArgs e) => { };
-            tl.ClickAction = () => {
-                tl.Text = "heyoo";
+            tl.ClickAction = () =>
+            {
+                //tl.Text = conn.ConvertFromHex("12345");
             };
 
             this.Controls.Add(tl);
@@ -86,6 +87,7 @@ namespace RobotProject
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
             boxVisuals.Implement(this.Controls);
+            conn.BarcodeRead += barcodeUpdater;
             conn.Init();
             conn.Connect();
         }
@@ -93,6 +95,12 @@ namespace RobotProject
         
 
         #endregion
+
+        private void barcodeUpdater(object sender, EventArgs e)
+        {
+            tl.Text = "Event Test = " + conn.Data;
+            Console.WriteLine("Event Test = " + conn.Data);
+        }
 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/4, 50, appWidth/2, 100,false);

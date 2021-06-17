@@ -17,9 +17,13 @@ namespace RobotProject
             _holding++;
         }
 
-        public bool Full()
+        public int GetCounter()
         {
-            return _holding == _orderSize;
+            return _holding;
+        }
+        public int Full()
+        {
+            return _holding == _orderSize ? 1 : 0;
         }
 
         public int GetCellType()

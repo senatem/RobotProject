@@ -10,7 +10,7 @@ namespace RobotProject
 
         public void Connect()
         {
-            const string connCommand = "server=localhost;user=root;database=TEST;port=3306;password=kumiyo63";
+            const string connCommand = "server=localhost;user=root;database=TEST;port=3306;password=elbaproject";
             _connection = new MySqlConnection(connCommand);
             try
             {
@@ -35,7 +35,7 @@ namespace RobotProject
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             rdr.Read();
-            Product res = new Product(rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"), rdr.GetFloat("Toplam_Siparis_Miktar"));
+            Product res = new Product(rdr.GetString("Siparis_No"), rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"), rdr.GetFloat("Toplam_Siparis_Miktar"), rdr.GetString("Yontem_Kodu"));
             rdr.Close();
             return res;
         }

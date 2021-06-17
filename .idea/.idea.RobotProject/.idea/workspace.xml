@@ -4,30 +4,18 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="a visual part is added which has:&#10;1- a belt and 3 pallete parts of relevant robot&#10;2- some example boxes are put for show&#10;3- hey button can create additional example boxes&#10;4- clear pallete buttons implemented and working&#10;5- for show, pressing robot name operates on the next box on the list&#10;6- pallete full information is not availiable, hence is not used&#10;7- pallete type displayer is added to display pallete types&#10;&#10;Furthermore:&#10;1- buttons and displayers are moved to the correct location&#10;2- Form2 is organized and looks neater (marginally)&#10;3- Geometry.Rectangle now has the fan favourite sub-rectangle feature">
-      <change afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/Product.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="dummy commit">
+      <change afterPath="$PROJECT_DIR$/RobotProject/ExcelReader.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/SingleBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/SingleBox.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Product.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SystemControls.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/packages.config" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/packages.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/References.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/References.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +23,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -74,14 +67,16 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Program.cs" />
       <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Product.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Product.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -137,6 +132,7 @@
       <workItem from="1622208046839" duration="23848000" />
       <workItem from="1623051224486" duration="5640000" />
       <workItem from="1623309936737" duration="163000" />
+      <workItem from="1623835361434" duration="16434000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -206,7 +202,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>

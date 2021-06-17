@@ -9,6 +9,7 @@
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Cell.cs" t="Include" />
+        <e p="ExcelReader.cs" t="Include" />
         <e p="Form2.cs" t="Include" />
         <e p="Form2.Designer.cs" t="Include" />
         <e p="Form2Items" t="Include">
@@ -22,6 +23,7 @@
           <e p="placeholder.png" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
+        <e p="OffsetCalculator.cs" t="Include" />
         <e p="packages.config" t="Include" />
         <e p="Product.cs" t="Include" />
         <e p="Program.cs" t="Include" />

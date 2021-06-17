@@ -42,6 +42,14 @@
           <HintPath>..\packages\EasyModbusTCP.5.6.0\lib\net40\EasyModbus.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="ExcelDataReader, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa">
+          <HintPath>..\packages\ExcelDataReader.3.7.0-develop00310\lib\net45\ExcelDataReader.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="ExcelDataReader.DataSet, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa">
+          <HintPath>..\packages\ExcelDataReader.DataSet.3.7.0-develop00310\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="MySql.Data, Version=8.0.25.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
           <HintPath>..\packages\MySql.Data.8.0.25\lib\net452\MySql.Data.dll</HintPath>
           <Private>True</Private>
@@ -52,6 +60,7 @@
         <Reference Include="System.Configuration" />
         <Reference Include="System.Configuration.Install" />
         <Reference Include="System.Core" />
+        <Reference Include="System.IO.Compression" />
         <Reference Include="System.Management" />
         <Reference Include="System.Transactions" />
         <Reference Include="System.Xml.Linq" />
@@ -74,6 +83,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Cell.cs" />
+        <Compile Include="ExcelReader.cs" />
         <Compile Include="Form2.cs">
           <SubType>Form</SubType>
         </Compile>
@@ -85,6 +95,7 @@
         <Compile Include="Form2Items\ConnectionManager.cs" />
         <Compile Include="Form2Items\NonBarcodePopup.cs" />
         <Compile Include="Form2Items\SingleBox.cs" />
+        <Compile Include="OffsetCalculator.cs" />
         <Compile Include="Product.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
