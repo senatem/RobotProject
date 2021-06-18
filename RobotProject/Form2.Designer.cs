@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using RobotProject.Form2Items;
 using RobotProject.uiElements;
 
 namespace RobotProject
@@ -15,7 +16,8 @@ namespace RobotProject
         private static int appWidth = 1280;
         private static int appHeight = 720;
         
-        
+        private static ConnectionManager conn = new ConnectionManager();
+
         private IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -45,46 +47,63 @@ namespace RobotProject
             
             
             // example function implementation, other system controls should be implemented similarly
-            systemControls.addProductButton.clickAction = () =>
+            systemControls.AddProductButton.ClickAction = () =>
             {
-                nbp.opening();
+                nbp.Opening();
                 nbp.ShowDialog();
                 if (nbp.confirmed)
                 {
-                    var  l = nbp.getLines;
-                    boxVisuals.addToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
+                    var  l = nbp.GetLines;
+                    boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
 
-            systemControls.pauseButton.clickAction = () =>
+/*            systemControls.PauseButton.ClickAction = () =>
             {
-                var a = new GenericWarning("Sistem duraklatıldı.");
-                a.ShowDialog();
+                conn.Disconnect();
+            };
+  */          
+            systemControls.RunButton.ClickAction = () =>
+            {
+                conn.Connect();
             };
             
-            systemControls.runButton.clickAction = () =>
-            {
-                var a = new GenericWarning("Sistem çalıştırıldı.");
-                a.ShowDialog();
-            };
-            
-            systemControls.stopButton.clickAction = () =>
+            systemControls.StopButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem durduruldu.");
                 a.ShowDialog();
+                conn.Disconnect();
             };
             
             
-            systemControls.implement(this.Controls);
-            connectionIndicators.implement(this.Controls);
-            boxVisuals.implement(this.Controls);
+            systemControls.Implement(this.Controls);
+            connectionIndicators.Implement(this.Controls);
+            boxVisuals.Implement(this.Controls);
+            conn.BarcodeRead += barcodeUpdater;
+            conn.BarcodeConnectionChanged += barcodeIndicatorUpdater;
+            conn.PlcConnectionChanged += plcIndicatorUpdater;
+            conn.Init();
         }
 
         
 
         #endregion
 
-        private int counter = 0; 
+        private void barcodeIndicatorUpdater(object sender, EventArgs e)
+        {
+            connectionIndicators.BarcodeConnect(conn.BarcodeClient.Connected);
+        }
+
+        private void plcIndicatorUpdater(object sender, EventArgs e)
+        {
+            connectionIndicators.PlcConnect(conn.PlcClient.Connected);
+        }
+        
+        private void barcodeUpdater(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Event Test = " + conn.Data);
+        }
+
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
         private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);

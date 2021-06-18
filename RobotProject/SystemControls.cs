@@ -11,55 +11,55 @@ namespace RobotProject
     {
         public SystemControls(int x, int y, int w, int h,bool asVisual = false)
         {
-            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( (float)x,(float)y ));
-            this.asVisual = asVisual; 
+            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( x,y ));
+            this._asVisual = asVisual; 
             if (asVisual)
             {
-                this.plotIndicator = new Indicator("plc", References.projectPath + "Images\\placeholder.jpg");
-                plotIndicator.paint(Color.Aquamarine);
-                Geometry.Rectangle r3 = r.sliceVertical(0f, 1f);
-                this.plotIndicator.Reorient(r3 );
+                _plotIndicator = new Indicator("plc", References.ProjectPath + "Images\\placeholder.jpg");
+                _plotIndicator.PaintIndicator(Color.Aquamarine);
+                Geometry.Rectangle r3 = r.SliceVertical(0f, 1f);
+                _plotIndicator.Reorient(r3 );
             }
             else
             {
                 var a = r.Split(1, 4,0.05f,0.05f);
                 
-                this.runButton = new ModifiedButton("run", "çalıştır");
-                this.runButton.Reorient(a[0] );
+                RunButton = new ModifiedButton("run", "çalıştır");
+                RunButton.Reorient(a[0] );
             
-                this.pauseButton = new ModifiedButton("pause", "duraklat");
-                this.pauseButton.Reorient(a[1]);
+     //           PauseButton = new ModifiedButton("pause", "duraklat");
+       //         PauseButton.Reorient(a[1]);
             
-                this.stopButton = new ModifiedButton("stop", "durdur");
-                this.stopButton.Reorient(a[2]);
+                StopButton = new ModifiedButton("stop", "durdur");
+                StopButton.Reorient(a[2]);
 
-                addProductButton = new ModifiedButton("ap", "ürün ekle");
-                this.addProductButton.Reorient(a[3]);
+                AddProductButton = new ModifiedButton("ap", "ürün ekle");
+                AddProductButton.Reorient(a[3]);
             }
 
             
         }
 
-        public void implement(Control.ControlCollection motherControlCollection)
+        public void Implement(Control.ControlCollection motherControlCollection)
         {
-            if (asVisual)
+            if (_asVisual)
             {
-                motherControlCollection.Add(plotIndicator);
+                motherControlCollection.Add(_plotIndicator!);
             }
             else
             {
-                motherControlCollection.Add(runButton);
-                motherControlCollection.Add(pauseButton);
-                motherControlCollection.Add(stopButton);
-                motherControlCollection.Add(addProductButton);    
+                motherControlCollection.Add(RunButton!);
+     //           motherControlCollection.Add(PauseButton!);
+                motherControlCollection.Add(StopButton!);
+                motherControlCollection.Add(AddProductButton!);    
             }
         }
         
-        public ModifiedButton runButton;
-        public ModifiedButton pauseButton;
-        public ModifiedButton stopButton;
-        public ModifiedButton addProductButton;
-        private Indicator plotIndicator;
-        private bool asVisual = false;
+        public readonly ModifiedButton? RunButton;
+   //     public readonly ModifiedButton? PauseButton;
+        public readonly ModifiedButton? StopButton;
+        public readonly ModifiedButton? AddProductButton;
+        private readonly Indicator? _plotIndicator;
+        private readonly bool _asVisual;
     }
 }

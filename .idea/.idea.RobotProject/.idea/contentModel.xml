@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\chestarian\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\chestarian\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_RobotProject.696440581.00" t="ExcludeRecursive" />
-    <e p="E:\supreme_command\cs_projects\RobotProject" t="IncludeFlat">
+    <e p="C:\Users\mifu3\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\mifu3\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_RobotProject.-910519129.00" t="ExcludeRecursive" />
+    <e p="D:\work stuff\TARA\RobotProject" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive" />
       <e p="RobotProject" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Cell.cs" t="Include" />
+        <e p="ExcelReader.cs" t="Include" />
         <e p="Form2.cs" t="Include" />
         <e p="Form2.Designer.cs" t="Include" />
         <e p="Form2Items" t="Include">
@@ -24,7 +26,9 @@
           <e p="plc_on.png" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
+        <e p="OffsetCalculator.cs" t="Include" />
         <e p="packages.config" t="Include" />
+        <e p="Product.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
@@ -34,6 +38,7 @@
           <e p="Settings.settings" t="Include" />
         </e>
         <e p="RobotProject.csproj" t="IncludeRecursive" />
+        <e p="SqlCommunication.cs" t="Include" />
         <e p="SystemControls.cs" t="Include" />
         <e p="uiElements" t="Include">
           <e p="Geometry.cs" t="Include" />

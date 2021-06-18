@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
-
-namespace RobotProject
+namespace RobotProject.Form2Items
 {
     /** This is the popup for non barcode units, necessary attributes will be added manually at initializer via adding new pairs to lines bit
      * confirm or exit can be traced by confirmed boolean
@@ -14,89 +13,84 @@ namespace RobotProject
      * reset function resets inputs, it may be added to exit or opening methods, new attributes must be added manually
      * right now attributes are individual fields, they may be put into a list
      */
-    class NonBarcodePopup : Form
+    internal class NonBarcodePopup : Form
     {
-        private IContainer components = null;
-
         public NonBarcodePopup()
         {
-            
-            
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size((int) w, (int) h);
-            this.Text = "Ürün Ekleme";
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size((int) w, (int) h);
+            Text = @"Ürün Ekleme";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                var r = v.sliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
-                var att = new TextPair(lineStrings[i], lineStrings[i], r);
-                lines.Add(att);
-                att.implement(this.Controls);
+                var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
+                var att = new TextPair(_lineStrings[i], _lineStrings[i], r);
+                _lines.Add(att);
+                att.Implement(Controls);
             }
 
 
 
 
             // buttons
-            var buttonsRect = v.sliceHorizontal(0.7f, 0.8f);
+            var buttonsRect = v.SliceHorizontal(0.7f, 0.8f);
             var conf = new ModifiedButton("onay", "onay");
-            conf.Reorient(buttonsRect.sliceVertical(0.1f, 0.4f));
-            conf.clickAction = () =>
+            conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
+            conf.ClickAction = () =>
             {
                 _confirmed = true;
-                this.Close();
+                Close();
             };
 
             var exit = new ModifiedButton("çık", "çık");
-            exit.Reorient(buttonsRect.sliceVertical(0.6f, 0.9f));
-            exit.clickAction = () =>
-            {
-                this.Close();
-            };
+            exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
+            exit.ClickAction = Close;
 
             Controls.Add(conf);
             Controls.Add(exit);
         }
 
+        public sealed override string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
+
         private float w = 400f;
         private float h = 450f;
 
-        public void reset()
+        public void Reset()
         {
-            foreach (var tp in lines)
+            foreach (var tp in _lines)
             {
-                tp.text = "";
+                tp.Text = "";
             }
         }
 
-        public void opening()
+        public void Opening()
         {
             _confirmed = false;
         }
 
-        private Boolean _confirmed = false;
+        private Boolean _confirmed;
 
-        public Boolean confirmed {
-            get
-            {
-                // additional invalid conditions
-                return _confirmed;
-            }
-        }
+        public Boolean confirmed =>
+            // additional invalid conditions
+            _confirmed;
 
-        public List<string> getLines
+        public List<string> GetLines
         {
             get
             {
-                return lines.Select(textPair => textPair.text).ToList();
+                return _lines.Select(textPair => textPair.Text).ToList();
             }
         }
 
-        public List<TextPair> lines = new List<TextPair>();
-        public List<string> lineStrings = new List<string>()
+        private readonly List<TextPair> _lines = new List<TextPair>();
+
+        private readonly List<string> _lineStrings = new List<string>
         {
             "isim","en","boy","yükseklik"
         };
