@@ -4,8 +4,12 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="- pallete popup added, only number entry&#10;- belt 1 row now, this can be changed by BoxVisuals.cs lines 14-17.">
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="- a helpful text is added to popup">
+      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedRadioButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +37,6 @@
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://E:/supreme_command/cs_projects/RobotProject/RobotProject/Form2Items/BoxVisuals.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -68,6 +71,7 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedRadioButton.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" />
     </changedPaths>
   </component>
@@ -125,6 +129,7 @@
       <workItem from="1623051224486" duration="5640000" />
       <workItem from="1623309936737" duration="163000" />
       <workItem from="1623835361434" duration="16434000" />
+      <workItem from="1624045617306" duration="1918000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -189,7 +194,21 @@
       <option name="project" value="LOCAL" />
       <updated>1624044881239</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- pallete popup added, only number entry&#10;- belt 1 row now, this can be changed by BoxVisuals.cs lines 14-17.">
+      <created>1624045195014</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1624045195014</updated>
+    </task>
+    <task id="LOCAL-00011" summary="- a helpful text is added to popup">
+      <created>1624045240105</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1624045240105</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,6 +250,7 @@
     <MESSAGE value="a visual part is added which has:&#10;1- a belt and 3 pallete parts of relevant robot&#10;2- some example boxes are put for show&#10;3- hey button can create additional example boxes&#10;4- clear pallete buttons implemented and working&#10;5- for show, pressing robot name operates on the next box on the list&#10;6- pallete full information is not availiable, hence is not used&#10;7- pallete type displayer is added to display pallete types&#10;&#10;Furthermore:&#10;1- buttons and displayers are moved to the correct location&#10;2- Form2 is organized and looks neater (marginally)&#10;3- Geometry.Rectangle now has the fan favourite sub-rectangle feature" />
     <MESSAGE value="minor code optimizations" />
     <MESSAGE value="- pallete popup added, only number entry&#10;- belt 1 row now, this can be changed by BoxVisuals.cs lines 14-17." />
-    <option name="LAST_COMMIT_MESSAGE" value="- pallete popup added, only number entry&#10;- belt 1 row now, this can be changed by BoxVisuals.cs lines 14-17." />
+    <MESSAGE value="- a helpful text is added to popup" />
+    <option name="LAST_COMMIT_MESSAGE" value="- a helpful text is added to popup" />
   </component>
 </project>

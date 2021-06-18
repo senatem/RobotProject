@@ -107,6 +107,7 @@
         <Compile Include="uiElements\Indicator.cs" />
         <Compile Include="uiElements\ModifiedButton.cs" />
         <Compile Include="uiElements\ModifiedLabel.cs" />
+        <Compile Include="uiElements\ModifiedRadioButton.cs" />
         <Compile Include="uiElements\ModifiedTextBox.cs" />
         <Compile Include="uiElements\References.cs" />
         <Compile Include="uiElements\TextPair.cs" />

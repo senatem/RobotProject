@@ -15,15 +15,54 @@ namespace RobotProject.Form2Items
         {
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size((int) w, (int) h);
-            Text = @"Ürün Ekleme";
+            Text = @"Palet Ekleme";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
             var helpfulText= new ModifiedLabel("warn", "Palet numarasını sayıyla girin.");
             helpfulText.Reorient(v.SliceHorizontal(1f / 8f, 3f / 8f));
             Controls.Add(helpfulText);
+
+
+            
+            // buttons
+            var buttonsRect = v.SliceHorizontal(0.75f, 0.9f);
+            _confButton = new ModifiedButton("onay", "onay");
+            _confButton.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
+            _confButton.ClickAction = () =>
+            {
+                _confirmed = true;
+                Close();
+            };
+            _confButton.Enabled = false;
+
+            var exit = new ModifiedButton("çık", "çık");
+            exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
+            exit.ClickAction = Close;
+
+            Controls.Add(_confButton);
+            Controls.Add(exit);
+            
+            
+            for (float i = 0; i < 3; i++)
+            {
+                var mrb = new ModifiedRadioButton("radio", $"Robot {i+1}");
+                mrb.Reorient(v.SliceHorizontal(4.5f / 8f, 5.5f / 8f).SliceVertical(i/3f,(i+1)/3f));
+                mrb.ClickAction = () =>
+                {
+                    if (_robotNo == 0)
+                    {
+                        _confButton.Enabled = true;
+                    }
+                    _robotNo = (int) i  + 1;
+                    
+                };
+                Controls.Add(mrb);
+            }
+
+            
             
             // text can be changed here
-            prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(4f / 8f, 5f / 8f));
+            prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(3f / 8f, 4f / 8f));
             
             prodNo.KeyPressed = () =>
             {
@@ -42,6 +81,7 @@ namespace RobotProject.Form2Items
                 //prodNo.CursorToEnd();
                 prodNo.SelectionStart = ss;
             };
+            prodNo.Text = "";
             prodNo.Implement(Controls);
             
             
@@ -49,22 +89,7 @@ namespace RobotProject.Form2Items
 
 
 
-            // buttons
-            var buttonsRect = v.SliceHorizontal(0.75f, 0.9f);
-            var conf = new ModifiedButton("onay", "onay");
-            conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
-            conf.ClickAction = () =>
-            {
-                _confirmed = true;
-                Close();
-            };
-
-            var exit = new ModifiedButton("çık", "çık");
-            exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
-            exit.ClickAction = Close;
-
-            Controls.Add(conf);
-            Controls.Add(exit);
+            
         }
 
         public sealed override string Text
@@ -82,7 +107,11 @@ namespace RobotProject.Form2Items
         {
             prodNo.Text = "";
             ProductNo = "";
+            _confButton.Enabled = false;
+
         }
+        
+        
 
         public void Opening()
         {
@@ -98,6 +127,14 @@ namespace RobotProject.Form2Items
         
         private readonly TextPair prodNo;
 
-        
+        private int _robotNo = 0;
+        public int RobotNo
+        {
+            get => _robotNo;
+        }
+
+        private ModifiedButton _confButton;
+
+
     }
 }

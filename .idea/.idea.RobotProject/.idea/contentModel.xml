@@ -46,6 +46,7 @@
           <e p="Indicator.cs" t="Include" />
           <e p="ModifiedButton.cs" t="Include" />
           <e p="ModifiedLabel.cs" t="Include" />
+          <e p="ModifiedRadioButton.cs" t="Include" />
           <e p="ModifiedTextBox.cs" t="Include" />
           <e p="References.cs" t="Include" />
           <e p="TextPair.cs" t="Include" />
