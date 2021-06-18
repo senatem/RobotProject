@@ -7,45 +7,47 @@ using EasyModbus;
 
 namespace RobotProject.Form2Items
 {
-    public class BarcodeReadEventArgs : EventArgs
+    public sealed class ConnectionManager
     {
-        public BarcodeReadEventArgs(string barcode)
-        {
-            Barcode = barcode;
-        }
-
-        public string Barcode { get; set; }
-    }
-    public class ConnectionManager
-    {
-        private const int Z = 0;
-        private readonly ModbusClient _barcodeClient = new ModbusClient();
-        private readonly ModbusClient _plcClient = new ModbusClient();
+        public readonly ModbusClient BarcodeClient = new ModbusClient();
+        public readonly ModbusClient PlcClient = new ModbusClient();
         private readonly SqlCommunication _sql = new SqlCommunication();
 
         private Thread? _barcodeListener;
 
         private string? _receiveData;
-        private string? _data;
+        public string? Data;
 
         private List<Cell> _cells = new List<Cell>(3);
         private readonly OffsetCalculator _calculator = new OffsetCalculator();
-        public event EventHandler BarcodeRead;
+        public event EventHandler BarcodeRead = null!;
+        public event EventHandler BarcodeConnectionChanged = null!;
+        public event EventHandler PlcConnectionChanged = null!;
 
-        public delegate void BarcodeReadEventHandler(object sender, BarcodeReadEventArgs e);
 
-
-        protected virtual void OnBarcodeRead(BarcodeReadEventArgs e)
+        private void OnBarcodeRead(EventArgs e)
         {
             EventHandler handler = BarcodeRead;
             handler.Invoke(this, e);
         }
 
+        private void OnBarcodeConnectionChanged(EventArgs e)
+        {
+            EventHandler handler = BarcodeConnectionChanged;
+            handler.Invoke(this, e);
+        }
+
+        private void OnPlcConnectionChanged(EventArgs e)
+        {
+            EventHandler handler = PlcConnectionChanged;
+            handler.Invoke(this, e);
+        }
+
         public void Init()
         {
-            _barcodeClient.ReceiveDataChanged += UpdateReceiveData;
-            _barcodeClient.ConnectedChanged += UpdateBarcodeConnectedChanged;
-            _plcClient.ConnectedChanged += UpdatePlcConnectedChanged;
+            BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
+            BarcodeClient.ConnectedChanged += UpdateBarcodeConnectedChanged;
+            PlcClient.ConnectedChanged += UpdatePlcConnectedChanged;
         }
 
         public void Connect()
@@ -53,19 +55,19 @@ namespace RobotProject.Form2Items
             try
             {
                 _sql.Connect();
-                if (_barcodeClient.Connected) _barcodeClient.Disconnect();
+                if (BarcodeClient.Connected) BarcodeClient.Disconnect();
 
-                _barcodeClient.IPAddress = "192.168.0.100"; //TODO barcode ip ve portunu al
-                _barcodeClient.Port = 51236;
-                _barcodeClient.SerialPort = null;
-                _barcodeClient.Connect();
+                BarcodeClient.IPAddress = "192.168.0.100";
+                BarcodeClient.Port = 51236;
+                BarcodeClient.SerialPort = null;
+                BarcodeClient.Connect();
 
-                if (_plcClient.Connected) _plcClient.Disconnect();
+                if (PlcClient.Connected) PlcClient.Disconnect();
 
-                _plcClient.IPAddress = "tbd"; //TODO plc ip ve portunu al
-                _plcClient.Port = 0;
-                _plcClient.SerialPort = null;
-             //   _plcClient.Connect();
+                PlcClient.IPAddress = "192.168.0.1";
+                PlcClient.Port = 502;
+                PlcClient.SerialPort = null;
+                PlcClient.Connect();
 
                 _barcodeListener = new Thread(Listen);
                 _barcodeListener.Start();
@@ -79,30 +81,31 @@ namespace RobotProject.Form2Items
 
         public void Disconnect()
         {
-            _barcodeClient.Disconnect();
-            _plcClient.Disconnect();
+            BarcodeClient.Disconnect();
+            PlcClient.Disconnect();
+            _barcodeListener!.Abort();
         }
 
         private void Listen()
         {
-            while (_barcodeClient.Connected)
+            while (BarcodeClient.Connected)
             {
-                ReadHoldingRegs(_barcodeClient);
+                ReadHoldingRegs(BarcodeClient);
                 Thread.Sleep((1000));
             }
         }
 
         private void UpdateReceiveData(object sender)
         {
-            _receiveData = BitConverter.ToString(_barcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
+            _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
             new Thread(UpdateReceiveTextBox).Start();
         }
 
         private void UpdateReceiveTextBox()
         {
-            _data = ConvertFromHex(_receiveData!.Trim());
-            Interpret(_data);
-            BarcodeReadEventArgs args = new BarcodeReadEventArgs(_data);
+            Data = ConvertFromHex(_receiveData!.Trim());
+            Interpret(Data);
+            EventArgs args = new EventArgs();
             OnBarcodeRead(args);
         }
 
@@ -118,27 +121,24 @@ namespace RobotProject.Form2Items
             }
 
             return new string(output);
-            
-            
         }
 
         private void UpdateBarcodeConnectedChanged(object sender)
         {
-            Console.WriteLine(_barcodeClient.Connected
+            EventArgs args = new EventArgs();
+            OnBarcodeConnectionChanged(args);
+            Console.WriteLine(BarcodeClient.Connected
                 ? @"Connected to the barcode reader!"
                 : @"Disconnected from the barcode reader!");
         }
 
         private void UpdatePlcConnectedChanged(object sender)
         {
-            if (_plcClient.Connected)
-            {
-                //TODO connection indicator green
-            }
-            else
-            {
-                //todo connection indicator red
-            }
+            EventArgs args = new EventArgs();
+            OnPlcConnectionChanged(args);
+            Console.WriteLine(PlcClient.Connected
+                ? @"Connected to the plc reader!"
+                : @"Disconnected from the plc reader!");
         }
 
         private static void ReadHoldingRegs(ModbusClient client)
@@ -153,20 +153,7 @@ namespace RobotProject.Form2Items
             }
         }
 
-        public void SendDataToPlc(int address, int data)
-        {
-            try
-            {
-                _plcClient.Connect();
-                _plcClient.WriteSingleRegister(address, data);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
-        private Cell? GetCell(int type)
+        private Cell? GetCell(long type)
         {
             foreach (Cell cell in _cells)
             {
@@ -175,58 +162,104 @@ namespace RobotProject.Form2Items
                     return cell;
                 }
             }
+
             return null;
         }
 
-        private bool NotAssigned(int orderNo)
+        private bool NotAssigned(long orderNo)
         {
             return GetCell(orderNo) == null;
         }
 
-        private IEnumerable<Cell> AssignCell(int orderNo, int orderSize)
+        private void AssignCell(long orderNo, int orderSize)
         {
-            return _cells.Append(new Cell(orderNo, orderSize));
+            _cells.Add(new Cell(orderNo, orderSize, 0));
         }
-        
+
         private void Interpret(string barcode)
         {
-            if (barcode.IndexOf('?') != -1) {
+            if (barcode.IndexOf('S') == -1)
+            {
                 //barkod okunamadı
             }
             else
             {
-                var orderNo = barcode.Split(',')[0].Split('S')[1];
-                Product product = _sql.Select("Siparis_No", orderNo);
-                var orderNum = int.Parse(orderNo);
+                var orderNo = "";
+                var b = barcode.Split(';');
+                if (b.Length > 1)
+                {
+                    foreach (var sub in b)
+                    {
+                        if (!sub.Contains('S')) continue;
+                        orderNo = sub.Split('S')[1];
+                        break;
+                    }
+                }
+                var product = _sql.Select("Siparis_No", orderNo);
+                var orderNum = long.Parse(orderNo);
+                if (product == null) return;
                 if (NotAssigned(orderNum))
                 {
                     var orderSize = product.GetOrderSize();
-                    _cells = (List<Cell>) AssignCell(orderNum, orderSize);
+                    AssignCell(orderNum, orderSize);
                 }
 
-                var c = GetCell(product.GetProductType())!;
+                var c = GetCell(orderNum)!;
                 c.AddProduct();
-                
-                
-                //offset hesapları
-                Offsets offsets = _calculator.Calculate(product.GetHeight(), product.GetWidth(), Z, c.GetCounter(), product.GetYontem(), product.GetProductType());
 
                 var boxed = 0;
                 if (product.GetYontem() == 156)
                 {
                     boxed = 1;
                 }
+
+                var a = product.GetProductType();
+                var z = 0;
+                if (boxed == 1)
+                {
+                    z = a switch
+                    {
+                        11 => 90,
+                        21 => 90,
+                        22 => 124,
+                        33 => 180,
+                        _ => z
+                    };
+                }
+                else
+                {
+                    z = a switch
+                    {
+                        11 => 74,
+                        21 => 76,
+                        22 => 108,
+                        33 => 164,
+                        _ => z
+                    };
+                }
+
+
+                //offset hesapları
+                Offsets offsets = _calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
+                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight());
+
                 //gerekli sinyaller gönderilir
-                SendPlcSignals(_cells.IndexOf(c), offsets, product.GetHeight(), product.GetWidth(), product.GetProductType(), c.GetCounter(), c.Full(), boxed);
+                SendPlcSignals(_cells.IndexOf(c), offsets, product.GetHeight(), product.GetWidth(),
+                    product.GetProductType(), c.GetCounter(), c.Full(), boxed);
                 //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
             }
         }
 
-        private void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull, int boxed)
+        private void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
+            int boxed)
         {
-            _plcClient.Connect();
-            int[] values = {cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull, boxed};
-            _plcClient.WriteMultipleRegisters(0, values);
+            //PlcClient.Connect();
+            int[] values =
+            {
+                cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
+                boxed
+            };
+            PlcClient.WriteMultipleRegisters(0, values);
         }
     }
 }

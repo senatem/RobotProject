@@ -10,7 +10,7 @@ namespace RobotProject
 
         public void Connect()
         {
-            const string connCommand = "server=localhost;user=root;database=TEST;port=3306;password=elbaproject";
+            const string connCommand = "server=localhost;user=root;database=TEST;port=3306;password=Elba_Project2021";
             _connection = new MySqlConnection(connCommand);
             try
             {
@@ -28,14 +28,17 @@ namespace RobotProject
             _connection?.Close();
         }
 
-        public Product Select(string column, string value)
+        public Product? Select(string column, string value)
         {
-            string cmdString = "SELECT * FROM Test" + " WHERE " + column + "=" + value;
+            string cmdString = $"SELECT * FROM Test WHERE {column}={value}";
             MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
-            rdr.Read();
-            Product res = new Product(rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"), rdr.GetFloat("Toplam_Siparis_Miktar"), rdr.GetString("Yontem_Kodu"));
+            Product? res = null;
+            if (rdr.Read())
+            {
+                res = new Product(rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"), rdr.GetFloat("Toplam_Siparis_Miktar"), rdr.GetString("Yontem_Kodu"));
+            }
             rdr.Close();
             return res;
         }

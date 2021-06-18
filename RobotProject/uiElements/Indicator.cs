@@ -36,7 +36,7 @@ namespace RobotProject.uiElements
          */
         public void PaintIndicator(Color? c = null)
         {
-            _tint = c?? Color.White;
+            _tint = c?? Color.GreenYellow;
             if (_fig != null)
             {
                 _fig.Tint = _tint;

@@ -16,7 +16,8 @@ namespace RobotProject
         private static int appWidth = 1280;
         private static int appHeight = 720;
         
-        
+        private static ConnectionManager conn = new ConnectionManager();
+
         private IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -57,33 +58,51 @@ namespace RobotProject
                 }
             };
 
-            systemControls.PauseButton.ClickAction = () =>
+/*            systemControls.PauseButton.ClickAction = () =>
             {
-                var a = new GenericWarning("Sistem duraklatıldı.");
-                a.ShowDialog();
+                conn.Disconnect();
             };
-            
+  */          
             systemControls.RunButton.ClickAction = () =>
             {
-                var a = new GenericWarning("Sistem çalıştırıldı.");
-                a.ShowDialog();
+                conn.Connect();
             };
             
             systemControls.StopButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem durduruldu.");
                 a.ShowDialog();
+                conn.Disconnect();
             };
             
             
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
             boxVisuals.Implement(this.Controls);
+            conn.BarcodeRead += barcodeUpdater;
+            conn.BarcodeConnectionChanged += barcodeIndicatorUpdater;
+            conn.PlcConnectionChanged += plcIndicatorUpdater;
+            conn.Init();
         }
 
         
 
         #endregion
+
+        private void barcodeIndicatorUpdater(object sender, EventArgs e)
+        {
+            connectionIndicators.BarcodeConnect(conn.BarcodeClient.Connected);
+        }
+
+        private void plcIndicatorUpdater(object sender, EventArgs e)
+        {
+            connectionIndicators.PlcConnect(conn.PlcClient.Connected);
+        }
+        
+        private void barcodeUpdater(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Event Test = " + conn.Data);
+        }
 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);

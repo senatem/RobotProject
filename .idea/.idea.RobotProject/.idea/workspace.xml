@@ -4,24 +4,17 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b30567d6-89b5-4f60-a872-29199afb7cbc" name="Default Changelist" comment="">
+    <list default="true" id="b30567d6-89b5-4f60-a872-29199afb7cbc" name="Default Changelist" comment="- Connection indicators connected to the backend&#10;- z">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/ExcelReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/ExcelReader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Product.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SystemControls.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,26 +38,41 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2Items/ConnectionIndicators.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/72/003a56d1/ExpressionParser.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/e4/aa1739a4/DataTable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/b0/7282ac76/NameNode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1E9166BF-CA65-4377-B09C-EA42D003812D/e7/98572957/Bitmap.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/887AC26A-56AC-43C9-8D6E-3811A8B7B6C5/af/57253e1a/ModbusClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2Items/ConnectionIndicators.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13DBC815-33D8-4EDC-819A-C50A274C0735/96/0b7cad06/Button.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/cd/793dcbf9/String.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2Items/ConnectionIndicators.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/b3/b644912e/MySqlCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/9e/411664cb/Number.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/9e/6bb58efc/Int32.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2Items/ConnectionIndicators.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2Items/ConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Cell.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/cc/c68a3abf/ResultSet.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2Items/ConnectionIndicators.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/RobotProject/Form1.Designer.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form1.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/UiForm.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Blocks.cs" />
       <option value="$PROJECT_DIR$/RobotProject/ConnectionIndicators.cs" />
@@ -78,19 +86,20 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Product.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2.cs" />
       <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -100,7 +109,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34994584" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35048753" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -197,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622239598431</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="minor code optimizations">
+      <created>1623996457290</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1623996457290</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +232,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="godplease" />
                       </list>
                     </value>
                   </entry>
@@ -237,6 +253,7 @@
     <MESSAGE value="relative path to working directory is written as References.cs (this can be improved)&#10;popup for non barcode is written to a generic level as NonBarcodePopup&#10;Geometry.cs is written that separates geometry operations" />
     <MESSAGE value="base update" />
     <MESSAGE value="a visual part is added which has:&#10;1- a belt and 3 pallete parts of relevant robot&#10;2- some example boxes are put for show&#10;3- hey button can create additional example boxes&#10;4- clear pallete buttons implemented and working&#10;5- for show, pressing robot name operates on the next box on the list&#10;6- pallete full information is not availiable, hence is not used&#10;7- pallete type displayer is added to display pallete types&#10;&#10;Furthermore:&#10;1- buttons and displayers are moved to the correct location&#10;2- Form2 is organized and looks neater (marginally)&#10;3- Geometry.Rectangle now has the fan favourite sub-rectangle feature" />
-    <option name="LAST_COMMIT_MESSAGE" value="a visual part is added which has:&#10;1- a belt and 3 pallete parts of relevant robot&#10;2- some example boxes are put for show&#10;3- hey button can create additional example boxes&#10;4- clear pallete buttons implemented and working&#10;5- for show, pressing robot name operates on the next box on the list&#10;6- pallete full information is not availiable, hence is not used&#10;7- pallete type displayer is added to display pallete types&#10;&#10;Furthermore:&#10;1- buttons and displayers are moved to the correct location&#10;2- Form2 is organized and looks neater (marginally)&#10;3- Geometry.Rectangle now has the fan favourite sub-rectangle feature" />
+    <MESSAGE value="minor code optimizations" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor code optimizations" />
   </component>
 </project>

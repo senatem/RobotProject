@@ -16,7 +16,13 @@ namespace RobotProject
             _stream = File.Open(file, FileMode.Open, FileAccess.Read);
 
             _reader = ExcelReaderFactory.CreateOpenXmlReader(_stream);
-            _table = _reader.AsDataSet();
+            _table = _reader.AsDataSet(new ExcelDataSetConfiguration
+            {
+                ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                {
+                    UseHeaderRow = true
+                }
+            });
         }
 
         public DataTable Find(string[] fields, int[] values)

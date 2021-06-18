@@ -2,14 +2,16 @@ namespace RobotProject
 {
     public class Cell
     {
-        private readonly int _orderNo;
+        private readonly long _orderNo;
         private readonly int _orderSize;
         private int _holding;
+        private int _palletHeight;
 
-        public Cell(int orderNo, int orderSize)
+        public Cell(long orderNo, int orderSize, int palletHeight)
         {
             _orderNo = orderNo;
             _orderSize = orderSize;
+            _palletHeight = palletHeight;
         }
         
         public void AddProduct()
@@ -26,9 +28,14 @@ namespace RobotProject
             return _holding == _orderSize ? 1 : 0;
         }
 
-        public int GetCellType()
+        public long GetCellType()
         {
             return _orderNo;
+        }
+
+        public int GetPalletHeight()
+        {
+            return _palletHeight;
         }
     }
 }

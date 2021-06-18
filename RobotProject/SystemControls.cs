@@ -27,8 +27,8 @@ namespace RobotProject
                 RunButton = new ModifiedButton("run", "çalıştır");
                 RunButton.Reorient(a[0] );
             
-                PauseButton = new ModifiedButton("pause", "duraklat");
-                PauseButton.Reorient(a[1]);
+     //           PauseButton = new ModifiedButton("pause", "duraklat");
+       //         PauseButton.Reorient(a[1]);
             
                 StopButton = new ModifiedButton("stop", "durdur");
                 StopButton.Reorient(a[2]);
@@ -49,14 +49,14 @@ namespace RobotProject
             else
             {
                 motherControlCollection.Add(RunButton!);
-                motherControlCollection.Add(PauseButton!);
+     //           motherControlCollection.Add(PauseButton!);
                 motherControlCollection.Add(StopButton!);
                 motherControlCollection.Add(AddProductButton!);    
             }
         }
         
         public readonly ModifiedButton? RunButton;
-        public readonly ModifiedButton? PauseButton;
+   //     public readonly ModifiedButton? PauseButton;
         public readonly ModifiedButton? StopButton;
         public readonly ModifiedButton? AddProductButton;
         private readonly Indicator? _plotIndicator;
