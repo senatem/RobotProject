@@ -18,8 +18,11 @@ namespace RobotProject.Form2Items
             Text = @"Ürün Ekleme";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
-
-            prodNo = new TextPair("prod no", "ürün no:", v.SliceHorizontal(4f / 8f, 5f / 8f));
+            var helpfulText= new ModifiedLabel("warn", "Palet numarasını sayıyla girin.");
+            helpfulText.Reorient(v.SliceHorizontal(1f / 8f, 3f / 8f));
+            Controls.Add(helpfulText);
+            
+            prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(4f / 8f, 5f / 8f));
             
             prodNo.KeyPressed = () =>
             {
@@ -46,7 +49,7 @@ namespace RobotProject.Form2Items
 
 
             // buttons
-            var buttonsRect = v.SliceHorizontal(0.7f, 0.8f);
+            var buttonsRect = v.SliceHorizontal(0.75f, 0.9f);
             var conf = new ModifiedButton("onay", "onay");
             conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
             conf.ClickAction = () =>
@@ -72,7 +75,7 @@ namespace RobotProject.Form2Items
         private String ProductNo = "";
 
         private float w = 400f;
-        private float h = 450f;
+        private float h = 350f;
 
         public void Reset()
         {
