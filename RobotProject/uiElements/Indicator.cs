@@ -63,13 +63,13 @@ namespace RobotProject.uiElements
         {
             var bm = new Bitmap(_baseBitmap);
 
-            var m = (byte) (_baseBitmap.GetPixel(5, 5).R * (Tint.R / 255f));
+            // var m = (byte) (_baseBitmap.GetPixel(5, 5).R * (Tint.R / 255f));
             
             for (var i = 0; i<_baseBitmap.Width; i++)
             {
                 for (var j = 1; j < _baseBitmap.Height; j++)
                 {
-                    var c = _baseBitmap.GetPixel(i, j);
+                    // var c = _baseBitmap.GetPixel(i, j);
                     var a = (byte) (_baseBitmap.GetPixel(i, j).A * (Tint.A / 255f));
                     var r = (byte) (_baseBitmap.GetPixel(i, j).R * (Tint.R / 255f));
                     var g = (byte) (_baseBitmap.GetPixel(i, j).G * (Tint.G / 255f));

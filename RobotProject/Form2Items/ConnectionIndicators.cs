@@ -88,9 +88,9 @@ internal class ConnectionIndicators
         
         
         
-        private readonly Indicator _plcIndicator;
-        private readonly Indicator _barcodeIndicator;
-        private readonly Indicator _plotIndicator; // indicator of the empty plot for design purposes
+        private readonly Indicator _plcIndicator = null!;
+        private readonly Indicator _barcodeIndicator = null!;
+        private readonly Indicator _plotIndicator = null!; // indicator of the empty plot for design purposes
         private bool _plcConnected;
         private bool _barcodeConnected; 
         

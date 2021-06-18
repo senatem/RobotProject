@@ -243,14 +243,14 @@ namespace RobotProject.Form2Items
 
         
 
-        private readonly Indicator _plotIndicator;
+        private readonly Indicator _plotIndicator = null!;
         private readonly List<ModifiedLabel> _beltBoxLabels = new List<ModifiedLabel>();
         private readonly List<List<ModifiedLabel>> _robotLabels = new List<List<ModifiedLabel>>
         {
             new List<ModifiedLabel>(),new List<ModifiedLabel>(),new List<ModifiedLabel>()   
         };
         private readonly List<SingleBox> _boxes = new List<SingleBox>();
-        private readonly Indicator _beltIndicator;
+        private readonly Indicator _beltIndicator = null!;
         private readonly List<Indicator> _palleteIndicators = new List<Indicator> // the bg
         {
             new Indicator("r1"), new Indicator("r2"), new Indicator("r3")

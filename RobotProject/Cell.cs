@@ -2,13 +2,13 @@ namespace RobotProject
 {
     public class Cell
     {
-        private readonly int _type;
+        private readonly int _orderNo;
         private readonly int _orderSize;
         private int _holding;
 
-        public Cell(int type, int orderSize)
+        public Cell(int orderNo, int orderSize)
         {
-            _type = type;
+            _orderNo = orderNo;
             _orderSize = orderSize;
         }
         
@@ -28,7 +28,7 @@ namespace RobotProject
 
         public int GetCellType()
         {
-            return _type;
+            return _orderNo;
         }
     }
 }

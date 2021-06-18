@@ -6,14 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="b30567d6-89b5-4f60-a872-29199afb7cbc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/ExcelReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/ExcelReader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Product.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SystemControls.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" afterDir="false" />
@@ -69,23 +74,23 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Program.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Product.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Product.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -211,7 +216,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>

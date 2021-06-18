@@ -178,14 +178,14 @@ namespace RobotProject.Form2Items
             return null;
         }
 
-        private bool NotAssigned(int type)
+        private bool NotAssigned(int orderNo)
         {
-            return GetCell(type) == null;
+            return GetCell(orderNo) == null;
         }
 
-        private IEnumerable<Cell> AssignCell(int type, int orderSize)
+        private IEnumerable<Cell> AssignCell(int orderNo, int orderSize)
         {
-            return _cells.Append(new Cell(type, orderSize));
+            return _cells.Append(new Cell(orderNo, orderSize));
         }
         
         private void Interpret(string barcode)
@@ -197,11 +197,11 @@ namespace RobotProject.Form2Items
             {
                 var orderNo = barcode.Split(',')[0].Split('S')[1];
                 Product product = _sql.Select("Siparis_No", orderNo);
-                var type = product.GetProductType();
-                if (NotAssigned(type))
+                var orderNum = int.Parse(orderNo);
+                if (NotAssigned(orderNum))
                 {
                     var orderSize = product.GetOrderSize();
-                    _cells = (List<Cell>) AssignCell(type, orderSize);
+                    _cells = (List<Cell>) AssignCell(orderNum, orderSize);
                 }
 
                 var c = GetCell(product.GetProductType())!;
@@ -225,10 +225,8 @@ namespace RobotProject.Form2Items
         private void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull, int boxed)
         {
             _plcClient.Connect();
-            int[] values = {cell, offsets._x, offsets._y, offsets._z, offsets._pattern, px, py, offsets._kat, type, count, cellFull, boxed};
+            int[] values = {cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull, boxed};
             _plcClient.WriteMultipleRegisters(0, values);
-            
-            
         }
     }
 }

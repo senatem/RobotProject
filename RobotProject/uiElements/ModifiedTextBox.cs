@@ -31,7 +31,7 @@ namespace RobotProject.uiElements
 
         public void Reorient(Geometry.Rectangle r)
         {
-            Reorient((int)r.l, (int)r.t, (int)r.w, (int)r.h);
+            Reorient((int)r.L, (int)r.T, (int)r.W, (int)r.H);
         }
     }
 }

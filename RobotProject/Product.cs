@@ -1,16 +1,12 @@
-using System;
-
 namespace RobotProject
 {
     public class Product
     {
         private readonly int _height, _width, _type;
         private readonly int _orderSize, _yontemKodu;
-        private readonly string _orderNo;
 
-        public Product(string orderNo, int height, int width, int type, float orderSize, string yontemKodu)
+        public Product(int height, int width, int type, float orderSize, string yontemKodu)
         {
-            _orderNo = orderNo;
             _height = height;
             _width = width;
             _type = type;

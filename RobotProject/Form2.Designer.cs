@@ -46,37 +46,37 @@ namespace RobotProject
             
             
             // example function implementation, other system controls should be implemented similarly
-            systemControls.addProductButton.ClickAction = () =>
+            systemControls.AddProductButton.ClickAction = () =>
             {
-                nbp.opening();
+                nbp.Opening();
                 nbp.ShowDialog();
                 if (nbp.confirmed)
                 {
-                    var  l = nbp.getLines;
+                    var  l = nbp.GetLines;
                     boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
 
-            systemControls.pauseButton.ClickAction = () =>
+            systemControls.PauseButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem duraklatıldı.");
                 a.ShowDialog();
             };
             
-            systemControls.runButton.ClickAction = () =>
+            systemControls.RunButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem çalıştırıldı.");
                 a.ShowDialog();
             };
             
-            systemControls.stopButton.ClickAction = () =>
+            systemControls.StopButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem durduruldu.");
                 a.ShowDialog();
             };
             
             
-            systemControls.implement(this.Controls);
+            systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
             boxVisuals.Implement(this.Controls);
         }
@@ -85,7 +85,6 @@ namespace RobotProject
 
         #endregion
 
-        private int counter = 0; 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
         private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);

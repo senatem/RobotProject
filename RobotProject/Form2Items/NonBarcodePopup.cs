@@ -26,8 +26,8 @@ namespace RobotProject.Form2Items
             for (var i = 0; i < 4; i++)
             {
                 var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
-                var att = new TextPair(lineStrings[i], lineStrings[i], r);
-                lines.Add(att);
+                var att = new TextPair(_lineStrings[i], _lineStrings[i], r);
+                _lines.Add(att);
                 att.Implement(Controls);
             }
 
@@ -46,10 +46,7 @@ namespace RobotProject.Form2Items
 
             var exit = new ModifiedButton("çık", "çık");
             exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
-            exit.ClickAction = () =>
-            {
-                Close();
-            };
+            exit.ClickAction = Close;
 
             Controls.Add(conf);
             Controls.Add(exit);
@@ -57,46 +54,43 @@ namespace RobotProject.Form2Items
 
         public sealed override string Text
         {
-            get { return base.Text; }
-            set { base.Text = value; }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         private float w = 400f;
         private float h = 450f;
 
-        public void reset()
+        public void Reset()
         {
-            foreach (var tp in lines)
+            foreach (var tp in _lines)
             {
                 tp.Text = "";
             }
         }
 
-        public void opening()
+        public void Opening()
         {
             _confirmed = false;
         }
 
         private Boolean _confirmed;
 
-        public Boolean confirmed {
-            get
-            {
-                // additional invalid conditions
-                return _confirmed;
-            }
-        }
+        public Boolean confirmed =>
+            // additional invalid conditions
+            _confirmed;
 
-        public List<string> getLines
+        public List<string> GetLines
         {
             get
             {
-                return lines.Select(textPair => textPair.Text).ToList();
+                return _lines.Select(textPair => textPair.Text).ToList();
             }
         }
 
-        public List<TextPair> lines = new List<TextPair>();
-        public List<string> lineStrings = new List<string>
+        private readonly List<TextPair> _lines = new List<TextPair>();
+
+        private readonly List<string> _lineStrings = new List<string>
         {
             "isim","en","boy","yükseklik"
         };
