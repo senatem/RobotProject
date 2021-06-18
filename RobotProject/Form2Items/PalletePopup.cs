@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -7,15 +8,10 @@ using RobotProject.uiElements;
 
 namespace RobotProject.Form2Items
 {
-    /** This is the popup for non barcode units, necessary attributes will be added manually at initializer via adding new pairs to lines bit
-     * confirm or exit can be traced by confirmed boolean
-     * entered texts can be obtained by att1.text etc.
-     * reset function resets inputs, it may be added to exit or opening methods, new attributes must be added manually
-     * right now attributes are individual fields, they may be put into a list
-     */
-    internal class NonBarcodePopup : Form
+    internal class PalletePopup: Form
     {
-        public NonBarcodePopup()
+        
+        public PalletePopup()
         {
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size((int) w, (int) h);
@@ -23,13 +19,28 @@ namespace RobotProject.Form2Items
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
-            for (var i = 0; i < 4; i++)
+            prodNo = new TextPair("prod no", "ürün no:", v.SliceHorizontal(4f / 8f, 5f / 8f));
+            
+            prodNo.KeyPressed = () =>
             {
-                var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
-                var att = new TextPair(_lineStrings[i], _lineStrings[i], r);
-                _lines.Add(att);
-                att.Implement(Controls);
-            }
+                var ss = prodNo.SelectionStart;
+                if (System.Text.RegularExpressions.Regex.IsMatch(prodNo.Text, "[^0-9]"))
+                {
+                    // prodNo.Text = prodNo.Text.Remove(prodNo.Text.Length - 1);
+                    ss = ss - 1;
+                }
+                else
+                {
+                    ProductNo = prodNo.Text;
+                }
+
+                prodNo.Text = ProductNo;
+                //prodNo.CursorToEnd();
+                prodNo.SelectionStart = ss;
+            };
+            prodNo.Implement(Controls);
+            
+            
 
 
 
@@ -58,15 +69,15 @@ namespace RobotProject.Form2Items
             set => base.Text = value;
         }
 
+        private String ProductNo = "";
+
         private float w = 400f;
         private float h = 450f;
 
         public void Reset()
         {
-            foreach (var tp in _lines)
-            {
-                tp.Text = "";
-            }
+            prodNo.Text = "";
+            ProductNo = "";
         }
 
         public void Opening()
@@ -74,29 +85,15 @@ namespace RobotProject.Form2Items
             _confirmed = false;
         }
 
+        
         private Boolean _confirmed;
 
         public Boolean confirmed =>
             // additional invalid conditions
             _confirmed;
-
-        public List<string> GetLines
-        {
-            get
-            {
-                return _lines.Select(textPair => textPair.Text).ToList();
-            }
-        }
+        
+        private readonly TextPair prodNo;
 
         
-        private readonly List<TextPair> _lines = new List<TextPair>();
-
-        private readonly List<string> _lineStrings = new List<string>
-        {
-            "isim","en","boy","yükseklik"
-        };
-        
-        
-
     }
 }

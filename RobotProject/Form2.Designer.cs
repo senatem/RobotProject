@@ -53,6 +53,7 @@ namespace RobotProject
                 nbp.ShowDialog();
                 if (nbp.confirmed)
                 {
+                    // new box add confirmed
                     var  l = nbp.GetLines;
                     boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
@@ -62,7 +63,22 @@ namespace RobotProject
             {
                 conn.Disconnect();
             };
-  */          
+            
+            
+  */
+
+            systemControls.PalleteButton.ClickAction = () =>
+            {
+                pp.Opening();
+                pp.ShowDialog();
+                if (pp.confirmed)
+                {
+                    // pallete openin dialog confirmed
+                    // result can be taken as: pp.Text
+                }
+            };
+                
+                
             systemControls.RunButton.ClickAction = () =>
             {
                 conn.Connect();
@@ -108,6 +124,7 @@ namespace RobotProject
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
         private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private NonBarcodePopup nbp = new NonBarcodePopup();
+        private PalletePopup pp = new PalletePopup();
     }
 
     /** Outside functions

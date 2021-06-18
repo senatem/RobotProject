@@ -26,12 +26,18 @@ namespace RobotProject
                 
                 RunButton = new ModifiedButton("run", "çalıştır");
                 RunButton.Reorient(a[0] );
+
+                
+                    
             
      //           PauseButton = new ModifiedButton("pause", "duraklat");
        //         PauseButton.Reorient(a[1]);
             
                 StopButton = new ModifiedButton("stop", "durdur");
-                StopButton.Reorient(a[2]);
+                StopButton.Reorient(a[1]);
+                
+                PalleteButton = new ModifiedButton("pallete", "palet aç");
+                PalleteButton.Reorient(a[2]);
 
                 AddProductButton = new ModifiedButton("ap", "ürün ekle");
                 AddProductButton.Reorient(a[3]);
@@ -50,6 +56,7 @@ namespace RobotProject
             {
                 motherControlCollection.Add(RunButton!);
      //           motherControlCollection.Add(PauseButton!);
+                motherControlCollection.Add(PalleteButton!);
                 motherControlCollection.Add(StopButton!);
                 motherControlCollection.Add(AddProductButton!);    
             }
@@ -57,6 +64,7 @@ namespace RobotProject
         
         public readonly ModifiedButton? RunButton;
    //     public readonly ModifiedButton? PauseButton;
+        public readonly ModifiedButton? PalleteButton;
         public readonly ModifiedButton? StopButton;
         public readonly ModifiedButton? AddProductButton;
         private readonly Indicator? _plotIndicator;

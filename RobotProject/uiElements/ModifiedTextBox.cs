@@ -1,3 +1,10 @@
+using System.Windows.Forms;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+
+
 namespace RobotProject.uiElements
 {
     public class ModifiedTextBox: System.Windows.Forms.TextBox, IUiElement
@@ -11,6 +18,10 @@ namespace RobotProject.uiElements
             Location = new System.Drawing.Point(30, 20);
             Size = new System.Drawing.Size(100, 30);
             TabIndex = 0;
+
+            TextChanged += KeyPressedFunction;
+            //KeyPress += new KeyPressEventHandler( KeyPressedFunction);
+            //this.KeyUp += KeyPressedFunction;
         }
 
         public sealed override string Text
@@ -33,5 +44,21 @@ namespace RobotProject.uiElements
         {
             Reorient((int)r.L, (int)r.T, (int)r.W, (int)r.H);
         }
+        
+        public Action KeyPressed = () => { }; // can be used to change click function with an Action
+
+        private void KeyPressedFunction(object sender, EventArgs e)
+        {
+            KeyPressed();
+        }
+
+        public void CursorToEnd()
+        {
+            SelectionStart = Text.Length;
+            SelectionLength = 0;
+        }
+        
+        
+
     }
 }

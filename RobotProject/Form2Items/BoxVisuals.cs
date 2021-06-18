@@ -11,7 +11,7 @@ namespace RobotProject.Form2Items
      */
     public class BoxVisuals
     {
-        private const int BeltRow = 2;
+        private const int BeltRow = 1;
         private const int BeltCol = 12;
         private const int RobotRow = 4;
         private const int RobotCol = 4;
