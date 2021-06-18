@@ -22,6 +22,7 @@ namespace RobotProject.Form2Items
             helpfulText.Reorient(v.SliceHorizontal(1f / 8f, 3f / 8f));
             Controls.Add(helpfulText);
             
+            // text can be changed here
             prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(4f / 8f, 5f / 8f));
             
             prodNo.KeyPressed = () =>
