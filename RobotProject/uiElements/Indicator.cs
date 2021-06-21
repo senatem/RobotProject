@@ -14,6 +14,7 @@ namespace RobotProject.uiElements
             };
             BackgroundImageLayout = il;
             BackgroundImage = _fig.Bitmap();
+            
 
 
         }

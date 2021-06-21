@@ -4,17 +4,17 @@ using System.Windows.Forms;
 
 namespace RobotProject.uiElements
 {
-    public sealed class ModifiedButton: Button, IUiElement
+    public sealed class ModifiedComboBox: ComboBox
     {
-        public ModifiedButton(string id, string text = "modbutton",float emSize = 15.75f)
+        public ModifiedComboBox(string id)
         {
             Name = id;
-            Text = text;
-            Font = new Font("Microsoft Sans Serif", emSize, FontStyle.Bold, GraphicsUnit.Point, 162);
+            Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
             Location = new Point(100, 50);
             Size = new Size(200, 200);
             TabIndex = 0;
             Click += ClickFunction;
+            Anchor = AnchorStyles.None;
             //BackgroundImage = System.Drawing.Image.FromFile("E:\\supreme_command\\cs_projects\\RobotProject\\RobotProject\\Images\\placeholder.jpg");
             //BackgroundImageLayout = ImageLayout.Stretch;
 

@@ -24,11 +24,11 @@ namespace RobotProject.Form2Items
             {
                 var a = r.Split(1, 4,0.05f,0.05f);
                 
-                PalleteButton = new ModifiedButton("pallete", "palet aç");
-                PalleteButton.Reorient(a[2]);
+                PalleteButton = new ModifiedButton("pallete", "Palet Aç");
+                PalleteButton.Reorient(a[0]);
 
-                AddProductButton = new ModifiedButton("ap", "ürün ekle");
-                AddProductButton.Reorient(a[3]);
+                AddProductButton = new ModifiedButton("ap", "Ürün Ekle");
+                AddProductButton.Reorient(a[1]);
             }
 
             
@@ -43,7 +43,7 @@ namespace RobotProject.Form2Items
             else
             {
                 motherControlCollection.Add(PalleteButton!);
-                motherControlCollection.Add(AddProductButton!);    
+                //motherControlCollection.Add(AddProductButton!);    
             }
         }
         public readonly ModifiedButton? PalleteButton;

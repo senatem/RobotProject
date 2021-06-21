@@ -16,9 +16,15 @@
           <e p="BoxVisuals.cs" t="Include" />
           <e p="ConnectionIndicators.cs" t="Include" />
           <e p="ConnectionManager.cs" t="Include" />
-          <e p="GenericWarning.cs" t="Include" />
-          <e p="NonBarcodePopup.cs" t="Include" />
-          <e p="PalletePopup.cs" t="Include" />
+          <e p="palletteStuff" t="Include">
+            <e p="PalleteVisual.cs" t="Include" />
+            <e p="PalleteVisuals.cs" t="Include" />
+          </e>
+          <e p="popups" t="Include">
+            <e p="GenericWarning.cs" t="Include" />
+            <e p="NonBarcodePopup.cs" t="Include" />
+            <e p="PalletePopup.cs" t="Include" />
+          </e>
           <e p="SingleBox.cs" t="Include" />
           <e p="SystemControls.cs" t="Include" />
         </e>
@@ -46,6 +52,7 @@
           <e p="Geometry.cs" t="Include" />
           <e p="Indicator.cs" t="Include" />
           <e p="ModifiedButton.cs" t="Include" />
+          <e p="ModifiedComboBox.cs" t="Include" />
           <e p="ModifiedLabel.cs" t="Include" />
           <e p="ModifiedRadioButton.cs" t="Include" />
           <e p="ModifiedTextBox.cs" t="Include" />

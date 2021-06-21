@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Deployment.Application;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using MySql.Data.Types;
 using RobotProject.Form2Items;
 using RobotProject.uiElements;
+using RobotProject.Form2Items.palletteStuff;
 
 namespace RobotProject
 {
@@ -49,15 +52,25 @@ namespace RobotProject
 
             systemControls.PalleteButton.ClickAction = () =>
             {
-                pp.Opening();
+                // input is the list of options, change options here
+                pp.Opening(new string[]{"1","2","3"});
                 pp.ShowDialog();
                 if (pp.Confirmed)
                 {
+                    var no = pp.RobotNo-1;
+                    
+                    // pp.SelectedIndex returns the selected index
+                    
+                    // adjust the following line according to the returned index
+                    //palleteVisuals.setPallette(no, "aa","bb","cc","dd",12);
+                    
+                    
                     // pallete openin dialog confirmed
                     // result can be taken as: pp.Text
                 }
             };
 
+            /*
             systemControls.AddProductButton.ClickAction = () =>
             {
                 nbp.Opening();
@@ -69,9 +82,11 @@ namespace RobotProject
                     //boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
+            */
 
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
+            palleteVisuals.Implement(this.Controls);
             //boxVisuals.Implement(this.Controls);
             ConnectionManager.BarcodeRead += barcodeUpdater;
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
@@ -79,7 +94,7 @@ namespace RobotProject
             ConnectionManager.ProductIncoming += productAdd;
             ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
-            ConnectionManager.Connect();
+            //ConnectionManager.Connect();
         }
 
         
@@ -110,8 +125,8 @@ namespace RobotProject
            // boxVisuals.EmptyPallete(i);
         }
 
-        private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
-        private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
+        private SystemControls systemControls = new SystemControls(3*appWidth/8, 50, 3*appWidth/4, 100,false);
+        private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidth/8, 50, appWidth/4, 100,false);
         // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private NonBarcodePopup nbp = new NonBarcodePopup();
@@ -124,6 +139,8 @@ namespace RobotProject
      * BoxVisuals.robotOperation (input no robot operates on the next item on the list)
      * BoxVisuals.emptyPallete (empties the pallete given as input)
      * BoxVisuals.relevantPallete (used to change the type of pallete to be used)
+     * PalleteVisuals.emptyPallette (empties the pallete given as input)
+     * PalleteVisuals.setProdCount/increaseProdCount (adjusts the product count as required)
      * ConnectionIndicators.plcConnect (true on connect false on break)
      * ConnectionIndicators.barcodeConnect (true on connect false on break)
      * SystemControls.runButton.clickAction shold be modified (other buttons too) to fit the backend needs
@@ -131,12 +148,10 @@ namespace RobotProject
 
 
 
-    class PalleteVisuals
-    {
-        public PalleteVisuals(int x, int y, int w, int h, bool asVisual = false)
-        {
-            
-        }
-    }
     
+
+    
+
+    
+
 }
