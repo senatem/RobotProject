@@ -40,6 +40,9 @@ namespace RobotProject
             this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
             this.Text = "Paletleyici Kontrolleri";
             // this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
+            //this.BackColor = Color.Lavender;
+            
 
             var n = 5;
             var n2 = String.Format("{0}", n);
@@ -62,14 +65,14 @@ namespace RobotProject
                 if (nbp.confirmed)
                 {
                     // new box add confirmed
-                    var l = nbp.GetLines;
-                    boxVisuals.AddToBoxes(new SingleBox(l[0], l[1], l[2], true, 0));
+                    var  l = nbp.GetLines;
+                    //boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
 
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
-            boxVisuals.Implement(this.Controls);
+            //boxVisuals.Implement(this.Controls);
             ConnectionManager.BarcodeRead += barcodeUpdater;
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
@@ -99,17 +102,18 @@ namespace RobotProject
         }
         private void productAdd(string o, Product p, int r)
         {
-            boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
+            //boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
         }
 
         private void emptyCell(int i)
         {
-            boxVisuals.EmptyPallete(i);
+           // boxVisuals.EmptyPallete(i);
         }
 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
-        private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
+        // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
+        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();
     }
@@ -124,8 +128,15 @@ namespace RobotProject
      * ConnectionIndicators.barcodeConnect (true on connect false on break)
      * SystemControls.runButton.clickAction shold be modified (other buttons too) to fit the backend needs
      */
-    
-    
-    
 
+
+
+    class PalleteVisuals
+    {
+        public PalleteVisuals(int x, int y, int w, int h, bool asVisual = false)
+        {
+            
+        }
+    }
+    
 }

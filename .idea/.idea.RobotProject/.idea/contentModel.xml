@@ -24,6 +24,7 @@
         </e>
         <e p="Images" t="Include">
           <e p="barcode_on.png" t="Include" />
+          <e p="belt.jpg" t="Include" />
           <e p="placeholder.png" t="Include" />
           <e p="plc_on.png" t="Include" />
         </e>

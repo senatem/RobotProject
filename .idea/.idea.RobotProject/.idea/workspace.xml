@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="- a helpful text is added to popup">
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedRadioButton.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/Images/belt.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Images/barcode_on.png" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Images/barcode_on.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Images/plc_on.png" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Images/plc_on.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,10 +72,10 @@
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedRadioButton.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -129,7 +132,8 @@
       <workItem from="1623051224486" duration="5640000" />
       <workItem from="1623309936737" duration="163000" />
       <workItem from="1623835361434" duration="16434000" />
-      <workItem from="1624045617306" duration="1918000" />
+      <workItem from="1624045617306" duration="2169000" />
+      <workItem from="1624278724154" duration="4313000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -208,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624045240105</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="- radio buttons implemented to pick robot, their result can be taken as PalletePopup.RobotNo&#10;- confirm button is disabled when no robot is selected.">
+      <created>1624047846406</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1624047846406</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +262,7 @@
     <MESSAGE value="minor code optimizations" />
     <MESSAGE value="- pallete popup added, only number entry&#10;- belt 1 row now, this can be changed by BoxVisuals.cs lines 14-17." />
     <MESSAGE value="- a helpful text is added to popup" />
-    <option name="LAST_COMMIT_MESSAGE" value="- a helpful text is added to popup" />
+    <MESSAGE value="- radio buttons implemented to pick robot, their result can be taken as PalletePopup.RobotNo&#10;- confirm button is disabled when no robot is selected." />
+    <option name="LAST_COMMIT_MESSAGE" value="- radio buttons implemented to pick robot, their result can be taken as PalletePopup.RobotNo&#10;- confirm button is disabled when no robot is selected." />
   </component>
 </project>
