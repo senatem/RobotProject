@@ -7,54 +7,49 @@ using EasyModbus;
 
 namespace RobotProject.Form2Items
 {
-    public sealed class ConnectionManager
+    public static class ConnectionManager
     {
-        public readonly ModbusClient BarcodeClient = new ModbusClient();
-        public readonly ModbusClient PlcClient = new ModbusClient();
-        private readonly SqlCommunication _sql = new SqlCommunication();
+        public static readonly ModbusClient BarcodeClient = new ModbusClient();
+        public static readonly ModbusClient PlcClient = new ModbusClient();
+        private static readonly SqlCommunication Sql = new SqlCommunication();
 
-        private Thread? _barcodeListener;
+        private static Thread? _barcodeListener;
 
-        private string? _receiveData;
-        public string? Data;
+        private static string? _receiveData;
+        private static string? _data;
+        public static BoxVisuals? Bv = null;
 
-        private List<Cell> _cells = new List<Cell>(3);
-        private readonly OffsetCalculator _calculator = new OffsetCalculator();
-        public event EventHandler BarcodeRead = null!;
-        public event EventHandler BarcodeConnectionChanged = null!;
-        public event EventHandler PlcConnectionChanged = null!;
+        private static readonly List<Cell> Cells = new List<Cell>(3);
+        private static readonly OffsetCalculator Calculator = new OffsetCalculator();
+        public static event EventHandler BarcodeRead = null!;
+        public static event EventHandler BarcodeConnectionChanged = null!;
+        public static event EventHandler PlcConnectionChanged = null!;
 
 
-        private void OnBarcodeRead(EventArgs e)
-        {
-            EventHandler handler = BarcodeRead;
-            handler.Invoke(this, e);
-        }
-
-        private void OnBarcodeConnectionChanged(EventArgs e)
+        private static void OnBarcodeConnectionChanged(EventArgs e)
         {
             EventHandler handler = BarcodeConnectionChanged;
-            handler.Invoke(this, e);
+            handler.Invoke(null, e);
         }
 
-        private void OnPlcConnectionChanged(EventArgs e)
+        private static void OnPlcConnectionChanged(EventArgs e)
         {
             EventHandler handler = PlcConnectionChanged;
-            handler.Invoke(this, e);
+            handler.Invoke(null, e);
         }
 
-        public void Init()
+        public static void Init()
         {
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
             BarcodeClient.ConnectedChanged += UpdateBarcodeConnectedChanged;
             PlcClient.ConnectedChanged += UpdatePlcConnectedChanged;
         }
 
-        public void Connect()
+        public static void Connect()
         {
             try
             {
-                _sql.Connect();
+                Sql.Connect();
                 if (BarcodeClient.Connected) BarcodeClient.Disconnect();
 
                 BarcodeClient.IPAddress = "192.168.0.100";
@@ -62,31 +57,39 @@ namespace RobotProject.Form2Items
                 BarcodeClient.SerialPort = null;
                 BarcodeClient.Connect();
 
+                _barcodeListener = new Thread(Listen);
+                _barcodeListener.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: Barkod okuyucu." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
+
+            try
+            {
                 if (PlcClient.Connected) PlcClient.Disconnect();
 
                 PlcClient.IPAddress = "192.168.0.1";
                 PlcClient.Port = 502;
                 PlcClient.SerialPort = null;
                 PlcClient.Connect();
-
-                _barcodeListener = new Thread(Listen);
-                _barcodeListener.Start();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand); //TODO barkod ve plc bağlantısı için hataları ayır, mesaj daha iyi olsun
+                MessageBox.Show(@"Kaynak: PLC." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
             }
         }
 
-        public void Disconnect()
+        public static void Disconnect()
         {
             BarcodeClient.Disconnect();
             PlcClient.Disconnect();
-            _barcodeListener!.Abort();
+            if(_barcodeListener!=null) _barcodeListener!.Abort();
         }
 
-        private void Listen()
+        private static void Listen()
         {
             while (BarcodeClient.Connected)
             {
@@ -95,18 +98,17 @@ namespace RobotProject.Form2Items
             }
         }
 
-        private void UpdateReceiveData(object sender)
+        private static void UpdateReceiveData(object sender)
         {
             _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
             new Thread(UpdateReceiveTextBox).Start();
         }
 
-        private void UpdateReceiveTextBox()
+        private static void UpdateReceiveTextBox()
         {
-            Data = ConvertFromHex(_receiveData!.Trim());
-            Interpret(Data);
-            EventArgs args = new EventArgs();
-            OnBarcodeRead(args);
+            _data = ConvertFromHex(_receiveData!.Trim());
+            Interpret(_data);
+            OnBarcodeRead();
         }
 
         private static string ConvertFromHex(string hexString)
@@ -123,7 +125,7 @@ namespace RobotProject.Form2Items
             return new string(output);
         }
 
-        private void UpdateBarcodeConnectedChanged(object sender)
+        private static void UpdateBarcodeConnectedChanged(object sender)
         {
             EventArgs args = new EventArgs();
             OnBarcodeConnectionChanged(args);
@@ -132,7 +134,7 @@ namespace RobotProject.Form2Items
                 : @"Disconnected from the barcode reader!");
         }
 
-        private void UpdatePlcConnectedChanged(object sender)
+        private static void UpdatePlcConnectedChanged(object sender)
         {
             EventArgs args = new EventArgs();
             OnPlcConnectionChanged(args);
@@ -153,30 +155,18 @@ namespace RobotProject.Form2Items
             }
         }
 
-        private Cell? GetCell(long type)
+        private static Cell? GetCell(long type)
         {
-            foreach (Cell cell in _cells)
-            {
-                if (cell.GetCellType() == type)
-                {
-                    return cell;
-                }
-            }
-
-            return null;
+            return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
         }
 
-        private bool NotAssigned(long orderNo)
+        public static void AssignCell(int orderNo, int robotNo)
         {
-            return GetCell(orderNo) == null;
+            var orderSize = Sql.GetOrderSize(orderNo);
+            Cells[robotNo] = new Cell(orderNo, orderSize, 0);
         }
 
-        private void AssignCell(long orderNo, int orderSize)
-        {
-            _cells.Add(new Cell(orderNo, orderSize, 0));
-        }
-
-        private void Interpret(string barcode)
+        private static void Interpret(string barcode)
         {
             if (barcode.IndexOf('S') == -1)
             {
@@ -195,16 +185,14 @@ namespace RobotProject.Form2Items
                         break;
                     }
                 }
-                var product = _sql.Select("Siparis_No", orderNo);
+
+                var product = Sql.Select("Siparis_No", orderNo);
                 var orderNum = long.Parse(orderNo);
                 if (product == null) return;
-                if (NotAssigned(orderNum))
-                {
-                    var orderSize = product.GetOrderSize();
-                    AssignCell(orderNum, orderSize);
-                }
 
-                var c = GetCell(orderNum)!;
+                var c = GetCell(orderNum);
+
+                if (c == null) return;
                 c.AddProduct();
 
                 var boxed = 0;
@@ -240,26 +228,37 @@ namespace RobotProject.Form2Items
 
 
                 //offset hesapları
-                Offsets offsets = _calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
+                Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
                     product.GetYontem(), product.GetProductType(), c.GetPalletHeight());
 
                 //gerekli sinyaller gönderilir
-                SendPlcSignals(_cells.IndexOf(c), offsets, product.GetHeight(), product.GetWidth(),
+                SendPlcSignals(Cells.IndexOf(c), offsets, product.GetHeight(), product.GetWidth(),
                     product.GetProductType(), c.GetCounter(), c.Full(), boxed);
                 //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
+                Bv!.AddToBoxes(new SingleBox(orderNo, product.GetHeight().ToString(), product.GetWidth().ToString(),
+                   false, Cells.IndexOf(c)));
             }
         }
 
-        private void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
+        private static void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
             int boxed)
         {
-            //PlcClient.Connect();
             int[] values =
             {
                 cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
                 boxed
             };
             PlcClient.WriteMultipleRegisters(0, values);
+        }
+
+        private static void OnBarcodeRead()
+        {
+            BarcodeRead(null, EventArgs.Empty);
+        }
+
+        public static void EmptyCell(int i)
+        {
+            Cells.Remove(Cells[i]);
         }
     }
 }

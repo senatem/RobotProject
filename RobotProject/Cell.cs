@@ -5,7 +5,7 @@ namespace RobotProject
         private readonly long _orderNo;
         private readonly int _orderSize;
         private int _holding;
-        private int _palletHeight;
+        private readonly int _palletHeight;
 
         public Cell(long orderNo, int orderSize, int palletHeight)
         {

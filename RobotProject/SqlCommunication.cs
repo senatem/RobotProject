@@ -42,5 +42,13 @@ namespace RobotProject
             rdr.Close();
             return res;
         }
+
+        public int GetOrderSize(int orderNo)
+        {
+            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Test WHERE Siparis_No={orderNo}";
+            MySqlCommand cmd = new MySqlCommand(cmdString);
+            object res = cmd.ExecuteScalar();
+            return res != null ? Convert.ToInt32(res) : 0;
+        }
     }
 }

@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
-namespace RobotProject
+namespace RobotProject.Form2Items
 {
     /** Similar to indicators, but buttons instead
      * a function adding mechanism is not included yet, but buttons are public so it can be done like that

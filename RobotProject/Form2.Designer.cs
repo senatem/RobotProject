@@ -15,8 +15,6 @@ namespace RobotProject
     {
         private static int appWidth = 1280;
         private static int appHeight = 720;
-        
-        private static ConnectionManager conn = new ConnectionManager();
 
         private IContainer components = null;
 
@@ -55,7 +53,7 @@ namespace RobotProject
                 {
                     // new box add confirmed
                     var  l = nbp.GetLines;
-                    boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
+                    boxVisuals.AddToBoxes(new SingleBox(l[0], l[1], l[2], true, 0));
                 }
             };
 
@@ -71,7 +69,7 @@ namespace RobotProject
             {
                 pp.Opening();
                 pp.ShowDialog();
-                if (pp.confirmed)
+                if (pp.Confirmed)
                 {
                     // pallete openin dialog confirmed
                     // result can be taken as: pp.Text
@@ -81,24 +79,25 @@ namespace RobotProject
                 
             systemControls.RunButton.ClickAction = () =>
             {
-                conn.Connect();
+                ConnectionManager.Connect();
             };
             
             systemControls.StopButton.ClickAction = () =>
             {
                 var a = new GenericWarning("Sistem durduruldu.");
                 a.ShowDialog();
-                conn.Disconnect();
+                ConnectionManager.Disconnect();
             };
             
             
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
             boxVisuals.Implement(this.Controls);
-            conn.BarcodeRead += barcodeUpdater;
-            conn.BarcodeConnectionChanged += barcodeIndicatorUpdater;
-            conn.PlcConnectionChanged += plcIndicatorUpdater;
-            conn.Init();
+            ConnectionManager.BarcodeRead += barcodeUpdater;
+            ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
+            ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
+            ConnectionManager.Bv = boxVisuals;
+            ConnectionManager.Init();
         }
 
         
@@ -107,12 +106,12 @@ namespace RobotProject
 
         private void barcodeIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.BarcodeConnect(conn.BarcodeClient.Connected);
+            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
         }
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(conn.PlcClient.Connected);
+            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
         }
         
         private void barcodeUpdater(object sender, EventArgs e)

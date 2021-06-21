@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
@@ -30,7 +26,8 @@ namespace RobotProject.Form2Items
             _confButton.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
             _confButton.ClickAction = () =>
             {
-                _confirmed = true;
+                Confirmed = true;
+                ConnectionManager.AssignCell(int.Parse(_productNo), RobotNo);
                 Close();
             };
             _confButton.Enabled = false;
@@ -45,15 +42,16 @@ namespace RobotProject.Form2Items
             
             for (float i = 0; i < 3; i++)
             {
-                var mrb = new ModifiedRadioButton("radio", $"Robot {i+1}");
+                var mrb = new ModifiedRadioButton("radio");
                 mrb.Reorient(v.SliceHorizontal(4.5f / 8f, 5.5f / 8f).SliceVertical(i/3f,(i+1)/3f));
+                var i1 = i;
                 mrb.ClickAction = () =>
                 {
-                    if (_robotNo == 0)
+                    if (RobotNo == 0)
                     {
                         _confButton.Enabled = true;
                     }
-                    _robotNo = (int) i  + 1;
+                    RobotNo = (int) i1  + 1;
                     
                 };
                 Controls.Add(mrb);
@@ -62,27 +60,27 @@ namespace RobotProject.Form2Items
             
             
             // text can be changed here
-            prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(3f / 8f, 4f / 8f));
+            _prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(3f / 8f, 4f / 8f));
             
-            prodNo.KeyPressed = () =>
+            _prodNo.KeyPressed = () =>
             {
-                var ss = prodNo.SelectionStart;
-                if (System.Text.RegularExpressions.Regex.IsMatch(prodNo.Text, "[^0-9]"))
+                var ss = _prodNo.SelectionStart;
+                if (System.Text.RegularExpressions.Regex.IsMatch(_prodNo.Text, "[^0-9]"))
                 {
                     // prodNo.Text = prodNo.Text.Remove(prodNo.Text.Length - 1);
                     ss = ss - 1;
                 }
                 else
                 {
-                    ProductNo = prodNo.Text;
+                    _productNo = _prodNo.Text;
                 }
 
-                prodNo.Text = ProductNo;
+                _prodNo.Text = _productNo;
                 //prodNo.CursorToEnd();
-                prodNo.SelectionStart = ss;
+                _prodNo.SelectionStart = ss;
             };
-            prodNo.Text = "";
-            prodNo.Implement(Controls);
+            _prodNo.Text = "";
+            _prodNo.Implement(Controls);
             
             
 
@@ -98,15 +96,15 @@ namespace RobotProject.Form2Items
             set => base.Text = value;
         }
 
-        private String ProductNo = "";
+        private string _productNo = "";
 
         private float w = 400f;
         private float h = 350f;
 
         public void Reset()
         {
-            prodNo.Text = "";
-            ProductNo = "";
+            _prodNo.Text = "";
+            _productNo = "";
             _confButton.Enabled = false;
 
         }
@@ -115,25 +113,17 @@ namespace RobotProject.Form2Items
 
         public void Opening()
         {
-            _confirmed = false;
+            Confirmed = false;
         }
 
-        
-        private Boolean _confirmed;
 
-        public Boolean confirmed =>
-            // additional invalid conditions
-            _confirmed;
-        
-        private readonly TextPair prodNo;
+        public bool Confirmed { get; private set; }
 
-        private int _robotNo = 0;
-        public int RobotNo
-        {
-            get => _robotNo;
-        }
+        private readonly TextPair _prodNo;
 
-        private ModifiedButton _confButton;
+        private int RobotNo { get; set; }
+
+        private readonly ModifiedButton _confButton;
 
 
     }

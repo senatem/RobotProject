@@ -44,7 +44,8 @@ namespace RobotProject.Form2Items
          */
         private void EmptyPallete(int n)
         {
-            _boxes.RemoveAll(e => (e.RobotNo == n) && (e.Belt == false));
+            ConnectionManager.EmptyCell(n);
+            _boxes.RemoveAll(e => e.RobotNo == n && e.Belt == false);
             Refresh();
         }
 

@@ -1,22 +1,19 @@
-using System.Windows.Forms;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace RobotProject.uiElements
 {
-    public class ModifiedRadioButton: RadioButton
+    public sealed class ModifiedRadioButton: RadioButton
     {
-        public ModifiedRadioButton(string id, string text = "modbutton")
+        public ModifiedRadioButton(string id)
         {
             Name = id;
-            Text = text;
             Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
             Location = new Point(100, 50);
             Size = new Size(200, 200);
             TabIndex = 0;
             Click += ClickFunction;
-            TextAlign = ContentAlignment.MiddleLeft;
             Anchor = AnchorStyles.None;
             //BackgroundImage = System.Drawing.Image.FromFile("E:\\supreme_command\\cs_projects\\RobotProject\\RobotProject\\Images\\placeholder.jpg");
             //BackgroundImageLayout = ImageLayout.Stretch;

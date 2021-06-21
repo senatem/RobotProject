@@ -23,7 +23,7 @@ namespace RobotProject.Form2Items
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < _lineStrings.Count; i++)
             {
                 var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
                 var att = new TextPair(_lineStrings[i], _lineStrings[i], r);
@@ -93,7 +93,7 @@ namespace RobotProject.Form2Items
 
         private readonly List<string> _lineStrings = new List<string>
         {
-            "isim","en","boy","yükseklik"
+            "Sipariş No","Yükseklik","Uzunluk"
         };
         
         
