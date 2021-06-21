@@ -25,6 +25,8 @@ namespace RobotProject
                 components.Dispose();
             }
 
+            ConnectionManager.KillThreads();
+
             base.Dispose(disposing);
         }
 
@@ -42,29 +44,6 @@ namespace RobotProject
             var n = 5;
             var n2 = String.Format("{0}", n);
 
-            
-            
-            // example function implementation, other system controls should be implemented similarly
-            systemControls.AddProductButton.ClickAction = () =>
-            {
-                nbp.Opening();
-                nbp.ShowDialog();
-                if (nbp.confirmed)
-                {
-                    // new box add confirmed
-                    var  l = nbp.GetLines;
-                    boxVisuals.AddToBoxes(new SingleBox(l[0], l[1], l[2], true, 0));
-                }
-            };
-
-/*            systemControls.PauseButton.ClickAction = () =>
-            {
-                conn.Disconnect();
-            };
-            
-            
-  */
-
             systemControls.PalleteButton.ClickAction = () =>
             {
                 pp.Opening();
@@ -75,29 +54,29 @@ namespace RobotProject
                     // result can be taken as: pp.Text
                 }
             };
-                
-                
-            systemControls.RunButton.ClickAction = () =>
+
+            systemControls.AddProductButton.ClickAction = () =>
             {
-                ConnectionManager.Connect();
+                nbp.Opening();
+                nbp.ShowDialog();
+                if (nbp.confirmed)
+                {
+                    // new box add confirmed
+                    var l = nbp.GetLines;
+                    boxVisuals.AddToBoxes(new SingleBox(l[0], l[1], l[2], true, 0));
+                }
             };
-            
-            systemControls.StopButton.ClickAction = () =>
-            {
-                var a = new GenericWarning("Sistem durduruldu.");
-                a.ShowDialog();
-                ConnectionManager.Disconnect();
-            };
-            
-            
+
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
             boxVisuals.Implement(this.Controls);
             ConnectionManager.BarcodeRead += barcodeUpdater;
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
-            ConnectionManager.Bv = boxVisuals;
+            ConnectionManager.ProductIncoming += productAdd;
+            ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
+            ConnectionManager.Connect();
         }
 
         
@@ -118,6 +97,15 @@ namespace RobotProject
         {
             //MessageBox.Show("Event Test = " + conn.Data);
         }
+        private void productAdd(string o, Product p, int r)
+        {
+            boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
+        }
+
+        private void emptyCell(int i)
+        {
+            boxVisuals.EmptyPallete(i);
+        }
 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
@@ -126,6 +114,7 @@ namespace RobotProject
         private PalletePopup pp = new PalletePopup();
     }
 
+    
     /** Outside functions
      * BoxVisuals.addToBoxes (adds a new item to the belt, the struct has id but it is not used, and order is used)
      * BoxVisuals.robotOperation (input no robot operates on the next item on the list)

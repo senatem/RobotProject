@@ -24,18 +24,6 @@ namespace RobotProject.Form2Items
             {
                 var a = r.Split(1, 4,0.05f,0.05f);
                 
-                RunButton = new ModifiedButton("run", "çalıştır");
-                RunButton.Reorient(a[0] );
-
-                
-                    
-            
-     //           PauseButton = new ModifiedButton("pause", "duraklat");
-       //         PauseButton.Reorient(a[1]);
-            
-                StopButton = new ModifiedButton("stop", "durdur");
-                StopButton.Reorient(a[1]);
-                
                 PalleteButton = new ModifiedButton("pallete", "palet aç");
                 PalleteButton.Reorient(a[2]);
 
@@ -54,18 +42,11 @@ namespace RobotProject.Form2Items
             }
             else
             {
-                motherControlCollection.Add(RunButton!);
-     //           motherControlCollection.Add(PauseButton!);
                 motherControlCollection.Add(PalleteButton!);
-                motherControlCollection.Add(StopButton!);
                 motherControlCollection.Add(AddProductButton!);    
             }
         }
-        
-        public readonly ModifiedButton? RunButton;
-   //     public readonly ModifiedButton? PauseButton;
         public readonly ModifiedButton? PalleteButton;
-        public readonly ModifiedButton? StopButton;
         public readonly ModifiedButton? AddProductButton;
         private readonly Indicator? _plotIndicator;
         private readonly bool _asVisual;

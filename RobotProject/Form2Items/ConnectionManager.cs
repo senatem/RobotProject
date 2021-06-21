@@ -7,6 +7,11 @@ using EasyModbus;
 
 namespace RobotProject.Form2Items
 {
+    
+    public delegate void ProductIncoming(string o, Product p, int r);
+
+    public delegate void CellFull(int i);
+
     public static class ConnectionManager
     {
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
@@ -17,14 +22,18 @@ namespace RobotProject.Form2Items
 
         private static string? _receiveData;
         private static string? _data;
-        public static BoxVisuals? Bv = null;
-
         private static readonly List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         public static event EventHandler BarcodeRead = null!;
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
-
+        public static event ProductIncoming ProductIncoming = null!;
+        public static event CellFull CellFull = null!;
+        
+        private static void ProductAdd(string o, Product p, int r)
+        {
+            ProductIncoming.Invoke(o, p, r);
+        }
 
         private static void OnBarcodeConnectionChanged(EventArgs e)
         {
@@ -47,9 +56,10 @@ namespace RobotProject.Form2Items
 
         public static void Connect()
         {
+            Sql.Connect();
+
             try
             {
-                Sql.Connect();
                 if (BarcodeClient.Connected) BarcodeClient.Disconnect();
 
                 BarcodeClient.IPAddress = "192.168.0.100";
@@ -73,6 +83,7 @@ namespace RobotProject.Form2Items
                 PlcClient.IPAddress = "192.168.0.1";
                 PlcClient.Port = 502;
                 PlcClient.SerialPort = null;
+                PlcClient.ConnectionTimeout = 10000;
                 PlcClient.Connect();
             }
             catch (Exception ex)
@@ -94,7 +105,7 @@ namespace RobotProject.Form2Items
             while (BarcodeClient.Connected)
             {
                 ReadHoldingRegs(BarcodeClient);
-                Thread.Sleep((1000));
+                Thread.Sleep(1000);
             }
         }
 
@@ -160,10 +171,10 @@ namespace RobotProject.Form2Items
             return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
         }
 
-        public static void AssignCell(int orderNo, int robotNo)
+        public static void AssignCell(long orderNo, int robotNo)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells[robotNo] = new Cell(orderNo, orderSize, 0);
+            Cells.Add(new Cell(orderNo, orderSize, 0));
         }
 
         private static void Interpret(string barcode)
@@ -175,17 +186,15 @@ namespace RobotProject.Form2Items
             else
             {
                 var orderNo = "";
-                var b = barcode.Split(';');
-                if (b.Length > 1)
-                {
-                    foreach (var sub in b)
-                    {
-                        if (!sub.Contains('S')) continue;
-                        orderNo = sub.Split('S')[1];
-                        break;
-                    }
+                var b = barcode.Split(';'); 
+                
+                foreach (var sub in b)
+                { 
+                    if (!sub.Contains('S')) continue; 
+                    orderNo = sub.Split('S')[1].Substring(0, 7); 
+                    break;
                 }
-
+                
                 var product = Sql.Select("Siparis_No", orderNo);
                 var orderNum = long.Parse(orderNo);
                 if (product == null) return;
@@ -226,17 +235,23 @@ namespace RobotProject.Form2Items
                     };
                 }
 
+                var cNo = Cells.IndexOf(c);
+
+                if (c.Full() == 1)
+                { 
+                    EmptyCell(cNo);
+                    OnCellFull(cNo);
+                }
 
                 //offset hesapları
                 Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
                     product.GetYontem(), product.GetProductType(), c.GetPalletHeight());
 
                 //gerekli sinyaller gönderilir
-                SendPlcSignals(Cells.IndexOf(c), offsets, product.GetHeight(), product.GetWidth(),
+                SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
                     product.GetProductType(), c.GetCounter(), c.Full(), boxed);
                 //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
-                Bv!.AddToBoxes(new SingleBox(orderNo, product.GetHeight().ToString(), product.GetWidth().ToString(),
-                   false, Cells.IndexOf(c)));
+                //ProductAdd(orderNo, product, Cells.IndexOf(c));
             }
         }
 
@@ -259,6 +274,16 @@ namespace RobotProject.Form2Items
         public static void EmptyCell(int i)
         {
             Cells.Remove(Cells[i]);
+        }
+
+        public static void KillThreads()
+        {
+            _barcodeListener?.Abort();
+        }
+
+        private static void OnCellFull(int i)
+        {
+            CellFull.Invoke(i);
         }
     }
 }

@@ -30,23 +30,34 @@ namespace RobotProject
 
         public Product? Select(string column, string value)
         {
-            string cmdString = $"SELECT * FROM Test WHERE {column}={value}";
-            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            Product? res = null;
-            if (rdr.Read())
+            try
             {
-                res = new Product(rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"), rdr.GetFloat("Toplam_Siparis_Miktar"), rdr.GetString("Yontem_Kodu"));
+                string cmdString = $"SELECT * FROM Test WHERE {column}={value};";
+                MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                Product? res = null;
+                if (rdr.Read())
+                {
+                    res = new Product(rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"),
+                        rdr.GetFloat("Toplam_Siparis_Miktar"), rdr.GetString("Yontem_Kodu"));
+                }
+
+                rdr.Close();
+                return res;
             }
-            rdr.Close();
-            return res;
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            return null;
         }
 
-        public int GetOrderSize(int orderNo)
+        public int GetOrderSize(long orderNo)
         {
-            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Test WHERE Siparis_No={orderNo}";
-            MySqlCommand cmd = new MySqlCommand(cmdString);
+            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Test WHERE Siparis_No={orderNo};";
+            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
             object res = cmd.ExecuteScalar();
             return res != null ? Convert.ToInt32(res) : 0;
         }

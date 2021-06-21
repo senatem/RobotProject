@@ -27,7 +27,7 @@ namespace RobotProject.Form2Items
             _confButton.ClickAction = () =>
             {
                 Confirmed = true;
-                ConnectionManager.AssignCell(int.Parse(_productNo), RobotNo);
+                ConnectionManager.AssignCell(long.Parse(_productNo), RobotNo);
                 Close();
             };
             _confButton.Enabled = false;
