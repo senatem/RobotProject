@@ -78,12 +78,12 @@ namespace RobotProject.Form2Items
                 boxes.Add(sb4);
                 */
 
-
-                _beltIndicator = new Indicator("beltIndicator") {BackColor = Color.Black};
+                // {BackColor = Color.Black};
+                _beltIndicator = new Indicator("beltIndicator", References.ProjectPath + "Images\\belt.jpg");
                 _beltIndicator.Reorient(_realSize.SubRectangle(_beltRect));
                 for (int i = 0; i < 3; i++)
                 {
-                    _palleteIndicators[i].BackColor = Color.Black;
+                    //_palleteIndicators[i].BackColor = Color.Black;
                     _palleteIndicators[i].Reorient(_realSize.SubRectangle(_palleteRects[i]));
                     _robotIndicators[i].TextAlign = ContentAlignment.MiddleCenter;
                     _robotIndicators[i].Reorient(_realSize.SubRectangle(_palleteRects[i]).SubRectangle(new Geometry.Rectangle(0.3f,0.7f,-0.15f,-0.05f)));
@@ -253,7 +253,7 @@ namespace RobotProject.Form2Items
         private readonly Indicator _beltIndicator = null!;
         private readonly List<Indicator> _palleteIndicators = new List<Indicator> // the bg
         {
-            new Indicator("r1"), new Indicator("r2"), new Indicator("r3")
+            new Indicator("r1",References.ProjectPath + "Images\\pallete.png"), new Indicator("r2",References.ProjectPath + "Images\\pallete.png"), new Indicator("r3",References.ProjectPath + "Images\\pallete.png")
         };
         private readonly List<ModifiedLabel> _robotIndicators = new List<ModifiedLabel> // the bg
         {

@@ -137,6 +137,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Images\barcode_on.png" />
+      <Content Include="Images\belt.jpg" />
       <Content Include="Images\placeholder.png" />
       <Content Include="Images\plc_on.png" />
     </ItemGroup>

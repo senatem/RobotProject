@@ -40,6 +40,9 @@ namespace RobotProject
             this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
             this.Text = "Paletleyici Kontrolleri";
             // this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
+            //this.BackColor = Color.Lavender;
+            
 
             var n = 5;
             var n2 = String.Format("{0}", n);
@@ -55,7 +58,7 @@ namespace RobotProject
                 {
                     // new box add confirmed
                     var  l = nbp.GetLines;
-                    boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
+                    //boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
 
@@ -94,7 +97,7 @@ namespace RobotProject
             
             systemControls.Implement(this.Controls);
             connectionIndicators.Implement(this.Controls);
-            boxVisuals.Implement(this.Controls);
+            //boxVisuals.Implement(this.Controls);
             conn.BarcodeRead += barcodeUpdater;
             conn.BarcodeConnectionChanged += barcodeIndicatorUpdater;
             conn.PlcConnectionChanged += plcIndicatorUpdater;
@@ -122,7 +125,8 @@ namespace RobotProject
 
         private SystemControls systemControls = new SystemControls(3*appWidth/4, 50, appWidth/2, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(appWidth/8, 50, appWidth/4, 100,false);
-        private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
+        // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
+        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();
     }
@@ -136,8 +140,15 @@ namespace RobotProject
      * ConnectionIndicators.barcodeConnect (true on connect false on break)
      * SystemControls.runButton.clickAction shold be modified (other buttons too) to fit the backend needs
      */
-    
-    
-    
 
+
+
+    class PalleteVisuals
+    {
+        public PalleteVisuals(int x, int y, int w, int h, bool asVisual = false)
+        {
+            
+        }
+    }
+    
 }
