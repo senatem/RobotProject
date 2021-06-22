@@ -110,6 +110,7 @@
         <Compile Include="uiElements\ModifiedButton.cs" />
         <Compile Include="uiElements\ModifiedComboBox.cs" />
         <Compile Include="uiElements\ModifiedLabel.cs" />
+        <Compile Include="uiElements\ModifiedProgressBar.cs" />
         <Compile Include="uiElements\ModifiedRadioButton.cs" />
         <Compile Include="uiElements\ModifiedTextBox.cs" />
         <Compile Include="uiElements\References.cs" />

@@ -37,6 +37,9 @@ namespace RobotProject.Form2Items.palletteStuff
                 _dynamicLabels.Add(dynamicText);
             }
             
+            _modifiedProgressBar = new ModifiedProgressBar("h","");
+            _modifiedProgressBar.Reorient(r.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.7f, 0.8f)));
+            
             
         }
 
@@ -51,14 +54,25 @@ namespace RobotProject.Form2Items.palletteStuff
             
             var e = new ModifiedButton($"c{_palleteNo}", $"{_palleteNo+1}. Paleti Temizle",12f);
             e.ClickAction = EmptyPallette;
-            e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.2f, 0.8f, 0.72f, 0.82f)));
+            e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.2f, 0.8f, 0.82f, 0.92f)));
             motherControlCollection.Add(e);
 
             var f = new ModifiedLabel("r", $"Palet {_palleteNo+1}");
             f.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
             f.BackColor = Color.Goldenrod;
             f.TextAlign = ContentAlignment.MiddleCenter;
+            /*
+             fast testing
+            f.ClickAction = () =>
+            {
+                _prodCap = 5;                
+                _modifiedProgressBar.Maximum = 5;                
+                incementCount(1);
+            };
+            */
+            
             motherControlCollection.Add(f);
+            motherControlCollection.Add(_modifiedProgressBar);
 
         }
 
@@ -72,6 +86,7 @@ namespace RobotProject.Form2Items.palletteStuff
             _dynamicLabels[2].Text = boy;
             _dynamicLabels[3].Text = type;
             _prodCap = cap;
+            _modifiedProgressBar.Maximum = cap;
             _prodCount = 0;
             _dynamicLabels[4].Text = filled();
         }
@@ -107,16 +122,19 @@ namespace RobotProject.Form2Items.palletteStuff
         public void setCount(int c)
         {
             _prodCount = c;
+            _modifiedProgressBar.Value = _prodCount;
             _dynamicLabels[4].Text = filled();
         }
 
         public void incementCount(int increment=1)
         {
             _prodCount += increment;
+            _modifiedProgressBar.Value = _prodCount;
             _dynamicLabels[4].Text = filled();
         }
 
         private ModifiedLabel _palleteBoxBg;
+        private ModifiedProgressBar _modifiedProgressBar;
         private List<ModifiedLabel> _staticLabels = new List<ModifiedLabel>();
         private List<ModifiedLabel> _dynamicLabels = new List<ModifiedLabel>(); // prod no, height, width, type
         private Geometry.Rectangle _thisRectangle;

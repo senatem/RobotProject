@@ -4,21 +4,13 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="- a helpful text is added to popup">
-      <change afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedComboBox.cs" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="1- box system overhauled, PalleteVisuals.cs system is implemented&#10;a- writes various attributes of the pallete&#10;b- pallete info must be adjusted via palleteVisuals.setPallette(); &#10;c- interaciton functions are written to increase number of boxes on pallete&#10;d- overfill warning and colouration added (can be commented)&#10;2- Ürün ekle button removed&#10;3- layout slightly adjusted&#10;4- pallete popup switched to include a combo box with list input as pp.Opening(string[]) and selected index can be retrieved&#10;5- pallete popup has new confirm restrictions">
+      <change afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedProgressBar.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/popups/GenericWarning.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/popups/PalletePopup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +77,7 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedComboBox.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/popups/PalletePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedProgressBar.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" />
     </changedPaths>
@@ -144,7 +137,8 @@
       <workItem from="1623309936737" duration="163000" />
       <workItem from="1623835361434" duration="16434000" />
       <workItem from="1624045617306" duration="2169000" />
-      <workItem from="1624278724154" duration="18146000" />
+      <workItem from="1624278724154" duration="18487000" />
+      <workItem from="1624398218658" duration="1452000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -237,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624283325855</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="1- box system overhauled, PalleteVisuals.cs system is implemented&#10;a- writes various attributes of the pallete&#10;b- pallete info must be adjusted via palleteVisuals.setPallette(); &#10;c- interaciton functions are written to increase number of boxes on pallete&#10;d- overfill warning and colouration added (can be commented)&#10;2- Ürün ekle button removed&#10;3- layout slightly adjusted&#10;4- pallete popup switched to include a combo box with list input as pp.Opening(string[]) and selected index can be retrieved&#10;5- pallete popup has new confirm restrictions">
+      <created>1624299981179</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1624299981179</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,6 +283,7 @@
     <MESSAGE value="- a helpful text is added to popup" />
     <MESSAGE value="- radio buttons implemented to pick robot, their result can be taken as PalletePopup.RobotNo&#10;- confirm button is disabled when no robot is selected." />
     <MESSAGE value="to merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="to merge" />
+    <MESSAGE value="1- box system overhauled, PalleteVisuals.cs system is implemented&#10;a- writes various attributes of the pallete&#10;b- pallete info must be adjusted via palleteVisuals.setPallette(); &#10;c- interaciton functions are written to increase number of boxes on pallete&#10;d- overfill warning and colouration added (can be commented)&#10;2- Ürün ekle button removed&#10;3- layout slightly adjusted&#10;4- pallete popup switched to include a combo box with list input as pp.Opening(string[]) and selected index can be retrieved&#10;5- pallete popup has new confirm restrictions" />
+    <option name="LAST_COMMIT_MESSAGE" value="1- box system overhauled, PalleteVisuals.cs system is implemented&#10;a- writes various attributes of the pallete&#10;b- pallete info must be adjusted via palleteVisuals.setPallette(); &#10;c- interaciton functions are written to increase number of boxes on pallete&#10;d- overfill warning and colouration added (can be commented)&#10;2- Ürün ekle button removed&#10;3- layout slightly adjusted&#10;4- pallete popup switched to include a combo box with list input as pp.Opening(string[]) and selected index can be retrieved&#10;5- pallete popup has new confirm restrictions" />
   </component>
 </project>

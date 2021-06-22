@@ -70,6 +70,8 @@ namespace RobotProject
                 }
             };
 
+            
+
             /*
             systemControls.AddProductButton.ClickAction = () =>
             {
