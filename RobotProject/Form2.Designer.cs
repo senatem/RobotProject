@@ -53,17 +53,21 @@ namespace RobotProject
             systemControls.PalleteButton.ClickAction = () =>
             {
                 // input is the list of options, change options here
-                pp.Opening(new string[]{"1","2","3"});
+                
+                List<string> orders = ConnectionManager.Sql.GetOrders();
+                pp.Opening(orders.ToArray());
                 pp.ShowDialog();
                 if (pp.Confirmed)
                 {
                     var no = pp.RobotNo-1;
+                    var order = orders[pp.SelectedIndex];
+                    var p = ConnectionManager.Sql.GetPallet(order);
                     
                     // pp.SelectedIndex returns the selected index
                     
                     // adjust the following line according to the returned index
-                    //palleteVisuals.setPallette(no, "aa","bb","cc","dd",12);
-                    
+                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
+                    ConnectionManager.AssignCell(long.Parse(order), no+1);
                     
                     // pallete openin dialog confirmed
                     // result can be taken as: pp.Text
@@ -85,7 +89,6 @@ namespace RobotProject
             */
 
             systemControls.Implement(this.Controls);
-            connectionIndicators.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
             //boxVisuals.Implement(this.Controls);
             ConnectionManager.BarcodeRead += barcodeUpdater;
@@ -94,7 +97,10 @@ namespace RobotProject
             ConnectionManager.ProductIncoming += productAdd;
             ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
-            //ConnectionManager.Connect();
+            ConnectionManager.Connect();
+            connectionIndicators.Implement(this.Controls);
+            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
+            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
         }
 
         
@@ -115,13 +121,15 @@ namespace RobotProject
         {
             //MessageBox.Show("Event Test = " + conn.Data);
         }
-        private void productAdd(string o, Product p, int r)
+        private void productAdd(int r)
         {
+            palleteVisuals.increaseProdCount(r, 1);
             //boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
         }
 
         private void emptyCell(int i)
         {
+            palleteVisuals.EmptyPallette(i);
            // boxVisuals.EmptyPallete(i);
         }
 

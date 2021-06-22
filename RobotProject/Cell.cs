@@ -3,13 +3,15 @@ namespace RobotProject
     public class Cell
     {
         private readonly long _orderNo;
+        private readonly int _robotNo;
         private readonly int _orderSize;
         private int _holding;
         private readonly int _palletHeight;
 
-        public Cell(long orderNo, int orderSize, int palletHeight)
+        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight)
         {
             _orderNo = orderNo;
+            _robotNo = robotNo;
             _orderSize = orderSize;
             _palletHeight = palletHeight;
         }
@@ -36,6 +38,11 @@ namespace RobotProject
         public int GetPalletHeight()
         {
             return _palletHeight;
+        }
+
+        public int GetRobotNo()
+        {
+            return _robotNo;
         }
     }
 }
