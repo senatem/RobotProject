@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,15 +23,16 @@ namespace RobotProject.Form2Items
 
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
         public static readonly ModbusClient PlcClient = new ModbusClient();
-        public static readonly ModbusClient PlcClient2 = new ModbusClient();
+        private static readonly ModbusClient PlcClient2 = new ModbusClient();
         public static readonly SqlCommunication Sql = new SqlCommunication();
 
         private static string? _receiveData;
+        private static string? _plcData;
         private static string? _data;
         private static readonly List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
+        private static int _plcDataTest;
 
-        public static event EventHandler BarcodeRead = null!;
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
         public static event ProductIncoming ProductIncoming = null!;
@@ -62,12 +64,6 @@ namespace RobotProject.Form2Items
             handler.Invoke(null, e);
         }
 
-        private static void UpdateReceiveData(object sender)
-        {
-            _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
-            Parallel.Invoke(UpdateReceiveTextBox);
-        }
-
         private static void UpdateBarcodeConnectedChanged(object sender)
         {
             EventArgs args = new EventArgs();
@@ -80,9 +76,16 @@ namespace RobotProject.Form2Items
             OnPlcConnectionChanged(args);
         }
 
-        private static void OnBarcodeRead()
+        private static void UpdateReceiveData(object sender)
         {
-            BarcodeRead(null, EventArgs.Empty);
+            _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
+            Parallel.Invoke(UpdateReceiveTextBox);
+        }
+
+        private static void ReadFromPlc(object sender)
+        {
+            _plcData = PlcClient2.receiveData[10].ToString();
+            Parallel.Invoke(UpdatePlcData);
         }
 
         #endregion
@@ -126,22 +129,25 @@ namespace RobotProject.Form2Items
                 PlcClient.Port = 502;
                 PlcClient.SerialPort = null;
                 PlcClient.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: PLC 1." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
 
+            try
+            {
                 if (PlcClient2.Connected) PlcClient2.Disconnect();
-
                 PlcClient2.IPAddress = "192.168.0.50";
                 PlcClient2.Port = 502;
                 PlcClient2.SerialPort = null;
                 PlcClient2.Connect();
-
-                //int[] v = {15};
-                //PlcClient2.WriteMultipleRegisters(2,v);
-
                 Task.Run(ListenPlc);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Kaynak: PLC." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                MessageBox.Show(@"Kaynak: PLC 2." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
         }
@@ -163,26 +169,19 @@ namespace RobotProject.Form2Items
                 // ignored
             }
         }
-        
+
         private static void ReadHoldingRegsPlc(ModbusClient client)
         {
             try
             {
-                var t = client.ReadHoldingRegisters(0, 1);
+                client.ReadHoldingRegisters(0, 1);
             }
             catch (Exception)
             {
                 // ignored
             }
         }
-        
-        private static void ReadFromPlc(object sender)
-        {
-            _receiveData = BitConverter.ToString(PlcClient.receiveData).Replace("-", " ");
-            var orderNo = long.Parse(_receiveData);
-            //MessageBox.Show(_receiveData);
-            ProcessOrder(orderNo);
-        }
+
 
         private static void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
             int boxed)
@@ -204,7 +203,7 @@ namespace RobotProject.Form2Items
             while (PlcClient2.Connected)
             {
                 ReadHoldingRegsPlc(PlcClient2);
-                Task.Delay(1000, CancellationToken.None);
+                Task.Delay(10, CancellationToken.None);
             }
         }
 
@@ -225,7 +224,13 @@ namespace RobotProject.Form2Items
         {
             _data = ConvertFromHex(_receiveData!.Trim());
             Interpret(_data);
-            OnBarcodeRead();
+        }
+
+        private static void UpdatePlcData()
+        {
+            var orderNo = long.Parse(_plcData!);
+            MessageBox.Show(orderNo.ToString());
+            ProcessOrder(orderNo);
         }
 
         private static string ConvertFromHex(string hexString)
@@ -259,6 +264,7 @@ namespace RobotProject.Form2Items
                     orderNo = sub.Split('S')[1].Substring(0, 7);
                     break;
                 }
+
                 var orderNum = long.Parse(orderNo);
                 ProcessOrder(orderNum);
             }
@@ -267,7 +273,7 @@ namespace RobotProject.Form2Items
         private static void ProcessOrder(long orderNum)
         {
             var product = Sql.Select("Siparis_No", orderNum.ToString());
-            
+
             if (product == null) return;
             var c = GetCell(orderNum);
 
@@ -309,12 +315,12 @@ namespace RobotProject.Form2Items
 
             if (c.Full() == 1)
             {
-                OnCellFull(cNo-1);
+                OnCellFull(cNo - 1);
             }
 
             //offset hesapları
             Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
-                product.GetYontem(), product.GetProductType(), c.GetPalletHeight());
+                product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
 
             //gerekli sinyaller gönderilir
             SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
@@ -335,7 +341,7 @@ namespace RobotProject.Form2Items
         public static void AssignCell(long orderNo, int robotNo)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, 140));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, 140, Sql.GetPallet(orderNo.ToString())!.GetHeight()));
         }
 
         public static void EmptyCell(int i)

@@ -91,7 +91,6 @@ namespace RobotProject
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
             //boxVisuals.Implement(this.Controls);
-            ConnectionManager.BarcodeRead += barcodeUpdater;
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
             ConnectionManager.ProductIncoming += productAdd;
@@ -117,10 +116,6 @@ namespace RobotProject
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
         }
         
-        private void barcodeUpdater(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Event Test = " + conn.Data);
-        }
         private void productAdd(int r)
         {
             palleteVisuals.increaseProdCount(r, 1);
