@@ -73,6 +73,7 @@ namespace RobotProject.Form2Items.palletteStuff
             _dynamicLabels[3].Text = type;
             _prodCap = cap;
             _prodCount = 0;
+            _dynamicLabels[4].ForeColor = Color.Black;
             _dynamicLabels[4].Text = filled();
         }
 
@@ -96,8 +97,8 @@ namespace RobotProject.Form2Items.palletteStuff
             {
                 _dynamicLabels[4].ForeColor = Color.Red;
                 // raises warning, can be turned off
-                var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
-                gw.ShowDialog();
+                //var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
+                //gw.ShowDialog();
             }
 
 

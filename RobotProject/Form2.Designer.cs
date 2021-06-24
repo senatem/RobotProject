@@ -28,9 +28,7 @@ namespace RobotProject
                 components.Dispose();
             }
 
-            ConnectionManager.KillThreads();
-
-            base.Dispose(disposing);
+           base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
