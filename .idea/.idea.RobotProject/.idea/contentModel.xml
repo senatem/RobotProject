@@ -55,6 +55,7 @@
           <e p="ModifiedButton.cs" t="Include" />
           <e p="ModifiedComboBox.cs" t="Include" />
           <e p="ModifiedLabel.cs" t="Include" />
+          <e p="ModifiedProgressBar.cs" t="Include" />
           <e p="ModifiedRadioButton.cs" t="Include" />
           <e p="ModifiedTextBox.cs" t="Include" />
           <e p="References.cs" t="Include" />
