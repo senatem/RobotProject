@@ -2,37 +2,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using EasyModbus;
 
 namespace RobotProject.Form2Items
 {
-    
-    public delegate void ProductIncoming(string o, Product p, int r);
+    #region delegates
+
+    public delegate void ProductIncoming(int r);
 
     public delegate void CellFull(int i);
 
+    #endregion
+
     public static class ConnectionManager
     {
+        #region declarations
+
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
         public static readonly ModbusClient PlcClient = new ModbusClient();
-        private static readonly SqlCommunication Sql = new SqlCommunication();
-
-        private static Thread? _barcodeListener;
+        private static readonly ModbusClient PlcClient2 = new ModbusClient();
+        public static readonly SqlCommunication Sql = new SqlCommunication();
 
         private static string? _receiveData;
+        private static string? _plcData;
         private static string? _data;
         private static readonly List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
-        public static event EventHandler BarcodeRead = null!;
+
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
         public static event ProductIncoming ProductIncoming = null!;
         public static event CellFull CellFull = null!;
-        
-        private static void ProductAdd(string o, Product p, int r)
+
+        #endregion
+
+        #region events
+
+        private static void ProductAdd(int r)
         {
-            ProductIncoming.Invoke(o, p, r);
+            ProductIncoming.Invoke(r);
+        }
+
+        private static void OnCellFull(int i)
+        {
+            CellFull.Invoke(i);
         }
 
         private static void OnBarcodeConnectionChanged(EventArgs e)
@@ -47,11 +62,40 @@ namespace RobotProject.Form2Items
             handler.Invoke(null, e);
         }
 
+        private static void UpdateBarcodeConnectedChanged(object sender)
+        {
+            EventArgs args = new EventArgs();
+            OnBarcodeConnectionChanged(args);
+        }
+
+        private static void UpdatePlcConnectedChanged(object sender)
+        {
+            EventArgs args = new EventArgs();
+            OnPlcConnectionChanged(args);
+        }
+
+        private static void UpdateReceiveData(object sender)
+        {
+            _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
+            Parallel.Invoke(UpdateReceiveTextBox);
+        }
+
+        private static void ReadFromPlc(object sender)
+        {
+            _plcData = PlcClient2.receiveData[10].ToString();
+            Parallel.Invoke(UpdatePlcData);
+        }
+
+        #endregion
+
+        #region connections
+
         public static void Init()
         {
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
             BarcodeClient.ConnectedChanged += UpdateBarcodeConnectedChanged;
             PlcClient.ConnectedChanged += UpdatePlcConnectedChanged;
+            PlcClient2.ReceiveDataChanged += ReadFromPlc;
         }
 
         public static void Connect()
@@ -67,8 +111,7 @@ namespace RobotProject.Form2Items
                 BarcodeClient.SerialPort = null;
                 BarcodeClient.Connect();
 
-                _barcodeListener = new Thread(Listen);
-                _barcodeListener.Start();
+                Task.Run(Listen);
             }
             catch (Exception ex)
             {
@@ -83,12 +126,26 @@ namespace RobotProject.Form2Items
                 PlcClient.IPAddress = "192.168.0.1";
                 PlcClient.Port = 502;
                 PlcClient.SerialPort = null;
-                PlcClient.ConnectionTimeout = 10000;
                 PlcClient.Connect();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Kaynak: PLC." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                MessageBox.Show(@"Kaynak: PLC 1." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
+
+            try
+            {
+                if (PlcClient2.Connected) PlcClient2.Disconnect();
+                PlcClient2.IPAddress = "192.168.0.50";
+                PlcClient2.Port = 502;
+                PlcClient2.SerialPort = null;
+                PlcClient2.Connect();
+                Task.Run(ListenPlc);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: PLC 2." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
         }
@@ -97,29 +154,81 @@ namespace RobotProject.Form2Items
         {
             BarcodeClient.Disconnect();
             PlcClient.Disconnect();
-            if(_barcodeListener!=null) _barcodeListener!.Abort();
         }
 
-        private static void Listen()
+        private static void ReadHoldingRegsBarcode(ModbusClient client)
         {
-            while (BarcodeClient.Connected)
+            try
             {
-                ReadHoldingRegs(BarcodeClient);
-                Thread.Sleep(1000);
+                client.ReadHoldingRegisters(0, 0);
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
 
-        private static void UpdateReceiveData(object sender)
+        private static void ReadHoldingRegsPlc(ModbusClient client)
         {
-            _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
-            new Thread(UpdateReceiveTextBox).Start();
+            try
+            {
+                client.ReadHoldingRegisters(0, 1);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
+
+
+        private static void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
+            int boxed)
+        {
+            int[] values =
+            {
+                cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
+                boxed
+            };
+            PlcClient.WriteMultipleRegisters(0, values);
+        }
+
+        #endregion
+
+        #region listeners
+
+        private static async Task ListenPlc()
+        {
+            while (PlcClient2.Connected)
+            {
+                ReadHoldingRegsPlc(PlcClient2);
+                await Task.Delay(1000, CancellationToken.None);
+            }
+        }
+
+        private static async Task Listen()
+        {
+            while (BarcodeClient.Connected)
+            {
+                ReadHoldingRegsBarcode(BarcodeClient);
+                await Task.Delay(1000, CancellationToken.None);
+            }
+        }
+
+        #endregion
+
+        #region barcode
 
         private static void UpdateReceiveTextBox()
         {
             _data = ConvertFromHex(_receiveData!.Trim());
             Interpret(_data);
-            OnBarcodeRead();
+        }
+
+        private static void UpdatePlcData()
+        {
+            var orderNo = long.Parse(_plcData!);
+           // MessageBox.Show(orderNo.ToString());
+            ProcessOrder(orderNo);
         }
 
         private static string ConvertFromHex(string hexString)
@@ -136,47 +245,6 @@ namespace RobotProject.Form2Items
             return new string(output);
         }
 
-        private static void UpdateBarcodeConnectedChanged(object sender)
-        {
-            EventArgs args = new EventArgs();
-            OnBarcodeConnectionChanged(args);
-            Console.WriteLine(BarcodeClient.Connected
-                ? @"Connected to the barcode reader!"
-                : @"Disconnected from the barcode reader!");
-        }
-
-        private static void UpdatePlcConnectedChanged(object sender)
-        {
-            EventArgs args = new EventArgs();
-            OnPlcConnectionChanged(args);
-            Console.WriteLine(PlcClient.Connected
-                ? @"Connected to the plc reader!"
-                : @"Disconnected from the plc reader!");
-        }
-
-        private static void ReadHoldingRegs(ModbusClient client)
-        {
-            try
-            {
-                client.ReadHoldingRegisters(0, 0);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-        }
-
-        private static Cell? GetCell(long type)
-        {
-            return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
-        }
-
-        public static void AssignCell(long orderNo, int robotNo)
-        {
-            var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, orderSize, 0));
-        }
-
         private static void Interpret(string barcode)
         {
             if (barcode.IndexOf('S') == -1)
@@ -186,104 +254,100 @@ namespace RobotProject.Form2Items
             else
             {
                 var orderNo = "";
-                var b = barcode.Split(';'); 
-                
+                var b = barcode.Split(';');
+
                 foreach (var sub in b)
-                { 
-                    if (!sub.Contains('S')) continue; 
-                    orderNo = sub.Split('S')[1].Substring(0, 7); 
+                {
+                    if (!sub.Contains('S')) continue;
+                    orderNo = sub.Split('S')[1].Substring(0, 7);
                     break;
                 }
-                
-                var product = Sql.Select("Siparis_No", orderNo);
+
                 var orderNum = long.Parse(orderNo);
-                if (product == null) return;
-
-                var c = GetCell(orderNum);
-
-                if (c == null) return;
-                c.AddProduct();
-
-                var boxed = 0;
-                if (product.GetYontem() == 156)
-                {
-                    boxed = 1;
-                }
-
-                var a = product.GetProductType();
-                var z = 0;
-                if (boxed == 1)
-                {
-                    z = a switch
-                    {
-                        11 => 90,
-                        21 => 90,
-                        22 => 124,
-                        33 => 180,
-                        _ => z
-                    };
-                }
-                else
-                {
-                    z = a switch
-                    {
-                        11 => 74,
-                        21 => 76,
-                        22 => 108,
-                        33 => 164,
-                        _ => z
-                    };
-                }
-
-                var cNo = Cells.IndexOf(c);
-
-                if (c.Full() == 1)
-                { 
-                    EmptyCell(cNo);
-                    OnCellFull(cNo);
-                }
-
-                //offset hesapları
-                Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
-                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight());
-
-                //gerekli sinyaller gönderilir
-                SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
-                    product.GetProductType(), c.GetCounter(), c.Full(), boxed);
-                //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
-                //ProductAdd(orderNo, product, Cells.IndexOf(c));
+                ProcessOrder(orderNum);
             }
         }
 
-        private static void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
-            int boxed)
+        private static void ProcessOrder(long orderNum)
         {
-            int[] values =
+            var product = Sql.Select("Siparis_No", orderNum.ToString());
+
+            if (product == null) return;
+            var c = GetCell(orderNum);
+
+            if (c == null) return;
+            c.AddProduct();
+
+            var boxed = 0;
+            if (product.GetYontem() == 156)
             {
-                cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
-                boxed
-            };
-            PlcClient.WriteMultipleRegisters(0, values);
+                boxed = 1;
+            }
+
+            var a = product.GetProductType();
+            var z = 0;
+            if (boxed == 1)
+            {
+                z = a switch
+                {
+                    11 => 90,
+                    21 => 90,
+                    22 => 124,
+                    33 => 180,
+                    _ => z
+                };
+            }
+            else
+            {
+                z = a switch
+                {
+                    11 => 74,
+                    21 => 76,
+                    22 => 108,
+                    33 => 164,
+                    _ => z
+                };
+            }
+
+            var cNo = c.GetRobotNo();
+
+            if (c.Full() == 1)
+            {
+                OnCellFull(cNo - 1);
+            }
+
+            //offset hesapları
+            Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
+                product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
+
+            //gerekli sinyaller gönderilir
+            SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
+                product.GetProductType(), c.GetCounter(), c.Full(), boxed);
+            //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
+            ProductAdd(cNo);
         }
 
-        private static void OnBarcodeRead()
+        #endregion
+
+        #region control
+
+        private static Cell? GetCell(long type)
         {
-            BarcodeRead(null, EventArgs.Empty);
+            return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
+        }
+
+        public static void AssignCell(long orderNo, int robotNo)
+        {
+            var orderSize = Sql.GetOrderSize(orderNo);
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, 140, Sql.GetPallet(orderNo.ToString())!.GetLength()));
         }
 
         public static void EmptyCell(int i)
         {
-            Cells.Remove(Cells[i]);
+            var c = Cells.Find(cell => cell.GetRobotNo() == i);
+            Cells.Remove(c);
         }
 
-        public static void KillThreads()
-        {
-            _barcodeListener?.Abort();
-        }
-
-        private static void OnCellFull(int i)
-        {
-            CellFull.Invoke(i);
-        }
+        #endregion
     }
 }

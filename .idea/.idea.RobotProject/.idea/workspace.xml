@@ -4,8 +4,11 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="progress bars added, and work parallel with existing interface">
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="Plc data reading fixed">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Ek-4.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Ek-4.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,11 +32,37 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/72/003a56d1/ExpressionParser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/b3/5004ed6d/ExceptionInterceptor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/c7/cc159ee6/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/e4/aa1739a4/DataTable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/e3/f186ed13/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/1e/7ec19e8b/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/c0/43b2e941/BitConverter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/b0/7282ac76/NameNode.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E5F87E79-497D-45AB-AFFE-AE0FF46C4D9E/58/63b146d2/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29A6C194-5F57-4474-95FC-AD42118554C7/cb/07d6e12f/NetworkStream.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1E9166BF-CA65-4377-B09C-EA42D003812D/e7/98572957/Bitmap.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/887AC26A-56AC-43C9-8D6E-3811A8B7B6C5/af/57253e1a/ModbusClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/6c/f405e3b8/ThreadHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/84/d84b1d31/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4033D2CE-5292-4280-AD76-80AAE49D2077/cd/1a3700f1/DataTableExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13DBC815-33D8-4EDC-819A-C50A274C0735/96/0b7cad06/Button.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/f2/25d15697/Array.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/cd/793dcbf9/String.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/b3/b644912e/MySqlCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/9e/411664cb/Number.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/9e/6bb58efc/Int32.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13DBC815-33D8-4EDC-819A-C50A274C0735/67/2297accd/Control.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/a3/045d2875/TaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/d8/dfc03ceb/ThreadPoolTaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/cc/c68a3abf/ResultSet.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/68/da6f2d8c/Task.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -53,11 +82,7 @@
       <option value="$PROJECT_DIR$/RobotProject/Form2.cs" />
       <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
       <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
@@ -70,11 +95,16 @@
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/PalletePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedComboBox.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Pallet.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/popups/PalletePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedProgressBar.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Cell.cs" />
+      <option value="$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/887AC26A-56AC-43C9-8D6E-3811A8B7B6C5/af/57253e1a/ModbusClient.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
@@ -132,9 +162,10 @@
       <workItem from="1623309936737" duration="163000" />
       <workItem from="1623835361434" duration="16434000" />
       <workItem from="1624045617306" duration="2169000" />
-      <workItem from="1624278724154" duration="18487000" />
-      <workItem from="1624398218658" duration="1487000" />
-      <workItem from="1624622185877" duration="587000" />
+      <workItem from="1624278724154" duration="18146000" />
+      <workItem from="1624361740501" duration="2862000" />
+      <workItem from="1624364730408" duration="5728000" />
+      <workItem from="1624463147702" duration="29750000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -227,19 +258,19 @@
       <option name="project" value="LOCAL" />
       <updated>1624283325855</updated>
     </task>
-    <task id="LOCAL-00014" summary="1- box system overhauled, PalleteVisuals.cs system is implemented&#10;a- writes various attributes of the pallete&#10;b- pallete info must be adjusted via palleteVisuals.setPallette(); &#10;c- interaciton functions are written to increase number of boxes on pallete&#10;d- overfill warning and colouration added (can be commented)&#10;2- Ürün ekle button removed&#10;3- layout slightly adjusted&#10;4- pallete popup switched to include a combo box with list input as pp.Opening(string[]) and selected index can be retrieved&#10;5- pallete popup has new confirm restrictions">
-      <created>1624299981179</created>
+    <task id="LOCAL-00014" summary="Threads switched to Tasks. Pallet emptying fixed.">
+      <created>1624514338147</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1624299981179</updated>
+      <updated>1624514338147</updated>
     </task>
-    <task id="LOCAL-00015" summary="progress bars added, and work parallel with existing interface">
-      <created>1624399742187</created>
+    <task id="LOCAL-00015" summary="Plc data reading fixed">
+      <created>1624556334727</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1624399742187</updated>
+      <updated>1624556334727</updated>
     </task>
     <option name="localTasksCounter" value="16" />
     <servers />
@@ -286,8 +317,15 @@
     <MESSAGE value="- a helpful text is added to popup" />
     <MESSAGE value="- radio buttons implemented to pick robot, their result can be taken as PalletePopup.RobotNo&#10;- confirm button is disabled when no robot is selected." />
     <MESSAGE value="to merge" />
-    <MESSAGE value="1- box system overhauled, PalleteVisuals.cs system is implemented&#10;a- writes various attributes of the pallete&#10;b- pallete info must be adjusted via palleteVisuals.setPallette(); &#10;c- interaciton functions are written to increase number of boxes on pallete&#10;d- overfill warning and colouration added (can be commented)&#10;2- Ürün ekle button removed&#10;3- layout slightly adjusted&#10;4- pallete popup switched to include a combo box with list input as pp.Opening(string[]) and selected index can be retrieved&#10;5- pallete popup has new confirm restrictions" />
-    <MESSAGE value="progress bars added, and work parallel with existing interface" />
-    <option name="LAST_COMMIT_MESSAGE" value="progress bars added, and work parallel with existing interface" />
+    <MESSAGE value="Threads switched to Tasks. Pallet emptying fixed." />
+    <MESSAGE value="Plc data reading fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Plc data reading fixed" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

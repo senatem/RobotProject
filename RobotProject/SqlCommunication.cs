@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -10,7 +12,7 @@ namespace RobotProject
 
         public void Connect()
         {
-            const string connCommand = "server=localhost;user=root;database=TEST;port=3306;password=Elba_Project2021";
+            const string connCommand = "server=localhost;user=root;database=Elba;port=3306;password=Elba_Project2021";
             _connection = new MySqlConnection(connCommand);
             try
             {
@@ -32,7 +34,7 @@ namespace RobotProject
         {
             try
             {
-                string cmdString = $"SELECT * FROM Test WHERE {column}={value};";
+                string cmdString = $"SELECT * FROM Siparis WHERE {column}={value};";
                 MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -56,10 +58,43 @@ namespace RobotProject
 
         public int GetOrderSize(long orderNo)
         {
-            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Test WHERE Siparis_No={orderNo};";
+            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Siparis WHERE Siparis_No={orderNo};";
             MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
             object res = cmd.ExecuteScalar();
             return res != null ? Convert.ToInt32(res) : 0;
+        }
+
+        public List<string> GetOrders()
+        {
+            string cmdString = $"SELECT Siparis_No FROM Siparis;";
+            List<string> res = new List<string>();
+            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                ((IList) res).Add(rdr.GetString("Siparis_No"));
+            }
+
+            rdr.Close();
+            return res;
+        }
+
+        public Pallet? GetPallet(string orderNo)
+        {
+            string cmdString = $"SELECT Palet_Yuksekligi, Palet_uzunlugu, Toplam_Siparis_Miktar, Tip  FROM Siparis WHERE Siparis_No={orderNo};";
+            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                Pallet res = new Pallet(rdr.GetInt32("Palet_Yuksekligi"), rdr.GetInt32("Palet_Uzunlugu"),
+                    rdr.GetInt32("Tip"), rdr.GetInt32("Toplam_Siparis_Miktar"));
+                rdr.Close();
+                return res;
+
+            }
+            rdr.Close();
+            return null;
         }
     }
 }

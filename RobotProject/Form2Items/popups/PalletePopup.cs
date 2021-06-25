@@ -15,7 +15,7 @@ namespace RobotProject.Form2Items
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
             
-            var helpfulText= new ModifiedLabel("warn", "*Palet no seçimi yapın.");
+            var helpfulText= new ModifiedLabel("warn", "*Hücre no seçimi yapın.");
             helpfulText.Reorient(v.SliceHorizontal(0.5f, 0.75f));
             helpfulText.ForeColor = Color.Red;
             helpfulText.ImageAlign = ContentAlignment.TopLeft;
@@ -26,14 +26,13 @@ namespace RobotProject.Form2Items
             
             // buttons
             var buttonsRect = v.SliceHorizontal(0.75f, 0.9f);
-            _confButton = new ModifiedButton("onay", "onay");
+            _confButton = new ModifiedButton("onay", "Onay");
             _confButton.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
             _confButton.ClickAction = () =>
             {
                 if (cb.SelectedIndex != -1)
                 {
                     Confirmed = true;
-                    //ConnectionManager.AssignCell(long.Parse(_productNo), RobotNo);
                     Close();
                 }
                 else
@@ -44,7 +43,7 @@ namespace RobotProject.Form2Items
             _confButton.Enabled = false;
             
 
-            var exit = new ModifiedButton("çık", "çık");
+            var exit = new ModifiedButton("çık", "Çık");
             exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
             exit.ClickAction = Close;
 
@@ -56,7 +55,7 @@ namespace RobotProject.Form2Items
             {
                 var mrb = new ModifiedRadioButton("radio");
                 mrb.Reorient(v.SliceHorizontal(1f / 8f, 2f / 8f).SliceVertical(i/3f,(i+1)/3f));
-                mrb.Text = $"Palet {i+1}";
+                mrb.Text = $"Hücre {i+1}";
                 var i1 = i;
                 mrb.ClickAction = () =>
                 {
@@ -132,7 +131,6 @@ namespace RobotProject.Form2Items
             _prodNo.Text = "";
             _productNo = "";
             _confButton.Enabled = false;
-
         }
         
         

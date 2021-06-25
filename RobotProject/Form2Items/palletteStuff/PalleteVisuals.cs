@@ -61,7 +61,7 @@ namespace RobotProject.Form2Items.palletteStuff
 
         public void increaseProdCount(int n, int increment = 1)
         {
-            _pallettes[n].incementCount(increment);
+            _pallettes[n-1].incementCount(increment);
         }
 
 

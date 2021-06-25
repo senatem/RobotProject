@@ -8,7 +8,7 @@ namespace RobotProject.Form2Items.palletteStuff
 {
     public class PalletteVisual
     {
-        static List<string> staticTexts = new List<string>{"palet no:", "palet boyu:", "palet eni:", "palet tipi:","doluluk:"};
+        static List<string> staticTexts = new List<string>{"Sipariş no:", "Palet Yükseklik:", "Palet Uzunluk:", "Palet Tipi:","Doluluk:"};
         public PalletteVisual(Geometry.Rectangle r, int palleteNo)
         {
             _palleteNo = palleteNo;
@@ -52,12 +52,12 @@ namespace RobotProject.Form2Items.palletteStuff
             }
             motherControlCollection.Add(_palleteBoxBg);
             
-            var e = new ModifiedButton($"c{_palleteNo}", $"{_palleteNo+1}. Paleti Temizle",12f);
+            var e = new ModifiedButton($"c{_palleteNo}", $"{_palleteNo+1}. Hücreyi Boşalt",12f);
             e.ClickAction = EmptyPallette;
             e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.2f, 0.8f, 0.82f, 0.92f)));
             motherControlCollection.Add(e);
 
-            var f = new ModifiedLabel("r", $"Palet {_palleteNo+1}");
+            var f = new ModifiedLabel("r", $"Hücre {_palleteNo+1}");
             f.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
             f.BackColor = Color.Goldenrod;
             f.TextAlign = ContentAlignment.MiddleCenter;
@@ -88,6 +88,7 @@ namespace RobotProject.Form2Items.palletteStuff
             _prodCap = cap;
             _modifiedProgressBar.Maximum = cap;
             _prodCount = 0;
+            _dynamicLabels[4].ForeColor = Color.Black;
             _dynamicLabels[4].Text = filled();
         }
 
@@ -107,12 +108,12 @@ namespace RobotProject.Form2Items.palletteStuff
             }
 
             // this bit truns it red if overfilled also warns
-            if (_prodCap < _prodCount)
+            if (_prodCap == _prodCount)
             {
                 _dynamicLabels[4].ForeColor = Color.Red;
                 // raises warning, can be turned off
-                var gw = new GenericWarning($"Dikkat! Palet {_palleteNo} aşırı doldu.");
-                gw.ShowDialog();
+                //var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
+                //gw.ShowDialog();
             }
 
 
