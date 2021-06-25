@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +30,6 @@ namespace RobotProject.Form2Items
         private static string? _data;
         private static readonly List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
-        private static int _plcDataTest;
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
@@ -198,21 +196,21 @@ namespace RobotProject.Form2Items
 
         #region listeners
 
-        private static void ListenPlc()
+        private static async Task ListenPlc()
         {
             while (PlcClient2.Connected)
             {
                 ReadHoldingRegsPlc(PlcClient2);
-                Task.Delay(10, CancellationToken.None);
+                await Task.Delay(1000, CancellationToken.None);
             }
         }
 
-        private static void Listen()
+        private static async Task Listen()
         {
             while (BarcodeClient.Connected)
             {
                 ReadHoldingRegsBarcode(BarcodeClient);
-                Task.Delay(1000, CancellationToken.None);
+                await Task.Delay(1000, CancellationToken.None);
             }
         }
 
@@ -229,7 +227,7 @@ namespace RobotProject.Form2Items
         private static void UpdatePlcData()
         {
             var orderNo = long.Parse(_plcData!);
-            MessageBox.Show(orderNo.ToString());
+           // MessageBox.Show(orderNo.ToString());
             ProcessOrder(orderNo);
         }
 
@@ -341,7 +339,7 @@ namespace RobotProject.Form2Items
         public static void AssignCell(long orderNo, int robotNo)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, 140, Sql.GetPallet(orderNo.ToString())!.GetHeight()));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, 140, Sql.GetPallet(orderNo.ToString())!.GetLength()));
         }
 
         public static void EmptyCell(int i)

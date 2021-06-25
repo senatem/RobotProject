@@ -4,13 +4,11 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="Threads switched to Tasks. Pallet emptying fixed.">
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="Plc data reading fixed">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Ek-4.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Ek-4.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +165,7 @@
       <workItem from="1624278724154" duration="18146000" />
       <workItem from="1624361740501" duration="2862000" />
       <workItem from="1624364730408" duration="5728000" />
-      <workItem from="1624463147702" duration="22162000" />
+      <workItem from="1624463147702" duration="29750000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -267,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624514338147</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Plc data reading fixed">
+      <created>1624556334727</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1624556334727</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,26 +318,10 @@
     <MESSAGE value="- radio buttons implemented to pick robot, their result can be taken as PalletePopup.RobotNo&#10;- confirm button is disabled when no robot is selected." />
     <MESSAGE value="to merge" />
     <MESSAGE value="Threads switched to Tasks. Pallet emptying fixed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Threads switched to Tasks. Pallet emptying fixed." />
+    <MESSAGE value="Plc data reading fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Plc data reading fixed" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
-          <line>274</line>
-          <properties documentPath="D:\work stuff\TARA\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="274" containingFunctionPresentation="method 'ProcessOrder'">
-            <startOffsets>
-              <option value="7932" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7992" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />
