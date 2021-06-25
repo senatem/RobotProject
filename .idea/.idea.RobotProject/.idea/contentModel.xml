@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\mifu3\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\mifu3\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_RobotProject.-910519129.00" t="ExcludeRecursive" />
-    <e p="D:\work stuff\TARA\RobotProject" t="IncludeFlat">
+    <e p="C:\Users\chestarian\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\chestarian\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_RobotProject.696440581.00" t="ExcludeRecursive" />
+    <e p="E:\supreme_command\cs_projects\RobotProject" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive" />
       <e p="RobotProject" t="IncludeRecursive">
         <e p="App.config" t="Include" />

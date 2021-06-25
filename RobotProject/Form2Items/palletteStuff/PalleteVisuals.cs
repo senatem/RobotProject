@@ -22,8 +22,16 @@ namespace RobotProject.Form2Items.palletteStuff
             }
             else
             {
+                _background.Reorient(r);
                 // indicators
                 var a = r.Split(1, 3, 0.05f, 0.05f);
+
+                a = new List<Geometry.Rectangle> {
+                    new Geometry.Rectangle(177, 405, 388, 658),
+                    new Geometry.Rectangle(455, 682, 388, 658),
+                    new Geometry.Rectangle(732, 959, 388, 658)
+                    
+                };
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -38,10 +46,12 @@ namespace RobotProject.Form2Items.palletteStuff
 
         public void Implement(Control.ControlCollection motherControlCollection)
         {
+            
             for (int i=0; i < 3; i++)
             {
                 _pallettes[i].Implement(motherControlCollection);
             }
+            motherControlCollection.Add(this._background);
         }
         
         public void EmptyPallette(int n)
@@ -69,5 +79,6 @@ namespace RobotProject.Form2Items.palletteStuff
         private List<PalletteVisual> _pallettes = new List<PalletteVisual>();
         private readonly Indicator _plotIndicator = null!; // indicator of the empty plot for design purposes
         private readonly bool _asVisual;
+        private ModifiedLabel _background = new Indicator("bg",References.ProjectPath + "Images\\r3.png");
     }
 }

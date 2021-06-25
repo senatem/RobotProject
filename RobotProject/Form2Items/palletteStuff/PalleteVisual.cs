@@ -8,6 +8,7 @@ namespace RobotProject.Form2Items.palletteStuff
 {
     public class PalletteVisual
     {
+        // Dikkat!, aşağıdaki satırı bana sormadan değiştirirseniz, tüm kelimeler görünüyor mu diye de bakın
         static List<string> staticTexts = new List<string>{"Sipariş no:", "Palet Yükseklik:", "Palet Uzunluk:", "Palet Tipi:","Doluluk:"};
         public PalletteVisual(Geometry.Rectangle r, int palleteNo)
         {
@@ -15,21 +16,35 @@ namespace RobotProject.Form2Items.palletteStuff
             _thisRectangle = r;
             var centreRect = r.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.2f, 0.7f)); // centre
             var a = centreRect.SliceVertical(0.05f,0.95f).Split(staticTexts.Count, 2);
+            a = new List<Geometry.Rectangle>
+            {
+                centreRect.SliceVertical(0.05f,0.65f),
+                centreRect.SliceVertical(0.65f,0.95f)
+
+            };
+            a = new List<Geometry.Rectangle> { };
+            a.AddRange(centreRect.SliceVertical(0.05f,0.7f).Split(staticTexts.Count,1));
+            a.AddRange(centreRect.SliceVertical(0.7f,0.95f).Split(staticTexts.Count,1));
+            
+            
             _palleteBoxBg = new ModifiedLabel("bg");
-            _palleteBoxBg.BackColor = Color.Khaki;
+            var c1 = Color.FromArgb(255,255,255,15);
+            
+            
+            _palleteBoxBg.BackColor = c1;
             _palleteBoxBg.Reorient(centreRect);
             _palleteBoxBg.Text = "";
             for (int i = 0; i < staticTexts.Count; i++)
             {
-                var staticText = new ModifiedLabel($"{i}");
-                staticText.BackColor = Color.Khaki;
+                var staticText = new ModifiedLabel($"{i}",emSize:12f);
+                staticText.BackColor = c1;
                 staticText.Text = staticTexts[i];
                 staticText.Reorient(a[i]);
                 staticText.TextAlign = ContentAlignment.MiddleLeft;
                 _staticLabels.Add(staticText);
                 
-                var dynamicText = new ModifiedLabel($"{i}");
-                dynamicText.BackColor = Color.Khaki;
+                var dynamicText = new ModifiedLabel($"{i}",emSize:12f);
+                dynamicText.BackColor = c1;
                 dynamicText.Text = "???";
                 dynamicText.Reorient(a[i+staticTexts.Count]);
                 dynamicText.Parent = _palleteBoxBg;
@@ -38,7 +53,7 @@ namespace RobotProject.Form2Items.palletteStuff
             }
             
             _modifiedProgressBar = new ModifiedProgressBar("h","");
-            _modifiedProgressBar.Reorient(r.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.7f, 0.8f)));
+            _modifiedProgressBar.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.7f, 0.8f)));
             
             
         }
@@ -54,12 +69,14 @@ namespace RobotProject.Form2Items.palletteStuff
             
             var e = new ModifiedButton($"c{_palleteNo}", $"{_palleteNo+1}. Hücreyi Boşalt",12f);
             e.ClickAction = EmptyPallette;
-            e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.2f, 0.8f, 0.82f, 0.92f)));
+            e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
             motherControlCollection.Add(e);
 
             var f = new ModifiedLabel("r", $"Hücre {_palleteNo+1}");
             f.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
-            f.BackColor = Color.Goldenrod;
+            var c2 = Color.FromArgb(255,204,204,12);
+            // var c2 = Color.FromArgb(255,255,255,15); burayı uncommentlersen geri kalanıyla aynı sarı olur
+            f.BackColor = c2;
             f.TextAlign = ContentAlignment.MiddleCenter;
             /*
              fast testing

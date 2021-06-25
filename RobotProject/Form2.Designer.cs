@@ -40,9 +40,13 @@ namespace RobotProject
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
             this.Text = "Paletleyici Kontrolleri";
+            this.BackColor = Color.White;
+                
             // this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             
             //this.BackColor = Color.Lavender;
+
+            this.Icon = new System.Drawing.Icon(References.ProjectPath + "Images\\t-ara128.ico");
             
 
             var n = 5;
@@ -96,7 +100,8 @@ namespace RobotProject
             ConnectionManager.ProductIncoming += productAdd;
             ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
-            ConnectionManager.Connect();
+            //TODO open this
+            //ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
@@ -131,7 +136,7 @@ namespace RobotProject
         private SystemControls systemControls = new SystemControls(3*appWidth/8, 50, 3*appWidth/4, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidth/8, 50, appWidth/4, 100,false);
         // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
-        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
+        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidth/2, (appHeight-100)/2+100, appWidth, appHeight-100,false);
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();
     }
