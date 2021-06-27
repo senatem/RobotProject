@@ -28,7 +28,7 @@ namespace RobotProject.Form2Items
         private static string? _receiveData;
         private static string? _plcData;
         private static string? _data;
-        private static readonly List<Cell> Cells = new List<Cell>(3);
+        public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
 
         public static event EventHandler BarcodeConnectionChanged = null!;
@@ -344,7 +344,7 @@ namespace RobotProject.Form2Items
 
         public static void EmptyCell(int i)
         {
-            var c = Cells.Find(cell => cell.GetRobotNo() == i);
+            var c = Cells.Find(cell => cell.GetRobotNo() == i+1);
             Cells.Remove(c);
         }
 

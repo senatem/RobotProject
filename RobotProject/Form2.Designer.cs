@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Deployment.Application;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -23,6 +24,7 @@ namespace RobotProject
 
         protected override void Dispose(bool disposing)
         {
+            SaveData();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -100,8 +102,8 @@ namespace RobotProject
             ConnectionManager.ProductIncoming += productAdd;
             ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
-            //TODO open this
-            //ConnectionManager.Connect();
+            LoadData();
+            ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
@@ -131,6 +133,38 @@ namespace RobotProject
         {
             palleteVisuals.EmptyPallette(i);
            // boxVisuals.EmptyPallete(i);
+        }
+
+        private void SaveData()
+        {
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(ConnectionManager.Cells);
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            File.WriteAllText(Path.Combine(docPath, "cells"), jsonString);
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                using (var sr = new StreamReader(Path.Combine(docPath, "cells")))
+                {
+                    var jsonString = sr.ReadToEnd();
+                    ConnectionManager.Cells = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Cell>>(jsonString);
+                }
+
+                foreach (var cell in ConnectionManager.Cells)
+                {
+                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.GetCellType().ToString(),cell.OrderSize);
+                    palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
+                }
+            }
+            catch
+            {
+                
+            }
+
         }
 
         private SystemControls systemControls = new SystemControls(3*appWidth/8, 50, 3*appWidth/4, 100,false);
