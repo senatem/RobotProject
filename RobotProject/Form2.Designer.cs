@@ -19,6 +19,8 @@ namespace RobotProject
     {
         private static int appWidth = 1280;
         private static int appHeight = 720;
+        
+        
 
         private IContainer components = null;
 
@@ -43,6 +45,15 @@ namespace RobotProject
             this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
             this.Text = "Paletleyici Kontrolleri";
             this.BackColor = Color.White;
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
+            //this.ResizeRedraw = true;
+            //this.AutoScaleMode = AutoScaleMode.Dpi;
+            //this.AutoSizeMode = AutoSizeMode.GrowOnly;
                 
             // this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             
@@ -103,10 +114,11 @@ namespace RobotProject
             ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
             LoadData();
-            ConnectionManager.Connect();
+            //ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
+            //add  connectionIndicators.TaperConnect(ConnectionManager.PlcClient.Connected);
         }
 
         
@@ -157,6 +169,7 @@ namespace RobotProject
                 foreach (var cell in ConnectionManager.Cells)
                 {
                     palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.GetCellType().ToString(),cell.OrderSize);
+                    // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
                     palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
                 }
             }

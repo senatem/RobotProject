@@ -52,8 +52,11 @@ namespace RobotProject.Form2Items.palletteStuff
                 _dynamicLabels.Add(dynamicText);
             }
             
-            _modifiedProgressBar = new ModifiedProgressBar("h","");
-            _modifiedProgressBar.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.7f, 0.8f)));
+            _modifiedProgressBarDefined = new ModifiedProgressBar("h","");
+            _modifiedProgressBarDefined.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.7f, 0.75f)));
+            
+            _modifiedProgressBarFilled = new ModifiedProgressBar("h2","");
+            _modifiedProgressBarFilled.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.75f, 0.8f)));
             
             
         }
@@ -89,7 +92,8 @@ namespace RobotProject.Form2Items.palletteStuff
             */
             
             motherControlCollection.Add(f);
-            motherControlCollection.Add(_modifiedProgressBar);
+            motherControlCollection.Add(_modifiedProgressBarFilled);
+            motherControlCollection.Add(_modifiedProgressBarDefined);
 
         }
 
@@ -103,8 +107,10 @@ namespace RobotProject.Form2Items.palletteStuff
             _dynamicLabels[2].Text = boy;
             _dynamicLabels[3].Text = type;
             _prodCap = cap;
-            _modifiedProgressBar.Maximum = cap;
-            _prodCount = 0;
+            _modifiedProgressBarFilled.Maximum = cap;
+            _modifiedProgressBarDefined.Maximum = cap;
+            _prodCountFill = 0;
+            _prodCountDefn = 0;
             _dynamicLabels[4].ForeColor = Color.Black;
             _dynamicLabels[4].Text = filled();
         }
@@ -125,7 +131,16 @@ namespace RobotProject.Form2Items.palletteStuff
             }
 
             // this bit truns it red if overfilled also warns
-            if (_prodCap == _prodCount)
+            if (_prodCap == _prodCountDefn)
+            {
+                _dynamicLabels[4].ForeColor = Color.Yellow;
+                // raises warning, can be turned off
+                //var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
+                //gw.ShowDialog();
+            }
+            
+            // this bit truns it red if overfilled also warns
+            if (_prodCap == _prodCountFill)
             {
                 _dynamicLabels[4].ForeColor = Color.Red;
                 // raises warning, can be turned off
@@ -134,30 +149,36 @@ namespace RobotProject.Form2Items.palletteStuff
             }
 
 
-            return $"{_prodCount}/{_prodCap}";
+            return $"{_prodCountDefn}/{_prodCountFill}/{_prodCap}";
         }
 
-        public void setCount(int c)
+        public void setCounts(int? defn=null, int? fill=null)
         {
-            _prodCount = c;
-            _modifiedProgressBar.Value = _prodCount;
+            _prodCountFill = fill ?? _prodCountFill;
+            _prodCountDefn = defn ?? _prodCountDefn;
+            _modifiedProgressBarDefined.Value = _prodCountDefn;
+            _modifiedProgressBarDefined.Value = _prodCountFill;
             _dynamicLabels[4].Text = filled();
         }
 
-        public void incementCount(int increment=1)
+        public void incementCount(int incrementFill=0, int incrementDefn = 0)
         {
-            _prodCount += increment;
-            _modifiedProgressBar.Value = _prodCount;
+            _prodCountFill += incrementFill;
+            _prodCountDefn += incrementDefn;
+            _modifiedProgressBarDefined.Value = _prodCountDefn;
+            _modifiedProgressBarDefined.Value = _prodCountFill;
             _dynamicLabels[4].Text = filled();
         }
 
         private ModifiedLabel _palleteBoxBg;
-        private ModifiedProgressBar _modifiedProgressBar;
+        private ModifiedProgressBar _modifiedProgressBarFilled;
+        private ModifiedProgressBar _modifiedProgressBarDefined;
         private List<ModifiedLabel> _staticLabels = new List<ModifiedLabel>();
         private List<ModifiedLabel> _dynamicLabels = new List<ModifiedLabel>(); // prod no, height, width, type
         private Geometry.Rectangle _thisRectangle;
         private int _palleteNo;
         private int _prodCap=0;
-        private int _prodCount=0;
+        private int _prodCountDefn=0;
+        private int _prodCountFill=0;
     }
 }
