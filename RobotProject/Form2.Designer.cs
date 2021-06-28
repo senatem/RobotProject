@@ -80,7 +80,7 @@ namespace RobotProject
 
             
 
-            /*
+            
             systemControls.AddProductButton.ClickAction = () =>
             {
                 nbp.Opening();
@@ -92,7 +92,7 @@ namespace RobotProject
                     //boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
-            */
+            
 
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
