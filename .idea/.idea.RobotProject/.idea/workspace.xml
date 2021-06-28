@@ -4,12 +4,8 @@
     <projectFile>RobotProject/RobotProject.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="local changes">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" afterDir="false" />
+    <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="visual background and icon added, rest is adjusted accordingly">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624556334727</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="visual background and icon added, rest is adjusted accordingly">
+      <created>1624629804304</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1624629804304</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,7 +297,8 @@
     <MESSAGE value="to merge" />
     <MESSAGE value="Threads switched to Tasks. Pallet emptying fixed." />
     <MESSAGE value="Plc data reading fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Plc data reading fixed" />
+    <MESSAGE value="visual background and icon added, rest is adjusted accordingly" />
+    <option name="LAST_COMMIT_MESSAGE" value="visual background and icon added, rest is adjusted accordingly" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
