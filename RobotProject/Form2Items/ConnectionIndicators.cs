@@ -25,11 +25,13 @@ namespace RobotProject.Form2Items
             else
             {
                 // indicators
-                var a = r.Split(1, 2, 0.05f, 0.05f);
+                var a = r.Split(1, 3, 0.05f, 0.05f);
                 _plcIndicator = new Indicator("plc", References.ProjectPath + "Images\\plc_on.png");
                 _plcIndicator.Reorient(a[0].FittingSquare());
                 _barcodeIndicator = new Indicator("plc", References.ProjectPath + "Images\\barcode_on.png");
                 _barcodeIndicator.Reorient(a[1].FittingSquare());
+                _taperIndicator = new Indicator("plc", References.ProjectPath + "Images\\tape_on.png");
+                _taperIndicator.Reorient(a[2].FittingSquare());
             }
         }
 
@@ -64,6 +66,23 @@ namespace RobotProject.Form2Items
                 _barcodeIndicator.PaintIndicator(Color.Red);
             }
         }
+        
+        /** Simple access to break and open connection for taper
+         * ed: true => connected
+         * ed: false => not connected
+         */
+        public void TaperConnect(bool ed)
+        {
+            if (ed)
+            {
+                _taperIndicator.PaintIndicator();
+            }
+            else
+            {
+                _taperIndicator.PaintIndicator(Color.Red);
+            }
+        }
+
 
 
         public void Implement(Control.ControlCollection motherControlCollection)
@@ -76,6 +95,7 @@ namespace RobotProject.Form2Items
             {
                 motherControlCollection.Add(_plcIndicator);
                 motherControlCollection.Add(_barcodeIndicator);
+                motherControlCollection.Add(_taperIndicator);
             }
         }
 
@@ -83,6 +103,7 @@ namespace RobotProject.Form2Items
         private readonly Indicator _plcIndicator = null!;
         private readonly Indicator _barcodeIndicator = null!;
         private readonly Indicator _plotIndicator = null!; // indicator of the empty plot for design purposes
+        private readonly Indicator _taperIndicator = null!;
 
         private readonly bool _asVisual;
     }
