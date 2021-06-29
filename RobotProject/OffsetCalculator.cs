@@ -68,7 +68,7 @@ namespace RobotProject
         {
             return (counter % 3) switch
             {
-                0 => new Offsets(-2*px - 30, 0 + ((palletWidth * 10) % 200) / 2, pz * ((counter + 2) / 3) + palletHeight, 3, (counter + 2) / 3),
+                0 => new Offsets(-2*px - 70, 0 + ((palletWidth * 10) % 200) / 2, pz * ((counter + 2) / 3) + palletHeight, 3, (counter + 2) / 3),
                 1 => new Offsets(0, 0 + ((palletWidth * 10) % 200) / 2, pz * ((counter + 2) / 3) + palletHeight, 3, (counter + 2) / 3),
                 2 => new Offsets(-px - 30, 0 + ((palletWidth * 10) % 200) / 2, pz * ((counter + 2) / 3) + palletHeight, 3, (counter + 2) / 3),
                 _ => throw new ArgumentOutOfRangeException()
@@ -79,10 +79,10 @@ namespace RobotProject
         {
             return (counter % 4) switch
             {
-                0 => new Offsets(-px - 30, -py + ((palletWidth * 10) % 200) / 2, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
-                1 => new Offsets(0, py + ((palletWidth * 10) % 200) / 2, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
-                2 => new Offsets(0 - 30, -py + ((palletWidth * 10) % 200) / 2, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
-                3 => new Offsets(-px, py + ((palletWidth * 10) % 200) / 2, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
+                0 => new Offsets(-px - 30, -py/2 + ((palletWidth * 10) % 200) / 2 - 10, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
+                1 => new Offsets(0, py/2 + ((palletWidth * 10) % 200) / 2 + 10, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
+                2 => new Offsets(0 - 30, -py/2 + ((palletWidth * 10) % 200) / 2 - 10, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
+                3 => new Offsets(-px, py/2 + ((palletWidth * 10) % 200) / 2 + 10, pz * ((counter + 3) / 4) + palletHeight, 4, (counter + 3) / 4),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
