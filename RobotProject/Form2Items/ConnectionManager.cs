@@ -22,17 +22,21 @@ namespace RobotProject.Form2Items
 
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
         public static readonly ModbusClient PlcClient = new ModbusClient();
-        private static readonly ModbusClient PlcClient2 = new ModbusClient();
+        public static readonly ModbusClient PlcClient2 = new ModbusClient();
         public static readonly SqlCommunication Sql = new SqlCommunication();
 
+        public static bool PlcConnected;
+        public static bool BarcodeConnected;
+        public static bool TaperConnected;
         private static string? _receiveData;
         private static string? _plcData;
         private static string? _data;
-        private static readonly List<Cell> Cells = new List<Cell>(3);
+        public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
+        public static event EventHandler TaperConnectionChanged = null!;
         public static event ProductIncoming ProductIncoming = null!;
         public static event CellFull CellFull = null!;
 
@@ -50,28 +54,22 @@ namespace RobotProject.Form2Items
             CellFull.Invoke(i);
         }
 
-        private static void OnBarcodeConnectionChanged(EventArgs e)
-        {
-            EventHandler handler = BarcodeConnectionChanged;
-            handler.Invoke(null, e);
-        }
-
         private static void OnPlcConnectionChanged(EventArgs e)
         {
             EventHandler handler = PlcConnectionChanged;
             handler.Invoke(null, e);
         }
 
-        private static void UpdateBarcodeConnectedChanged(object sender)
+        private static void OnBarcodeConnectionChanged(EventArgs e)
         {
-            EventArgs args = new EventArgs();
-            OnBarcodeConnectionChanged(args);
+            EventHandler handler = BarcodeConnectionChanged;
+            handler.Invoke(null, e);
         }
 
-        private static void UpdatePlcConnectedChanged(object sender)
+        private static void OnTaperConnectionChanged(EventArgs e)
         {
-            EventArgs args = new EventArgs();
-            OnPlcConnectionChanged(args);
+            EventHandler handler = TaperConnectionChanged;
+            handler.Invoke(null, e);
         }
 
         private static void UpdateReceiveData(object sender)
@@ -93,61 +91,87 @@ namespace RobotProject.Form2Items
         public static void Init()
         {
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
-            BarcodeClient.ConnectedChanged += UpdateBarcodeConnectedChanged;
-            PlcClient.ConnectedChanged += UpdatePlcConnectedChanged;
             PlcClient2.ReceiveDataChanged += ReadFromPlc;
+        }
+
+        private static void ConnectBarcode()
+        {
+            if (BarcodeClient.Connected) BarcodeClient.Disconnect();
+
+            BarcodeClient.IPAddress = "192.168.0.100";
+            BarcodeClient.Port = 51236;
+            BarcodeClient.SerialPort = null;
+            BarcodeConnected = true;
+            try
+            {
+                BarcodeClient.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: Barkod okuyucu." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+                BarcodeConnected = false;
+            }
+
+            Task.Run(Listen);
+            EventArgs args = new EventArgs();
+            OnBarcodeConnectionChanged(args);
+        }
+
+        private static void ConnectPlc()
+        {
+            if (PlcClient.Connected) PlcClient.Disconnect();
+
+            PlcClient.IPAddress = "192.168.0.1";
+            PlcClient.Port = 502;
+            PlcClient.SerialPort = null;
+            
+            try
+            {
+                PlcClient.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: Plc." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+                PlcConnected = false;
+            }
+
+            Task.Run(ListenPlc);
+            EventArgs args = new EventArgs();
+            OnPlcConnectionChanged(args);
+        }
+
+        private static void ConnectTaper()
+        {
+            if (PlcClient2.Connected) PlcClient2.Disconnect();
+            PlcClient2.IPAddress = "192.168.0.50";
+            PlcClient2.Port = 502;
+            PlcClient2.SerialPort = null;
+            try
+            {
+                PlcClient2.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: Enine Bantlama Makinesi." + ex.Message, @"Bağlantı Hatası",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
+
+            TaperConnected = PlcClient2.Available(100);
+            Task.Run(ListenTaper);
+            EventArgs args = new EventArgs();
+            OnTaperConnectionChanged(args);
         }
 
         public static void Connect()
         {
             Sql.Connect();
 
-            try
-            {
-                if (BarcodeClient.Connected) BarcodeClient.Disconnect();
-
-                BarcodeClient.IPAddress = "192.168.0.100";
-                BarcodeClient.Port = 51236;
-                BarcodeClient.SerialPort = null;
-                BarcodeClient.Connect();
-
-                Task.Run(Listen);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Kaynak: Barkod okuyucu." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
-            }
-
-            try
-            {
-                if (PlcClient.Connected) PlcClient.Disconnect();
-
-                PlcClient.IPAddress = "192.168.0.1";
-                PlcClient.Port = 502;
-                PlcClient.SerialPort = null;
-                PlcClient.Connect();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Kaynak: PLC 1." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
-            }
-
-            try
-            {
-                if (PlcClient2.Connected) PlcClient2.Disconnect();
-                PlcClient2.IPAddress = "192.168.0.50";
-                PlcClient2.Port = 502;
-                PlcClient2.SerialPort = null;
-                PlcClient2.Connect();
-                Task.Run(ListenPlc);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Kaynak: PLC 2." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
-            }
+            ConnectBarcode();
+            ConnectPlc();
+            ConnectTaper();
         }
 
         public static void Disconnect()
@@ -198,7 +222,15 @@ namespace RobotProject.Form2Items
 
         private static async Task ListenPlc()
         {
-            while (PlcClient2.Connected)
+            while (true)
+            {
+                await Task.Delay(1000, CancellationToken.None);
+            }
+        }
+
+        private static async Task ListenTaper()
+        {
+            while (true)
             {
                 ReadHoldingRegsPlc(PlcClient2);
                 await Task.Delay(1000, CancellationToken.None);
@@ -207,7 +239,7 @@ namespace RobotProject.Form2Items
 
         private static async Task Listen()
         {
-            while (BarcodeClient.Connected)
+            while (true)
             {
                 ReadHoldingRegsBarcode(BarcodeClient);
                 await Task.Delay(1000, CancellationToken.None);
@@ -227,7 +259,7 @@ namespace RobotProject.Form2Items
         private static void UpdatePlcData()
         {
             var orderNo = long.Parse(_plcData!);
-           // MessageBox.Show(orderNo.ToString());
+            // MessageBox.Show(orderNo.ToString());
             ProcessOrder(orderNo);
         }
 
@@ -344,7 +376,7 @@ namespace RobotProject.Form2Items
 
         public static void EmptyCell(int i)
         {
-            var c = Cells.Find(cell => cell.GetRobotNo() == i);
+            var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
             Cells.Remove(c);
         }
 

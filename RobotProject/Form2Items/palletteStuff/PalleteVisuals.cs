@@ -64,14 +64,14 @@ namespace RobotProject.Form2Items.palletteStuff
             _pallettes[n].setInfo(no,en,boy,type,cap);
         }
 
-        public void setProdCount(int n, int value)
+        public void setProdCount(int n, int? valueDefn=null, int? valueFill = null)
         {
-            _pallettes[n].setCount(value);
+            _pallettes[n].setCounts(valueDefn, valueFill);
         }
 
         public void increaseProdCount(int n, int increment = 1)
         {
-            _pallettes[n-1].incementCount(increment);
+            _pallettes[n-1].incementCount(0, increment);
         }
 
 

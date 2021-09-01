@@ -43,7 +43,7 @@ namespace RobotProject.Form2Items
             else
             {
                 motherControlCollection.Add(PalleteButton!);
-                //motherControlCollection.Add(AddProductButton!);    
+                motherControlCollection.Add(AddProductButton!);    
             }
         }
         public readonly ModifiedButton? PalleteButton;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Deployment.Application;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -18,11 +19,14 @@ namespace RobotProject
     {
         private static int appWidth = 1280;
         private static int appHeight = 720;
+        
+        
 
         private IContainer components = null;
 
         protected override void Dispose(bool disposing)
         {
+            SaveData();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -41,10 +45,11 @@ namespace RobotProject
             this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
             this.Text = "Paletleyici Kontrolleri";
             this.BackColor = Color.White;
-                
-            // this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            
-            //this.BackColor = Color.Lavender;
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
 
             this.Icon = new System.Drawing.Icon(References.ProjectPath + "Images\\t-ara128.ico");
             
@@ -76,9 +81,8 @@ namespace RobotProject
                 }
             };
 
-            
 
-            /*
+
             systemControls.AddProductButton.ClickAction = () =>
             {
                 nbp.Opening();
@@ -90,21 +94,23 @@ namespace RobotProject
                     //boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
                 }
             };
-            */
-
+            
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
             //boxVisuals.Implement(this.Controls);
+            
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
+            ConnectionManager.TaperConnectionChanged += taperIndicatorUpdater;
             ConnectionManager.ProductIncoming += productAdd;
             ConnectionManager.CellFull += emptyCell;
             ConnectionManager.Init();
-            //TODO open this
-            //ConnectionManager.Connect();
+            LoadData();
+            ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
+            connectionIndicators.TaperConnect(ConnectionManager.PlcClient2.Connected);
         }
 
         
@@ -113,14 +119,18 @@ namespace RobotProject
 
         private void barcodeIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
+            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeConnected);
         }
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
+            connectionIndicators.PlcConnect(ConnectionManager.PlcConnected);
         }
-        
+
+        private void taperIndicatorUpdater(object sender, EventArgs e)
+        {
+            connectionIndicators.TaperConnect(ConnectionManager.TaperConnected);
+        }
         private void productAdd(int r)
         {
             palleteVisuals.increaseProdCount(r, 1);
@@ -131,6 +141,39 @@ namespace RobotProject
         {
             palleteVisuals.EmptyPallette(i);
            // boxVisuals.EmptyPallete(i);
+        }
+
+        private void SaveData()
+        {
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(ConnectionManager.Cells);
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            File.WriteAllText(Path.Combine(docPath, "cells"), jsonString);
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                using (var sr = new StreamReader(Path.Combine(docPath, "cells")))
+                {
+                    var jsonString = sr.ReadToEnd();
+                    ConnectionManager.Cells = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Cell>>(jsonString);
+                }
+
+                foreach (var cell in ConnectionManager.Cells)
+                {
+                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.GetCellType().ToString(),cell.OrderSize);
+                    // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
+                    palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
+                }
+            }
+            catch
+            {
+                
+            }
+
         }
 
         private SystemControls systemControls = new SystemControls(3*appWidth/8, 50, 3*appWidth/4, 100,false);

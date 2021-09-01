@@ -2,54 +2,54 @@ namespace RobotProject
 {
     public class Cell
     {
-        private readonly long _orderNo;
-        private readonly int _robotNo;
-        private readonly int _orderSize;
-        private int _holding;
-        private readonly int _palletHeight;
-        private int _palletWidth;
+        public long OrderNo { get; set; }
+        public int RobotNo { get; set; }
+        public int OrderSize { get; set; }
+        public int Holding { get; set; }
+        public int PalletHeight { get; set; }
+        public int PalletWidth { get; set; }
 
         public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth)
         {
-            _orderNo = orderNo;
-            _robotNo = robotNo;
-            _orderSize = orderSize;
-            _palletHeight = palletHeight;
-            _palletWidth = palletWidth;
+            OrderNo = orderNo;
+            RobotNo = robotNo;
+            OrderSize = orderSize;
+            PalletHeight = palletHeight;
+            PalletWidth = palletWidth;
         }
         
         public void AddProduct()
         {
-            _holding++;
+            Holding++;
         }
 
         public int GetCounter()
         {
-            return _holding;
+            return Holding;
         }
         public int Full()
         {
-            return _holding == _orderSize ? 1 : 0;
+            return Holding == OrderSize ? 1 : 0;
         }
 
         public long GetCellType()
         {
-            return _orderNo;
+            return OrderNo;
         }
 
         public int GetPalletHeight()
         {
-            return _palletHeight;
+            return PalletHeight;
         }
 
         public int GetRobotNo()
         {
-            return _robotNo;
+            return RobotNo;
         }
 
         public int GetPalletWidth()
         {
-            return _palletWidth;
+            return PalletWidth;
         }
     }
 }
