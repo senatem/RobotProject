@@ -12,6 +12,5 @@ namespace RobotProject.uiElements
                 return  Application.ExecutablePath.Split(new[] { "bin" },StringSplitOptions.None)[0];
             }
         }
-
     }
 }

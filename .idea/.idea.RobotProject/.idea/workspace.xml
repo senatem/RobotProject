@@ -8,21 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/contentModel.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/packages.config" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/packages.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/References.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/References.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +41,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/4e/d9abc11a/Task.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F7499511-9334-484F-B6DB-6825BE2EAC0D/28/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29A6C194-5F57-4474-95FC-AD42118554C7/c0/92224968/Socket.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/c3/66e7cd28/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/af/d3d69883/Int64.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3B28F550-0D54-4E01-9E30-DCA09FAB36D7/51/f06deb3e/Control.cs" root0="SKIP_HIGHLIGHTING" />
@@ -65,9 +54,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/50/60364234/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/a6/cc72ffc2/__Error.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/5a/b304e312/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/887AC26A-56AC-43C9-8D6E-3811A8B7B6C5/e4/f9726f00/ModbusClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/5a/b304e312/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29A6C194-5F57-4474-95FC-AD42118554C7/f4/0efea850/Ping.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -79,7 +68,6 @@
       <option value="$PROJECT_DIR$/RobotProject/ConnectionIndicators.cs" />
       <option value="$PROJECT_DIR$/RobotProject/SqlManager.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/SingleBox.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/References.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Program.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/GenericWarning.cs" />
@@ -108,10 +96,11 @@
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/App.config" />
       <option value="$PROJECT_DIR$/RobotProject/RobotProject.csproj" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/References.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
     </changedPaths>
   </component>
@@ -128,7 +117,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable" value="ALL" />
-    <property name="settings.editor.selected.configurable" value="ReSpellerSettingsId" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -196,6 +185,9 @@
       <workItem from="1625118955416" duration="5414000" />
       <workItem from="1625204056439" duration="6257000" />
       <workItem from="1625212301450" duration="19000" />
+      <workItem from="1630497936760" duration="1953000" />
+      <workItem from="1630499968695" duration="1780000" />
+      <workItem from="1630501803323" duration="868000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -302,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624556334727</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Backup">
+      <created>1630498089857</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1630498089857</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -349,78 +348,10 @@
     <MESSAGE value="to merge" />
     <MESSAGE value="Threads switched to Tasks. Pallet emptying fixed." />
     <MESSAGE value="Plc data reading fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Plc data reading fixed" />
+    <MESSAGE value="Backup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Backup" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
-          <line>262</line>
-          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="255" containingFunctionPresentation="method 'Listen'">
-            <startOffsets>
-              <option value="7713" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7730" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
-          <line>235</line>
-          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="228" containingFunctionPresentation="method 'ListenPlc'">
-            <startOffsets>
-              <option value="7020" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7033" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
-          <line>248</line>
-          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="241" containingFunctionPresentation="method 'ListenTaper'">
-            <startOffsets>
-              <option value="7341" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7356" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
-          <line>260</line>
-          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="256" containingFunctionPresentation="method 'Listen'">
-            <startOffsets>
-              <option value="7621" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7674" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
-          <line>233</line>
-          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="233" containingFunctionPresentation="method 'ListenPlc'">
-            <startOffsets>
-              <option value="6937" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6981" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />

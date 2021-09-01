@@ -214,6 +214,7 @@ namespace RobotProject.Form2Items
                 boxed
             };
             PlcClient.WriteMultipleRegisters(0, values);
+            PlcClient.WriteSingleRegister(15, offsets.Rotation);
         }
 
         #endregion
