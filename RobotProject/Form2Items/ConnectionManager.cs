@@ -125,7 +125,7 @@ namespace RobotProject.Form2Items
             PlcClient.IPAddress = "192.168.0.1";
             PlcClient.Port = 502;
             PlcClient.SerialPort = null;
-            
+
             try
             {
                 PlcClient.Connect();
@@ -312,7 +312,7 @@ namespace RobotProject.Form2Items
             c.AddProduct();
 
             var boxed = 0;
-            if (product.GetYontem() == 156)
+            if (product.GetYontem() == 156 || product.GetYontem() == 223)
             {
                 boxed = 1;
             }
@@ -350,12 +350,24 @@ namespace RobotProject.Form2Items
             }
 
             //offset hesapları
-            Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
-                product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
+            if (boxed == 1)
+            {
+                Offsets offsets = Calculator.Calculate(product.GetHeight() + 80, product.GetWidth() + 80, z,
+                    c.GetCounter(),
+                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
+                //gerekli sinyaller gönderilir
+                SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
+                    product.GetProductType(), c.GetCounter(), c.Full(), boxed);
+            }
+            else
+            {
+                Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
+                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
+                //gerekli sinyaller gönderilir
+                SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
+                    product.GetProductType(), c.GetCounter(), c.Full(), boxed);
+            }
 
-            //gerekli sinyaller gönderilir
-            SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
-                product.GetProductType(), c.GetCounter(), c.Full(), boxed);
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
             ProductAdd(cNo);
         }
@@ -372,7 +384,7 @@ namespace RobotProject.Form2Items
         public static void AssignCell(long orderNo, int robotNo)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, 140, Sql.GetPallet(orderNo.ToString())!.GetLength()));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, Sql.GetPallet(orderNo.ToString())!.GetHeight(), Sql.GetPallet(orderNo.ToString())!.GetLength()));
         }
 
         public static void EmptyCell(int i)
