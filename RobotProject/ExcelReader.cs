@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.IO;
 using ExcelDataReader;
@@ -27,9 +28,21 @@ namespace RobotProject
 
         public DataTable Find(string[] fields, int[] values)
         {
-            var res = _table.Tables[0];
-            for (var i=0; i<fields.Length; i++){
-                res = res.Select(fields[i] + " = " + values[i]).CopyToDataTable();
+            var j = 0;
+            var res = _table.Tables[j];
+            
+            for (var i = 0; i < fields.Length; i++)
+            {
+                try
+                {
+                    res = res.Select(fields[i] + " = " + values[i]).CopyToDataTable();
+                }
+                catch (InvalidOperationException e)
+                {
+                    j += 1;
+                    i = -1;
+                    res = _table.Tables[j];
+                }
             }
 
             return res;
