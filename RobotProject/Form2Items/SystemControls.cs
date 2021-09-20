@@ -27,7 +27,7 @@ namespace RobotProject.Form2Items
                 PalleteButton = new ModifiedButton("pallete", "Palet Aç");
                 PalleteButton.Reorient(a[0]);
 
-                AddProductButton = new ModifiedButton("ap", "Ürün Ekle");
+                AddProductButton = new ModifiedButton("ap", "Pattern Aç");
                 AddProductButton.Reorient(a[1]);
             }
 

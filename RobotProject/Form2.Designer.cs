@@ -90,8 +90,10 @@ namespace RobotProject
                 if (nbp.confirmed)
                 {
                     // new box add confirmed
-                    var  l = nbp.GetLines;
-                    //boxVisuals.AddToBoxes(new SingleBox("id", l[0], l[1], l[2], l[3], true, 0));
+                    var orderNo = nbp.GetLines[0];
+                    var p = ConnectionManager.Sql.GetPallet(orderNo);
+                    ConnectionManager.AssignCell(long.Parse(orderNo), 2, p);
+                    assignCell(2, long.Parse(orderNo), p);
                 }
             };
             

@@ -19,7 +19,7 @@ namespace RobotProject.Form2Items
         {
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size((int) w, (int) h);
-            Text = @"Ürün Ekleme";
+            Text = @"Pattern Aç";
             Geometry.Rectangle v = new Geometry.Rectangle(w * 0.1f, w * 0.9f, 0f, h);
 
 
@@ -30,13 +30,11 @@ namespace RobotProject.Form2Items
                 _lines.Add(att);
                 att.Implement(Controls);
             }
-
-
-
+            
 
             // buttons
             var buttonsRect = v.SliceHorizontal(0.7f, 0.8f);
-            var conf = new ModifiedButton("onay", "onay");
+            var conf = new ModifiedButton("onay", "Onay");
             conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
             conf.ClickAction = () =>
             {
@@ -44,7 +42,7 @@ namespace RobotProject.Form2Items
                 Close();
             };
 
-            var exit = new ModifiedButton("çık", "çık");
+            var exit = new ModifiedButton("çık", "Çık");
             exit.Reorient(buttonsRect.SliceVertical(0.6f, 0.9f));
             exit.ClickAction = Close;
 
@@ -93,10 +91,7 @@ namespace RobotProject.Form2Items
 
         private readonly List<string> _lineStrings = new List<string>
         {
-            "Sipariş No","Yükseklik","Uzunluk"
+            "Sipariş No",
         };
-        
-        
-
     }
 }

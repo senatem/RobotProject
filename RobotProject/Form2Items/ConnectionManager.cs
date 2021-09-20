@@ -90,7 +90,7 @@ namespace RobotProject.Form2Items
 
         private static void ReadFromPlc(object sender)
         {
-            _plcData = PlcClient2.receiveData[10].ToString();
+            _plcData = PlcClient.receiveData[10].ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -101,7 +101,7 @@ namespace RobotProject.Form2Items
         public static void Init()
         {
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
-            PlcClient2.ReceiveDataChanged += ReadFromPlc;
+            PlcClient.ReceiveDataChanged += ReadFromPlc;
         }
 
         private static void ConnectBarcode()
@@ -206,7 +206,7 @@ namespace RobotProject.Form2Items
         {
             try
             {
-                client.ReadHoldingRegisters(0, 1);
+                client.ReadHoldingRegisters(16, 1);
             }
             catch (Exception)
             {
@@ -235,6 +235,7 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
+                ReadHoldingRegsPlc(PlcClient);
                 await Task.Delay(1000, CancellationToken.None);
             }
         }
@@ -242,9 +243,7 @@ namespace RobotProject.Form2Items
         private static async Task ListenTaper()
         {
             while (true)
-            {
-                ReadHoldingRegsPlc(PlcClient2);
-                await Task.Delay(1000, CancellationToken.None);
+            { await Task.Delay(1000, CancellationToken.None);
             }
         }
 
@@ -269,8 +268,12 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            var orderNo = long.Parse(_plcData!);
-            ProcessOrder(orderNo);
+            var productComing = int.Parse(_plcData);
+
+            if (productComing == 1)
+            {
+                ProcessOrder(GetCellTwoOrder());
+            }
         }
 
         private static string ConvertFromHex(string hexString)
@@ -347,7 +350,7 @@ namespace RobotProject.Form2Items
                     AssignCell(orderNum, Cells.Count+1, p);
                     OnCellAssigned(Cells.Count, orderNum, p);
                 }
-            } else if (Cells.Count == Cells.Capacity)
+            } else if (c == null && Cells.Count == Cells.Capacity)
             {
                 return;
             }
@@ -423,6 +426,11 @@ namespace RobotProject.Form2Items
         private static Cell? GetCell(long type)
         {
             return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
+        }
+
+        private static long GetCellTwoOrder()
+        {
+            return Cells.Find(cell => cell.GetRobotNo() == 2).OrderNo;
         }
 
         public static void AssignCell(long orderNo, int robotNo,Pallet pallet)
