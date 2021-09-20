@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EasyModbus;
+using RobotProject.uiElements;
 
 namespace RobotProject.Form2Items
 {
@@ -33,6 +34,7 @@ namespace RobotProject.Form2Items
         private static string? _data;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
+        private static readonly ExcelReader _weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
@@ -260,7 +262,6 @@ namespace RobotProject.Form2Items
         private static void UpdatePlcData()
         {
             var orderNo = long.Parse(_plcData!);
-            // MessageBox.Show(orderNo.ToString());
             ProcessOrder(orderNo);
         }
 
@@ -300,15 +301,35 @@ namespace RobotProject.Form2Items
                 ProcessOrder(orderNum);
             }
         }
+        
+        private static bool IsHeavy (Product product)
+        {
+            string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+            var px = product.GetHeight();
+            var py = product.GetWidth();
+            if (product.GetProductType() == 33 && (py - py % 100) >= 1800)
+            {
+                return true;
+            }
+            int[] values = {product.GetYontem(), product.GetProductType(), px - px % 100, py - py % 100};
+            var weight = (double) _weights.Find(fields, values).Rows[0]["Brut"];
+
+            return weight >= 50;
+        }
 
         private static void ProcessOrder(long orderNum)
         {
             var product = Sql.Select("Siparis_No", orderNum.ToString());
 
             if (product == null) return;
+            
+            
             var c = GetCell(orderNum);
 
-            if (c == null) return;
+            if (c == null)
+            {
+                return;
+            }
             c.AddProduct();
 
             var boxed = 0;
