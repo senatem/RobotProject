@@ -74,7 +74,7 @@ namespace RobotProject
                     
                     // adjust the following line according to the returned index
                     palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
-                    ConnectionManager.AssignCell(long.Parse(order), no+1);
+                    ConnectionManager.AssignCell(long.Parse(order), no+1, p);
                     
                     // pallete openin dialog confirmed
                     // result can be taken as: pp.Text
@@ -104,6 +104,7 @@ namespace RobotProject
             ConnectionManager.TaperConnectionChanged += taperIndicatorUpdater;
             ConnectionManager.ProductIncoming += productAdd;
             ConnectionManager.CellFull += emptyCell;
+            ConnectionManager.CellAssigned += assignCell;
             ConnectionManager.Init();
             LoadData();
             ConnectionManager.Connect();
@@ -141,6 +142,19 @@ namespace RobotProject
         {
             palleteVisuals.EmptyPallette(i);
            // boxVisuals.EmptyPallete(i);
+        }
+
+        private void assignCell(int i, long orderNo, Pallet p)
+        {
+            var no = i-1;
+            try
+            {
+                palleteVisuals.setPallette(no, orderNo.ToString(),p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void SaveData()

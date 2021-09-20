@@ -15,6 +15,8 @@ namespace RobotProject.Form2Items
 
     public delegate void CellFull(int i);
 
+    public delegate void CellAssigned(int i, long orderNo, Pallet pallet);
+
     #endregion
 
     public static class ConnectionManager
@@ -41,6 +43,7 @@ namespace RobotProject.Form2Items
         public static event EventHandler TaperConnectionChanged = null!;
         public static event ProductIncoming ProductIncoming = null!;
         public static event CellFull CellFull = null!;
+        public static event CellAssigned CellAssigned = null!;
 
         #endregion
 
@@ -54,6 +57,11 @@ namespace RobotProject.Form2Items
         private static void OnCellFull(int i)
         {
             CellFull.Invoke(i);
+        }
+
+        private static void OnCellAssigned(int i, long orderNo, Pallet pallet)
+        {
+            CellAssigned.Invoke(i, orderNo, pallet);
         }
 
         private static void OnPlcConnectionChanged(EventArgs e)
@@ -304,14 +312,14 @@ namespace RobotProject.Form2Items
         
         private static bool IsHeavy (Product product)
         {
-            string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+            string[] fields = {"Tip", "Yukseklik", "Uzunluk"};
             var px = product.GetHeight();
             var py = product.GetWidth();
             if (product.GetProductType() == 33 && (py - py % 100) >= 1800)
             {
                 return true;
             }
-            int[] values = {product.GetYontem(), product.GetProductType(), px - px % 100, py - py % 100};
+            int[] values = {product.GetProductType(), px - px % 100, py - py % 100};
             var weight = (double) _weights.Find(fields, values).Rows[0]["Brut"];
 
             return weight >= 50;
@@ -326,20 +334,25 @@ namespace RobotProject.Form2Items
             
             var c = GetCell(orderNum);
 
-            if (c == null && Cells.Count < Cells.Capacity)
+            if (c == null && Cells.Count < 3)
             {
+                var p = Sql.GetPallet(orderNum.ToString());
                 if (IsHeavy(product))
                 {
-                    AssignCell(orderNum, 2);
+                    AssignCell(orderNum, 2, p);
+                    OnCellAssigned(2, orderNum, p);
                 }
                 else
                 {
-                    AssignCell(orderNum, Cells.Count+1);
+                    AssignCell(orderNum, Cells.Count+1, p);
+                    OnCellAssigned(Cells.Count, orderNum, p);
                 }
             } else if (Cells.Count == Cells.Capacity)
             {
                 return;
             }
+            
+            c = GetCell(orderNum);
             c.AddProduct();
 
             var boxed = 0;
@@ -412,10 +425,10 @@ namespace RobotProject.Form2Items
             return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
         }
 
-        public static void AssignCell(long orderNo, int robotNo)
+        public static void AssignCell(long orderNo, int robotNo,Pallet pallet)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, Sql.GetPallet(orderNo.ToString())!.GetHeight(), Sql.GetPallet(orderNo.ToString())!.GetLength()));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength()));
         }
 
         public static void EmptyCell(int i)
