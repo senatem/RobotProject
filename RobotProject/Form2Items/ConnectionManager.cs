@@ -326,7 +326,17 @@ namespace RobotProject.Form2Items
             
             var c = GetCell(orderNum);
 
-            if (c == null)
+            if (c == null && Cells.Count < Cells.Capacity)
+            {
+                if (IsHeavy(product))
+                {
+                    AssignCell(orderNum, 2);
+                }
+                else
+                {
+                    AssignCell(orderNum, Cells.Count+1);
+                }
+            } else if (Cells.Count == Cells.Capacity)
             {
                 return;
             }
