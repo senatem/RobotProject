@@ -34,6 +34,8 @@ namespace RobotProject.Form2Items
         private static string? _receiveData;
         private static string? _plcData;
         private static string? _data;
+        public static bool PatternMode;
+        public static Product PatternProduct;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader _weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
@@ -225,6 +227,7 @@ namespace RobotProject.Form2Items
             };
             PlcClient.WriteMultipleRegisters(0, values);
             PlcClient.WriteSingleRegister(15, offsets.Rotation);
+            PlcClient.WriteSingleRegister(17, offsets.NextRotation);
         }
 
         #endregion
@@ -270,9 +273,9 @@ namespace RobotProject.Form2Items
         {
             var productComing = int.Parse(_plcData);
 
-            if (productComing == 1)
-            {
-                ProcessOrder(GetCellTwoOrder());
+            if (productComing == 1 && PatternMode)
+            { 
+                ProcessNonBarcode();
             }
         }
 
@@ -328,6 +331,73 @@ namespace RobotProject.Form2Items
             return weight >= 50;
         }
 
+        private static void ProcessNonBarcode()
+        {
+            var c = Cells.Find(cell => cell.GetRobotNo() == 2);
+            c.AddProduct();
+            var boxed = 0;
+            if (PatternProduct.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
+            {
+                boxed = 1;
+            }
+
+            var a = PatternProduct.GetProductType();
+            var z = 0;
+            if (boxed == 1)
+            {
+                z = a switch
+                {
+                    11 => 90,
+                    21 => 90,
+                    22 => 124,
+                    33 => 180,
+                    _ => z
+                };
+            }
+            else
+            {
+                z = a switch
+                {
+                    11 => 74,
+                    21 => 76,
+                    22 => 108,
+                    33 => 164,
+                    _ => z
+                };
+            }
+
+            var cNo = 2;
+
+            if (c.Full() == 1)
+            {
+                OnCellFull(cNo - 1);
+            }
+
+            //offset hesapları
+            if (boxed == 1)
+            {
+                Offsets offsets = Calculator.Calculate(PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80, z,
+                    c.GetCounter(),
+                    PatternProduct.GetYontem(), PatternProduct.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
+                //gerekli sinyaller gönderilir
+                SendPlcSignals(cNo, offsets, PatternProduct.GetHeight()+80, PatternProduct.GetWidth()+80,
+                    PatternProduct.GetProductType(), c.GetCounter(), c.Full(), boxed);
+            }
+            else
+            {
+                Offsets offsets = Calculator.Calculate(PatternProduct.GetHeight(), PatternProduct.GetWidth(), z, c.GetCounter(),
+                    PatternProduct.GetYontem(), PatternProduct.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
+                //gerekli sinyaller gönderilir
+                SendPlcSignals(cNo, offsets, PatternProduct.GetHeight(), PatternProduct.GetWidth(),
+                    PatternProduct.GetProductType(), c.GetCounter(), c.Full(), boxed);
+            }
+
+            //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
+            
+            ProductAdd(cNo);
+            
+        }
+
         private static void ProcessOrder(long orderNum)
         {
             var product = Sql.Select("Siparis_No", orderNum.ToString());
@@ -357,7 +427,6 @@ namespace RobotProject.Form2Items
             
             c = GetCell(orderNum);
             c.AddProduct();
-
             var boxed = 0;
             if (product.GetYontem() == 156 || product.GetYontem() == 223)
             {
@@ -401,21 +470,22 @@ namespace RobotProject.Form2Items
             {
                 Offsets offsets = Calculator.Calculate(product.GetHeight() + 80, product.GetWidth() + 80, z,
                     c.GetCounter(),
-                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
+                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
                 //gerekli sinyaller gönderilir
-                SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
+                SendPlcSignals(cNo, offsets, product.GetHeight()+80, product.GetWidth()+80,
                     product.GetProductType(), c.GetCounter(), c.Full(), boxed);
             }
             else
             {
                 Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
-                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth());
+                    product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
                 //gerekli sinyaller gönderilir
                 SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
                     product.GetProductType(), c.GetCounter(), c.Full(), boxed);
             }
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
+            
             ProductAdd(cNo);
         }
 
@@ -436,11 +506,21 @@ namespace RobotProject.Form2Items
         public static void AssignCell(long orderNo, int robotNo,Pallet pallet)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength()));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140));
+        }
+        
+        public static void AssignNonBarcodeCell(int height, int width, int type, int orderSize, string yontemKodu, int palletH, int palletL, int palletZ)
+        {
+            PatternProduct = new Product(height, width, type, orderSize, yontemKodu);
+            Cells.Add(new Cell(0, 2, orderSize, palletH, palletL, palletZ));
         }
 
         public static void EmptyCell(int i)
         {
+            if (i == 1)
+            {
+                PatternMode = false;
+            }
             var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
             Cells.Remove(c);
         }

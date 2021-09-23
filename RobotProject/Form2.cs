@@ -7,6 +7,7 @@ namespace RobotProject
         public Form2()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
     }
 }

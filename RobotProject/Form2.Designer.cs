@@ -76,6 +76,7 @@ namespace RobotProject
                     palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
                     ConnectionManager.AssignCell(long.Parse(order), no+1, p);
                     
+
                     // pallete openin dialog confirmed
                     // result can be taken as: pp.Text
                 }
@@ -90,10 +91,11 @@ namespace RobotProject
                 if (nbp.confirmed)
                 {
                     // new box add confirmed
-                    var orderNo = nbp.GetLines[0];
-                    var p = ConnectionManager.Sql.GetPallet(orderNo);
-                    ConnectionManager.AssignCell(long.Parse(orderNo), 2, p);
-                    assignCell(2, long.Parse(orderNo), p);
+                    var info = nbp.GetLines;
+                    ConnectionManager.AssignNonBarcodeCell(int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
+                        int.Parse(info[6]), int.Parse(info[7]));
+                    assignCell(2, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])));
+                    ConnectionManager.PatternMode = true;
                 }
             };
             
@@ -164,6 +166,10 @@ namespace RobotProject
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(ConnectionManager.Cells);
             string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             File.WriteAllText(Path.Combine(docPath, "cells"), jsonString);
+            jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(ConnectionManager.PatternMode);
+            File.WriteAllText(Path.Combine(docPath, "config"), jsonString);
+            jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(ConnectionManager.PatternProduct);
+            File.WriteAllText(Path.Combine(docPath, "pattern"), jsonString);
         }
 
         private void LoadData()
@@ -183,6 +189,17 @@ namespace RobotProject
                     palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.GetCellType().ToString(),cell.OrderSize);
                     // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
                     palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
+                }
+                
+                using (var sr = new StreamReader(Path.Combine(docPath, "config")))
+                {
+                    var jsonString = sr.ReadToEnd();
+                    ConnectionManager.PatternMode = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(jsonString);
+                }
+                using (var sr = new StreamReader(Path.Combine(docPath, "pattern")))
+                {
+                    var jsonString = sr.ReadToEnd();
+                    ConnectionManager.PatternProduct = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(jsonString);
                 }
             }
             catch

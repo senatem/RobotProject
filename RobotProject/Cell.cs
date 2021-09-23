@@ -8,14 +8,17 @@ namespace RobotProject
         public int Holding { get; set; }
         public int PalletHeight { get; set; }
         public int PalletWidth { get; set; }
+        
+        public int PalletZ { get; set; }
 
-        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth)
+        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ)
         {
             OrderNo = orderNo;
             RobotNo = robotNo;
             OrderSize = orderSize;
             PalletHeight = palletHeight;
             PalletWidth = palletWidth;
+            PalletZ = palletZ;
         }
         
         public void AddProduct()
@@ -42,6 +45,11 @@ namespace RobotProject
             return PalletHeight;
         }
 
+        public int GetPalletZ()
+        {
+            return PalletZ;
+        }
+        
         public int GetRobotNo()
         {
             return RobotNo;

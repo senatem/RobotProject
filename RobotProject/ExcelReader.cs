@@ -11,7 +11,6 @@ namespace RobotProject
         private readonly IExcelDataReader _reader;
         private readonly DataSet _table;
         
-
         public ExcelReader(string file)
         {
             _stream = File.Open(file, FileMode.Open, FileAccess.Read);
@@ -21,8 +20,9 @@ namespace RobotProject
             {
                 ConfigureDataTable = _ => new ExcelDataTableConfiguration
                 {
-                    UseHeaderRow = true
-                }
+                    UseHeaderRow = true,
+                },
+               // UseColumnDataType = false
             });
         }
 

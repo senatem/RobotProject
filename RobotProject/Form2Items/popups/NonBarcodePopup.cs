@@ -25,7 +25,7 @@ namespace RobotProject.Form2Items
 
             for (var i = 0; i < _lineStrings.Count; i++)
             {
-                var r = v.SliceHorizontal((i + 1) / 8f, (i + 2) / 8f);
+                var r = v.SliceHorizontal((i + 1) / 12f, (i + 2) / 12f);
                 var att = new TextPair(_lineStrings[i], _lineStrings[i], r);
                 _lines.Add(att);
                 att.Implement(Controls);
@@ -33,7 +33,7 @@ namespace RobotProject.Form2Items
             
 
             // buttons
-            var buttonsRect = v.SliceHorizontal(0.7f, 0.8f);
+            var buttonsRect = v.SliceHorizontal(0.8f, 0.9f);
             var conf = new ModifiedButton("onay", "Onay");
             conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
             conf.ClickAction = () =>
@@ -57,7 +57,7 @@ namespace RobotProject.Form2Items
         }
 
         private float w = 400f;
-        private float h = 450f;
+        private float h = 800f;
 
         public void Reset()
         {
@@ -91,7 +91,7 @@ namespace RobotProject.Form2Items
 
         private readonly List<string> _lineStrings = new List<string>
         {
-            "Sipariş No",
+            "Ürün Yükseklik", "Ürün Uzunluk", "Ürün Tip", "Sipariş Miktarı", "Yöntem Kodu", "Palet Yükseklik", "Palet Uzunluk", "Palet Yerden Yükseklik"
         };
     }
 }

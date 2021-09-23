@@ -2,40 +2,40 @@ namespace RobotProject
 {
     public class Product
     {
-        private readonly int _height, _width, _type;
-        private readonly int _orderSize, _yontemKodu;
+        public readonly int Height, Width, Type;
+        public readonly int OrderSize, YontemKodu;
 
         public Product(int height, int width, int type, float orderSize, string yontemKodu)
         {
-            _height = height;
-            _width = width;
-            _type = type;
-            _orderSize = (int) orderSize;
-            _yontemKodu = int.Parse(yontemKodu);
+            Height = height;
+            Width = width;
+            Type = type;
+            OrderSize = (int) orderSize;
+            YontemKodu = int.Parse(yontemKodu);
         }
         
         public int GetHeight()
         {
-            return _height;
+            return Height;
         }
         
         public int GetWidth()
         {
-            return _width;
+            return Width;
         }
         public int GetProductType()
         {
-            return _type;
+            return Type;
         }
 
         public int GetOrderSize()
         {
-            return _orderSize;
+            return OrderSize;
         }
 
         public int GetYontem()
         {
-            return _yontemKodu;
+            return YontemKodu;
         }
     }
 }
