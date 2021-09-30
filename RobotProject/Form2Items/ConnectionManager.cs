@@ -347,9 +347,9 @@ namespace RobotProject.Form2Items
             {
                 z = a switch
                 {
-                    11 => 90,
-                    21 => 90,
-                    22 => 124,
+                    11 => 96,
+                    21 => 96,
+                    22 => 130,
                     33 => 180,
                     _ => z
                 };
