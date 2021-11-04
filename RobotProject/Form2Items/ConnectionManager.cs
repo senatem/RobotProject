@@ -137,6 +137,7 @@ namespace RobotProject.Form2Items
             PlcClient.IPAddress = "192.168.0.1";
             PlcClient.Port = 502;
             PlcClient.SerialPort = null;
+            PlcConnected = true;
 
             try
             {
@@ -333,7 +334,7 @@ namespace RobotProject.Form2Items
 
         private static void ProcessNonBarcode()
         {
-            var c = Cells.Find(cell => cell.GetRobotNo() == 2);
+            var c = GetCell(0);
             c.AddProduct();
             var boxed = 0;
             if (PatternProduct.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
@@ -366,35 +367,65 @@ namespace RobotProject.Form2Items
                 };
             }
 
-            var cNo = 2;
+            var cNo = c.GetRobotNo();;
 
-            if (c.Full() == 1)
-            {
-                OnCellFull(cNo - 1);
-            }
-
+            Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0);
             //offset hesapları
             if (boxed == 1)
             {
-                Offsets offsets = Calculator.Calculate(PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80, z,
+                offsets = Calculator.Calculate(PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80, z,
                     c.GetCounter(),
                     PatternProduct.GetYontem(), PatternProduct.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
                 //gerekli sinyaller gönderilir
+                int full = 0;
+                if (offsets.Kat == c.KatMax)
+                {
+                    full = 1;
+                }
                 SendPlcSignals(cNo, offsets, PatternProduct.GetHeight()+80, PatternProduct.GetWidth()+80,
-                    PatternProduct.GetProductType(), c.GetCounter(), c.Full(), boxed);
+                    PatternProduct.GetProductType(), c.GetCounter(), full, boxed);
             }
             else
             {
-                Offsets offsets = Calculator.Calculate(PatternProduct.GetHeight(), PatternProduct.GetWidth(), z, c.GetCounter(),
+                offsets = Calculator.Calculate(PatternProduct.GetHeight(), PatternProduct.GetWidth(), z, c.GetCounter(),
                     PatternProduct.GetYontem(), PatternProduct.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
                 //gerekli sinyaller gönderilir
+                int full = 0;
+                if (offsets.Kat == c.KatMax)
+                {
+                    full = 1;
+                }
                 SendPlcSignals(cNo, offsets, PatternProduct.GetHeight(), PatternProduct.GetWidth(),
-                    PatternProduct.GetProductType(), c.GetCounter(), c.Full(), boxed);
+                    PatternProduct.GetProductType(), c.GetCounter(), full, boxed);
+            }
+            if (offsets.Kat==c.KatMax)
+            {
+                OnCellFull(cNo - 1);
+                if (cNo == 3)
+                {
+                    cNo = 0;
+                }
+                AssignNonBarcodeCell(cNo+1, PatternProduct.GetHeight(), PatternProduct.GetWidth(), PatternProduct.GetProductType(), PatternProduct.GetOrderSize(), PatternProduct.GetYontem().ToString(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ(), c.KatMax);
             }
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
             
             ProductAdd(cNo);
+            
+        }
+
+        public static int GetKatMax(int px, int py, int yontem, int type)
+        {
+            string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+            int[] values = {yontem, type, px - px % 100, py - py % 100};
+            try
+            {
+                return (int) (double) Calculator.Er.Find(fields, values).Rows[0]["KatYuksekligi"];
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
             
         }
 
@@ -409,15 +440,18 @@ namespace RobotProject.Form2Items
 
             if (c == null && Cells.Count < 3)
             {
+                int px = product.GetHeight();
+                int py = product.GetWidth();
+                int katMax = GetKatMax(px, py, product.GetYontem(), product.GetProductType());
                 var p = Sql.GetPallet(orderNum.ToString());
                 if (IsHeavy(product))
                 {
-                    AssignCell(orderNum, 2, p);
+                    AssignCell(orderNum, 2, p, katMax);
                     OnCellAssigned(2, orderNum, p);
                 }
                 else
                 {
-                    AssignCell(orderNum, Cells.Count+1, p);
+                    AssignCell(orderNum, Cells.Count+1, p, katMax);
                     OnCellAssigned(Cells.Count, orderNum, p);
                 }
             } else if (c == null && Cells.Count == Cells.Capacity)
@@ -460,30 +494,41 @@ namespace RobotProject.Form2Items
 
             var cNo = c.GetRobotNo();
 
-            if (c.Full() == 1)
-            {
-                OnCellFull(cNo - 1);
-            }
+            Offsets offsets = new Offsets(0,0,0,0,0,0,0);
 
             //offset hesapları
             if (boxed == 1)
             {
-                Offsets offsets = Calculator.Calculate(product.GetHeight() + 80, product.GetWidth() + 80, z,
+                offsets = Calculator.Calculate(product.GetHeight() + 80, product.GetWidth() + 80, z,
                     c.GetCounter(),
                     product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
                 //gerekli sinyaller gönderilir
+                int full = 0;
+                if (offsets.Kat == c.KatMax)
+                {
+                    full = 1;
+                }
                 SendPlcSignals(cNo, offsets, product.GetHeight()+80, product.GetWidth()+80,
-                    product.GetProductType(), c.GetCounter(), c.Full(), boxed);
+                    product.GetProductType(), c.GetCounter(), full, boxed);
             }
             else
             {
-                Offsets offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
+                offsets = Calculator.Calculate(product.GetHeight(), product.GetWidth(), z, c.GetCounter(),
                     product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ());
                 //gerekli sinyaller gönderilir
+                int full = 0;
+                if (offsets.Kat == c.KatMax)
+                {
+                    full = 1;
+                }
                 SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
-                    product.GetProductType(), c.GetCounter(), c.Full(), boxed);
+                    product.GetProductType(), c.GetCounter(), full, boxed);
             }
-
+            
+            if (offsets.Kat==c.KatMax)
+            {
+                OnCellFull(cNo - 1);
+            }
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
             
             ProductAdd(cNo);
@@ -503,16 +548,19 @@ namespace RobotProject.Form2Items
             return Cells.Find(cell => cell.GetRobotNo() == 2).OrderNo;
         }
 
-        public static void AssignCell(long orderNo, int robotNo,Pallet pallet)
+        public static void AssignCell(long orderNo, int robotNo,Pallet pallet, int katMax)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140));
+            if (katMax == 0) katMax = orderSize;
+
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax));
         }
         
-        public static void AssignNonBarcodeCell(int height, int width, int type, int orderSize, string yontemKodu, int palletH, int palletL, int palletZ)
+        public static void AssignNonBarcodeCell(int robotNo, int height, int width, int type, int orderSize, string yontemKodu, int palletH, int palletL, int palletZ, int katMax)
         {
             PatternProduct = new Product(height, width, type, orderSize, yontemKodu);
-            Cells.Add(new Cell(0, 2, orderSize, palletH, palletL, palletZ));
+            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax);
+            Cells.Add(c);
         }
 
         public static void EmptyCell(int i)

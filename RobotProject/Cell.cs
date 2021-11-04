@@ -10,8 +10,10 @@ namespace RobotProject
         public int PalletWidth { get; set; }
         
         public int PalletZ { get; set; }
+        
+        public int KatMax { get; set; }
 
-        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ)
+        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ, int katMax)
         {
             OrderNo = orderNo;
             RobotNo = robotNo;
@@ -19,6 +21,7 @@ namespace RobotProject
             PalletHeight = palletHeight;
             PalletWidth = palletWidth;
             PalletZ = palletZ;
+            KatMax = katMax;
         }
         
         public void AddProduct()

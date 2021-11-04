@@ -28,13 +28,13 @@ namespace RobotProject
 
     public class OffsetCalculator
     {
-        private readonly ExcelReader _er = new ExcelReader(References.ProjectPath + "Paletleme.xlsx");
+        public readonly ExcelReader Er = new ExcelReader(References.ProjectPath + "Paletleme.xlsx");
 
         private int GetPattern(int px, int py, int yontemKodu, int type)
         {
             string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
             int[] values = {yontemKodu, type, px - px % 100, py - py % 100};
-            var pattern = (int) (double) _er.Find(fields, values).Rows[0]["PaletlemeSekli"];
+            var pattern = (int) (double) Er.Find(fields, values).Rows[0]["PaletlemeSekli"];
             return pattern;
         }
 
@@ -43,7 +43,7 @@ namespace RobotProject
             string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
             int[] values = {yontemKodu, type, px - px % 100, py - py % 100};
 
-            var db1 = _er.Find(fields, values).Rows[0];
+            var db1 = Er.Find(fields, values).Rows[0];
 
             return db1.IsNull("KlavuzEtiket");
         }
@@ -52,10 +52,10 @@ namespace RobotProject
         {
             string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
             int[] values = {yontemKodu, type, px - px % 100, py - py % 100, pH, pW};
-            var rotation = _er.Find(fields, values).Rows[0]["Rotation"];
+            var rotation = Er.Find(fields, values).Rows[0]["Rotation"];
             return (string) rotation;
         }
-
+        
         public Offsets Calculate(int px, int py, int pz, int counter, int yontemKodu, int type, int palletHeight,
             int palletWidth, int palletZ)
         {

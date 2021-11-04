@@ -29,6 +29,9 @@ namespace RobotProject.Form2Items
 
                 AddProductButton = new ModifiedButton("ap", "Pattern Aç");
                 AddProductButton.Reorient(a[1]);
+
+                ReconnectButton = new ModifiedButton("recon", "Yeniden Bağlan");
+                ReconnectButton.Reorient(a[2]);
             }
 
             
@@ -43,11 +46,13 @@ namespace RobotProject.Form2Items
             else
             {
                 motherControlCollection.Add(PalleteButton!);
-                motherControlCollection.Add(AddProductButton!);    
+                motherControlCollection.Add(AddProductButton!);   
+                motherControlCollection.Add(ReconnectButton!);
             }
         }
         public readonly ModifiedButton? PalleteButton;
         public readonly ModifiedButton? AddProductButton;
+        public readonly ModifiedButton? ReconnectButton;
         private readonly Indicator? _plotIndicator;
         private readonly bool _asVisual;
     }

@@ -73,8 +73,11 @@ namespace RobotProject
                     // pp.SelectedIndex returns the selected index
                     
                     // adjust the following line according to the returned index
+                    var product = ConnectionManager.Sql.Select("Siparis_No", order);
                     palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
-                    ConnectionManager.AssignCell(long.Parse(order), no+1, p);
+                    int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
+                        product.GetProductType());
+                    ConnectionManager.AssignCell(long.Parse(order), no+1, p, k);
                     
 
                     // pallete openin dialog confirmed
@@ -83,7 +86,13 @@ namespace RobotProject
             };
 
 
+            systemControls.ReconnectButton.ClickAction = () =>
+            {
+                ConnectionManager.Connect();
+            };
 
+            
+            
             systemControls.AddProductButton.ClickAction = () =>
             {
                 nbp.Opening();
@@ -92,9 +101,9 @@ namespace RobotProject
                 {
                     // new box add confirmed
                     var info = nbp.GetLines;
-                    ConnectionManager.AssignNonBarcodeCell(int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
-                        int.Parse(info[6]), int.Parse(info[7]));
-                    assignCell(2, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])));
+                    ConnectionManager.AssignNonBarcodeCell(1, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
+                        int.Parse(info[6]), int.Parse(info[7]), int.Parse(info[8]));
+                    assignCell(1, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])));
                     ConnectionManager.PatternMode = true;
                 }
             };

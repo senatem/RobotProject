@@ -28,9 +28,9 @@ namespace RobotProject.Form2Items
                 var a = r.Split(1, 3, 0.05f, 0.05f);
                 _plcIndicator = new Indicator("plc", References.ProjectPath + "Images\\plc_on.png");
                 _plcIndicator.Reorient(a[0].FittingSquare());
-                _barcodeIndicator = new Indicator("plc", References.ProjectPath + "Images\\barcode_on.png");
+                _barcodeIndicator = new Indicator("barcode", References.ProjectPath + "Images\\barcode_on.png");
                 _barcodeIndicator.Reorient(a[1].FittingSquare());
-                _taperIndicator = new Indicator("plc", References.ProjectPath + "Images\\tape_on.png");
+                _taperIndicator = new Indicator("taper", References.ProjectPath + "Images\\tape_on.png");
                 _taperIndicator.Reorient(a[2].FittingSquare());
             }
         }
