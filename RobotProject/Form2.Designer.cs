@@ -67,6 +67,8 @@ namespace RobotProject
                 if (pp.Confirmed)
                 {
                     var no = pp.RobotNo-1;
+                    ConnectionManager.EmptyCell(no);
+                    emptyCell(no);
                     var order = orders[pp.SelectedIndex];
                     var p = ConnectionManager.Sql.GetPallet(order);
                     
@@ -74,7 +76,7 @@ namespace RobotProject
                     
                     // adjust the following line according to the returned index
                     var product = ConnectionManager.Sql.Select("Siparis_No", order);
-                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
+                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax());
                     int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
                         product.GetProductType());
                     ConnectionManager.AssignCell(long.Parse(order), no+1, p, k);
@@ -101,9 +103,11 @@ namespace RobotProject
                 {
                     // new box add confirmed
                     var info = nbp.GetLines;
-                    ConnectionManager.AssignNonBarcodeCell(1, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
+                    ConnectionManager.EmptyCell(nbp.RobotNo-1);
+                    emptyCell(nbp.RobotNo-1);
+                    ConnectionManager.AssignNonBarcodeCell(nbp.RobotNo, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
                         int.Parse(info[6]), int.Parse(info[7]), int.Parse(info[8]));
-                    assignCell(1, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])));
+                    assignCell(nbp.RobotNo, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])));
                     ConnectionManager.PatternMode = true;
                 }
             };
@@ -162,7 +166,7 @@ namespace RobotProject
             var no = i-1;
             try
             {
-                palleteVisuals.setPallette(no, orderNo.ToString(),p.GetHeight().ToString(),p.GetLength().ToString(),p.GetPalletType().ToString(),p.GetMax());
+                palleteVisuals.setPallette(no, orderNo.ToString(),p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax());
             }
             catch (Exception e)
             {
@@ -195,7 +199,7 @@ namespace RobotProject
 
                 foreach (var cell in ConnectionManager.Cells)
                 {
-                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.GetCellType().ToString(),cell.OrderSize);
+                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize);
                     // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
                     palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
                 }

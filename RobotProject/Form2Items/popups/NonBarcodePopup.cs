@@ -33,7 +33,7 @@ namespace RobotProject.Form2Items
             
 
             // buttons
-            var buttonsRect = v.SliceHorizontal(0.8f, 0.9f);
+            var buttonsRect = v.SliceHorizontal(0.9f, 0.95f);
             var conf = new ModifiedButton("onay", "Onay");
             conf.Reorient(buttonsRect.SliceVertical(0.1f, 0.4f));
             conf.ClickAction = () =>
@@ -48,6 +48,27 @@ namespace RobotProject.Form2Items
 
             Controls.Add(conf);
             Controls.Add(exit);
+
+            for (float i = 0; i < 3; i++)
+            {
+                var mrb = new ModifiedRadioButton("radio");
+                mrb.Reorient(v.SliceHorizontal(0.8f, 0.9f).SliceVertical(i / 3f, (i + 1) / 3f));
+                mrb.Text = $"Hücre {i + 1}";
+                var i1 = i;
+                mrb.ClickAction = () =>
+                {
+                    if (RobotNo == 0)
+                    {
+                        conf.Enabled = true;
+                    }
+
+                    RobotNo = (int) i1 + 1;
+
+                };
+
+
+                Controls.Add(mrb);
+            }
         }
 
         public sealed override string Text
@@ -70,6 +91,13 @@ namespace RobotProject.Form2Items
         public void Opening()
         {
             _confirmed = false;
+            foreach (Control control in Controls)
+            {
+                if (control is ModifiedRadioButton)
+                {
+                    (control as ModifiedRadioButton).Checked = false;
+                }
+            }
         }
 
         private Boolean _confirmed;
@@ -86,7 +114,7 @@ namespace RobotProject.Form2Items
             }
         }
 
-        
+        public int RobotNo { get; set; }
         private readonly List<TextPair> _lines = new List<TextPair>();
 
         private readonly List<string> _lineStrings = new List<string>

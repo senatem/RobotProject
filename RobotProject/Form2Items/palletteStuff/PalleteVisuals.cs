@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -59,9 +60,9 @@ namespace RobotProject.Form2Items.palletteStuff
             _pallettes[n].EmptyPallette();
         }
 
-        public void setPallette(int n, string no, string en, string boy, string type, int cap)
+        public void setPallette(int n, string no, string en, string boy, int cap)
         {
-            _pallettes[n].setInfo(no,en,boy,type,cap);
+            _pallettes[n].setInfo(no,en,boy,cap);
         }
 
         public void setProdCount(int n, int? valueDefn=null, int? valueFill = null)
@@ -71,7 +72,7 @@ namespace RobotProject.Form2Items.palletteStuff
 
         public void increaseProdCount(int n, int increment = 1)
         {
-            _pallettes[n-1].incementCount(0, increment);
+            _pallettes[n - 1].incementCount(0, increment);
         }
 
 

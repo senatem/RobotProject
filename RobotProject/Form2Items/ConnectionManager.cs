@@ -173,7 +173,6 @@ namespace RobotProject.Form2Items
             }
 
             TaperConnected = PlcClient2.Available(100);
-            Task.Run(ListenTaper);
             EventArgs args = new EventArgs();
             OnTaperConnectionChanged(args);
         }
@@ -240,14 +239,7 @@ namespace RobotProject.Form2Items
             while (true)
             {
                 ReadHoldingRegsPlc(PlcClient);
-                await Task.Delay(1000, CancellationToken.None);
-            }
-        }
-
-        private static async Task ListenTaper()
-        {
-            while (true)
-            { await Task.Delay(1000, CancellationToken.None);
+                await Task.Delay(500, CancellationToken.None);
             }
         }
 
@@ -256,7 +248,7 @@ namespace RobotProject.Form2Items
             while (true)
             {
                 ReadHoldingRegsBarcode(BarcodeClient);
-                await Task.Delay(1000, CancellationToken.None);
+                await Task.Delay(500, CancellationToken.None);
             }
         }
 
@@ -367,7 +359,7 @@ namespace RobotProject.Form2Items
                 };
             }
 
-            var cNo = c.GetRobotNo();;
+            var cNo = c.GetRobotNo();
 
             Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0);
             //offset hesapları
@@ -406,12 +398,12 @@ namespace RobotProject.Form2Items
                     cNo = 0;
                 }
                 AssignNonBarcodeCell(cNo+1, PatternProduct.GetHeight(), PatternProduct.GetWidth(), PatternProduct.GetProductType(), PatternProduct.GetOrderSize(), PatternProduct.GetYontem().ToString(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ(), c.KatMax);
+                var p = new Pallet(c.PalletHeight, c.PalletWidth, PatternProduct.GetProductType(), c.OrderSize);
+                OnCellAssigned(cNo+1, 0, p);
             }
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
-            
             ProductAdd(cNo);
-            
         }
 
         public static int GetKatMax(int px, int py, int yontem, int type)
@@ -541,11 +533,6 @@ namespace RobotProject.Form2Items
         private static Cell? GetCell(long type)
         {
             return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
-        }
-
-        private static long GetCellTwoOrder()
-        {
-            return Cells.Find(cell => cell.GetRobotNo() == 2).OrderNo;
         }
 
         public static void AssignCell(long orderNo, int robotNo,Pallet pallet, int katMax)

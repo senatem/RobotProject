@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Windows.Forms;
 using RobotProject.uiElements;
 
 namespace RobotProject
@@ -32,10 +33,20 @@ namespace RobotProject
 
         private int GetPattern(int px, int py, int yontemKodu, int type)
         {
-            string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
-            int[] values = {yontemKodu, type, px - px % 100, py - py % 100};
-            var pattern = (int) (double) Er.Find(fields, values).Rows[0]["PaletlemeSekli"];
-            return pattern;
+            try
+            {
+                string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+                int[] values = {yontemKodu, type, px - px % 100, py - py % 100};
+                var t = Er.Find(fields, values).Rows[0];
+                var pattern = (int) (double) Er.Find(fields, values).Rows[0]["PaletlemeSekli"];
+                return pattern;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return 0;
+            }
+
         }
 
         private bool GetPriority(int px, int py, int yontemKodu, int type)
@@ -60,14 +71,16 @@ namespace RobotProject
             int palletWidth, int palletZ)
         {
             var p = GetPattern(px, py, yontemKodu, type);
-
+            
             var r = "";
             var pri = false;
             
             if (p != 1)
             { 
                 r = GetRotation(px, py, yontemKodu, type, palletHeight, palletWidth);
+                
                 pri = GetPriority(px, py, yontemKodu, type);
+                
                 
             }
 

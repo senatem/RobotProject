@@ -82,36 +82,6 @@ namespace RobotProject.Form2Items
             cb.TabIndex = 0;
             Controls.Add(cb);
             
-            /*
-            // text can be changed here
-            _prodNo = new TextPair("prod no", "palet no:", v.SliceHorizontal(3f / 8f, 4f / 8f));
-            
-            _prodNo.KeyPressed = () =>
-            {
-                var ss = _prodNo.SelectionStart;
-                if (System.Text.RegularExpressions.Regex.IsMatch(_prodNo.Text, "[^0-9]"))
-                {
-                    // prodNo.Text = prodNo.Text.Remove(prodNo.Text.Length - 1);
-                    ss = ss - 1;
-                }
-                else
-                {
-                    _productNo = _prodNo.Text;
-                }
-
-                _prodNo.Text = _productNo;
-                //prodNo.CursorToEnd();
-                _prodNo.SelectionStart = ss;
-            };
-            _prodNo.Text = "";
-            _prodNo.Implement(Controls);
-            */
-            
-            
-
-
-
-
             
         }
 

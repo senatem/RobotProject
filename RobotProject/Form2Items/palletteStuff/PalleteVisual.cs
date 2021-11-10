@@ -9,7 +9,7 @@ namespace RobotProject.Form2Items.palletteStuff
     public class PalletteVisual
     {
         // Dikkat!, aşağıdaki satırı bana sormadan değiştirirseniz, tüm kelimeler görünüyor mu diye de bakın
-        static List<string> staticTexts = new List<string>{"Sipariş no:", "Palet Yükseklik:", "Palet Uzunluk:", "Palet Tipi:","Doluluk:"};
+        static List<string> staticTexts = new List<string>{"Sipariş no:", "Palet Yükseklik:", "Palet Uzunluk:","Doluluk:"};
         public PalletteVisual(Geometry.Rectangle r, int palleteNo)
         {
             _palleteNo = palleteNo;
@@ -100,19 +100,18 @@ namespace RobotProject.Form2Items.palletteStuff
         /** Sets info to the pallete box
          * also 
          */
-        public void setInfo(string no= "???" , string en= "???", string boy="???", string type="???", int cap=0)
+        public void setInfo(string no= "???" , string en= "???", string boy="???", int cap=0)
         {
             _dynamicLabels[0].Text = no;
             _dynamicLabels[1].Text = en;
             _dynamicLabels[2].Text = boy;
-            _dynamicLabels[3].Text = type;
             _prodCap = cap;
             _modifiedProgressBarFilled.Maximum = cap;
             _modifiedProgressBarDefined.Maximum = cap;
             _prodCountFill = 0;
             _prodCountDefn = 0;
-            _dynamicLabels[4].ForeColor = Color.Black;
-            _dynamicLabels[4].Text = filled();
+            _dynamicLabels[3].ForeColor = Color.Black;
+            _dynamicLabels[3].Text = filled();
         }
 
         /** Clears the given pallete
@@ -133,7 +132,7 @@ namespace RobotProject.Form2Items.palletteStuff
             // this bit truns it red if overfilled also warns
             if (_prodCap == _prodCountDefn)
             {
-                _dynamicLabels[4].ForeColor = Color.Yellow;
+                _dynamicLabels[3].ForeColor = Color.Yellow;
                 // raises warning, can be turned off
                 //var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
                 //gw.ShowDialog();
@@ -142,7 +141,7 @@ namespace RobotProject.Form2Items.palletteStuff
             // this bit truns it red if overfilled also warns
             if (_prodCap == _prodCountFill)
             {
-                _dynamicLabels[4].ForeColor = Color.Red;
+                _dynamicLabels[3].ForeColor = Color.Red;
                 // raises warning, can be turned off
                 //var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
                 //gw.ShowDialog();
@@ -158,7 +157,7 @@ namespace RobotProject.Form2Items.palletteStuff
             _prodCountDefn = defn ?? _prodCountDefn;
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;
-            _dynamicLabels[4].Text = filled();
+            _dynamicLabels[3].Text = filled();
         }
 
         public void incementCount(int incrementFill=0, int incrementDefn = 0)
@@ -167,7 +166,7 @@ namespace RobotProject.Form2Items.palletteStuff
             _prodCountDefn += incrementDefn;
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;
-            _dynamicLabels[4].Text = filled();
+            _dynamicLabels[3].Text = filled();
         }
 
         private ModifiedLabel _palleteBoxBg;
