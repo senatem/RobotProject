@@ -60,6 +60,11 @@ namespace RobotProject.Form2Items.palletteStuff
             _pallettes[n].EmptyPallette();
         }
 
+        public void resetKat(int n)
+        {
+            _pallettes[n].setCounts(0);
+        }
+
         public void setPallette(int n, string no, string en, string boy, int cap)
         {
             _pallettes[n].setInfo(no,en,boy,cap);

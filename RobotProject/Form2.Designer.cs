@@ -120,7 +120,7 @@ namespace RobotProject
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
             ConnectionManager.TaperConnectionChanged += taperIndicatorUpdater;
             ConnectionManager.ProductIncoming += productAdd;
-            ConnectionManager.CellFull += emptyCell;
+            ConnectionManager.CellFull += resetKat;
             ConnectionManager.CellAssigned += assignCell;
             ConnectionManager.Init();
             LoadData();
@@ -153,6 +153,11 @@ namespace RobotProject
         {
             palleteVisuals.increaseProdCount(r, 1);
             //boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
+        }
+
+        private void resetKat(int i)
+        {
+            palleteVisuals.resetKat(i);
         }
 
         private void emptyCell(int i)
@@ -194,7 +199,11 @@ namespace RobotProject
                 using (var sr = new StreamReader(Path.Combine(docPath, "cells")))
                 {
                     var jsonString = sr.ReadToEnd();
-                    ConnectionManager.Cells = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Cell>>(jsonString);
+                    var cells = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Cell>>(jsonString);
+                    if (cells != null)
+                    {
+                        ConnectionManager.Cells = cells;
+                    }
                 }
 
                 foreach (var cell in ConnectionManager.Cells)
