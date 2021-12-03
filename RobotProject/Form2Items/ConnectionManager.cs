@@ -240,8 +240,13 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                ReadHoldingRegsPlc(PlcClient);
-                await Task.Delay(500, CancellationToken.None);
+                if (PlcClient.Available(100)){
+                    ReadHoldingRegsPlc(PlcClient);
+                    await Task.Delay(300, CancellationToken.None);
+                } else
+                {
+                    ConnectPlc();
+                }
             }
         }
 
@@ -249,8 +254,15 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                ReadHoldingRegsBarcode(BarcodeClient);
-                await Task.Delay(500, CancellationToken.None);
+                if (BarcodeClient.Available(100))
+                {
+                    ReadHoldingRegsBarcode(BarcodeClient);
+                    await Task.Delay(300, CancellationToken.None);
+                }
+                else
+                {
+                    ConnectBarcode();
+                }
             }
         }
 
@@ -335,7 +347,7 @@ namespace RobotProject.Form2Items
         private static void ProcessNonBarcode()
         {
             var c = GetCell(0);
-            
+
             var boxed = 0;
             if (PatternProduct.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
             {
@@ -369,6 +381,7 @@ namespace RobotProject.Form2Items
 
             var cNo = c.GetRobotNo();
 
+            c.AddProduct();
             Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
             //offset hesapları
             if (boxed == 1)
@@ -434,7 +447,6 @@ namespace RobotProject.Form2Items
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
             ProductAdd(cNo);
-            c.AddProduct();
         }
 
         public static int GetKatMax(int px, int py, int yontem, int type)
@@ -515,7 +527,8 @@ namespace RobotProject.Form2Items
             }
 
             var cNo = c.GetRobotNo();
-
+            c.AddProduct();
+            
             Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
 
             //offset hesapları
@@ -534,13 +547,12 @@ namespace RobotProject.Form2Items
 
                 SendPlcSignals(cNo, offsets, product.GetHeight() + 80, product.GetWidth() + 80,
                     product.GetProductType(), c.GetCounter(), full, boxed);
-                
+
                 if (full == 1)
                 {
                     c.OrderSize = c.OrderSize - c.Holding;
                     c.Holding = 0;
                 }
-                
             }
             else
             {
@@ -556,7 +568,7 @@ namespace RobotProject.Form2Items
 
                 SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
                     product.GetProductType(), c.GetCounter(), full, boxed);
-                
+
                 if (full == 1)
                 {
                     c.OrderSize = c.OrderSize - c.Holding;
@@ -571,7 +583,6 @@ namespace RobotProject.Form2Items
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
 
             ProductAdd(cNo);
-            c.AddProduct();
         }
 
         #endregion
