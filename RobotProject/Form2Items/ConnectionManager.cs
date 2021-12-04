@@ -230,6 +230,8 @@ namespace RobotProject.Form2Items
             PlcClient.WriteMultipleRegisters(0, values);
             PlcClient.WriteSingleRegister(15, offsets.Rotation);
             PlcClient.WriteSingleRegister(17, offsets.NextRotation);
+            // await robot okudum
+            // reset offsets
         }
 
         #endregion
@@ -240,12 +242,13 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                if (PlcClient.Available(100)){
+                if (PlcClient.Available(50)){
                     ReadHoldingRegsPlc(PlcClient);
-                    await Task.Delay(300, CancellationToken.None);
+                    await Task.Delay(100, CancellationToken.None);
                 } else
                 {
                     ConnectPlc();
+                    MessageBox.Show("Bağlantı Hatası! PlcClient Status: " + PlcClient.Connected);
                 }
             }
         }
@@ -254,18 +257,18 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                if (BarcodeClient.Available(100))
+                if (BarcodeClient.Available(50))
                 {
                     ReadHoldingRegsBarcode(BarcodeClient);
-                    await Task.Delay(300, CancellationToken.None);
+                    await Task.Delay(100, CancellationToken.None);
                 }
                 else
                 {
                     ConnectBarcode();
+                    MessageBox.Show("Bağlantı Hatası! BarcodeClient Status: " + BarcodeClient.Connected);
                 }
             }
         }
-
         #endregion
 
         #region barcode
@@ -278,11 +281,10 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - time) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - time) > 900)
             {
                 productComing = int.Parse(_plcData);
                 time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-
 
                 if (productComing == 1 && PatternMode)
                 {
@@ -532,6 +534,7 @@ namespace RobotProject.Form2Items
             Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
 
             //offset hesapları
+            // if offsets == 0 write offsets to plc; else buffer it
             if (boxed == 1)
             {
                 offsets = Calculator.Calculate(product.GetHeight() + 80, product.GetWidth() + 80, z,
