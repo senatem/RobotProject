@@ -9,6 +9,29 @@ using RobotProject.uiElements;
 
 namespace RobotProject.Form2Items
 {
+    public class Signal
+    {
+        public readonly int Cell;
+        public readonly Offsets Offsets;
+        public readonly int Px;
+        public readonly int Py;
+        public readonly int Type;
+        public readonly int Count;
+        public readonly int CellFull;
+        public readonly int Boxed;
+
+        public Signal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull, int boxed)
+        {
+            Cell = cell;
+            Offsets = offsets;
+            Px = px;
+            Py = py;
+            Type = type;
+            Count = count;
+            CellFull = cellFull;
+            Boxed = boxed;
+        }
+    }
     #region delegates
 
     public delegate void ProductIncoming(int r);
@@ -35,12 +58,13 @@ namespace RobotProject.Form2Items
         private static string? _plcData;
         private static string? _data;
         public static bool PatternMode;
-        public static Product PatternProduct;
+        public static Product? PatternProduct;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
-        private static readonly ExcelReader _weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
-        private static long time = 0;
-        private static int productComing = 0;
+        private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
+        private static long _time;
+        private static int _productComing;
+        private static List<Signal> _buffer = new List<Signal>(5);
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
@@ -219,17 +243,16 @@ namespace RobotProject.Form2Items
         }
 
 
-        private static void SendPlcSignals(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
-            int boxed)
+        private static void SendPlcSignals(Signal s)
         {
             int[] values =
             {
-                cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
-                boxed
+                s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type, s.Count, s.CellFull,
+                s.Boxed
             };
             PlcClient.WriteMultipleRegisters(0, values);
-            PlcClient.WriteSingleRegister(15, offsets.Rotation);
-            PlcClient.WriteSingleRegister(17, offsets.NextRotation);
+            PlcClient.WriteSingleRegister(15, s.Offsets.Rotation);
+            PlcClient.WriteSingleRegister(17, s.Offsets.NextRotation);
             // await robot okudum
             // reset offsets
         }
@@ -248,9 +271,10 @@ namespace RobotProject.Form2Items
                 } else
                 {
                     ConnectPlc();
-                    MessageBox.Show("Bağlantı Hatası! PlcClient Status: " + PlcClient.Connected);
+                    MessageBox.Show(@"Bağlantı Hatası! PlcClient Status: " + PlcClient.Connected);
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private static async Task Listen()
@@ -265,9 +289,10 @@ namespace RobotProject.Form2Items
                 else
                 {
                     ConnectBarcode();
-                    MessageBox.Show("Bağlantı Hatası! BarcodeClient Status: " + BarcodeClient.Connected);
+                    MessageBox.Show(@"Bağlantı Hatası! BarcodeClient Status: " + BarcodeClient.Connected);
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
         #endregion
 
@@ -281,12 +306,12 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - time) > 900)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _time) > 900)
             {
-                productComing = int.Parse(_plcData);
-                time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                _productComing = int.Parse(_plcData!);
+                _time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-                if (productComing == 1 && PatternMode)
+                if (_productComing == 1 && PatternMode)
                 {
                     ProcessNonBarcode();
                 }
@@ -341,7 +366,7 @@ namespace RobotProject.Form2Items
             }
 
             int[] values = {product.GetProductType(), px - px % 100, py - py % 100};
-            var weight = (double) _weights.Find(fields, values).Rows[0]["Brut"];
+            var weight = (double) Weights.Find(fields, values).Rows[0]["Brut"];
 
             return weight >= 50;
         }
@@ -351,7 +376,7 @@ namespace RobotProject.Form2Items
             var c = GetCell(0);
 
             var boxed = 0;
-            if (PatternProduct.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
+            if (PatternProduct!.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
             {
                 boxed = 1;
             }
@@ -381,10 +406,10 @@ namespace RobotProject.Form2Items
                 };
             }
 
-            var cNo = c.GetRobotNo();
+            var cNo = c!.GetRobotNo();
 
             c.AddProduct();
-            Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
+            Offsets offsets;
             //offset hesapları
             if (boxed == 1)
             {
@@ -399,8 +424,9 @@ namespace RobotProject.Form2Items
                     full = 1;
                 }
 
-                SendPlcSignals(cNo, offsets, PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80,
+                var s = new Signal(cNo, offsets, PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80,
                     PatternProduct.GetProductType(), c.GetCounter(), full, boxed);
+                SendPlcSignals(s);
 
                 if (full == 1)
                 {
@@ -420,8 +446,9 @@ namespace RobotProject.Form2Items
                     full = 1;
                 }
 
-                SendPlcSignals(cNo, offsets, PatternProduct.GetHeight(), PatternProduct.GetWidth(),
+                var s = new Signal(cNo, offsets, PatternProduct.GetHeight(), PatternProduct.GetWidth(),
                     PatternProduct.GetProductType(), c.GetCounter(), full, boxed);
+                SendPlcSignals(s);
                 if (full == 1)
                 {
                     c.OrderSize = c.OrderSize - c.Holding;
@@ -459,7 +486,7 @@ namespace RobotProject.Form2Items
             {
                 return (int) (double) Calculator.Er.Find(fields, values).Rows[0]["KatYuksekligi"];
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return 0;
             }
@@ -482,12 +509,12 @@ namespace RobotProject.Form2Items
                 var p = Sql.GetPallet(orderNum.ToString());
                 if (IsHeavy(product))
                 {
-                    AssignCell(orderNum, 2, p, katMax);
+                    AssignCell(orderNum, 2, p!, katMax);
                     OnCellAssigned(2, orderNum, p);
                 }
                 else
                 {
-                    AssignCell(orderNum, Cells.Count + 1, p, katMax);
+                    AssignCell(orderNum, Cells.Count + 1, p!, katMax);
                     OnCellAssigned(Cells.Count, orderNum, p);
                 }
             }
@@ -528,10 +555,10 @@ namespace RobotProject.Form2Items
                 };
             }
 
-            var cNo = c.GetRobotNo();
+            var cNo = c!.GetRobotNo();
             c.AddProduct();
             
-            Offsets offsets = new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
+            Offsets offsets;
 
             //offset hesapları
             // if offsets == 0 write offsets to plc; else buffer it
@@ -548,8 +575,9 @@ namespace RobotProject.Form2Items
                     full = 1;
                 }
 
-                SendPlcSignals(cNo, offsets, product.GetHeight() + 80, product.GetWidth() + 80,
+                var s = new Signal(cNo, offsets, product.GetHeight() + 80, product.GetWidth() + 80,
                     product.GetProductType(), c.GetCounter(), full, boxed);
+                SendPlcSignals(s);
 
                 if (full == 1)
                 {
@@ -569,8 +597,9 @@ namespace RobotProject.Form2Items
                     full = 1;
                 }
 
-                SendPlcSignals(cNo, offsets, product.GetHeight(), product.GetWidth(),
+                var s = new Signal(cNo, offsets, product.GetHeight(), product.GetWidth(),
                     product.GetProductType(), c.GetCounter(), full, boxed);
+                SendPlcSignals(s);
 
                 if (full == 1)
                 {
@@ -628,7 +657,7 @@ namespace RobotProject.Form2Items
                     Cells.Remove(c);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //ignore
             }

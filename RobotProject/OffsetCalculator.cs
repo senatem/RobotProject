@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
@@ -40,7 +39,6 @@ namespace RobotProject
             {
                 string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
                 int[] values = {yontemKodu, type, px - px % 100, py - py % 100};
-                var t = Er.Find(fields, values).Rows[0];
                 var pattern = (int) (double) Er.Find(fields, values).Rows[0]["PaletlemeSekli"];
                 return pattern;
             }
@@ -86,24 +84,24 @@ namespace RobotProject
 
             return p switch
             {
-                1 => PatternOne(pz + 2, counter, palletHeight, palletWidth, palletZ),
-                2 => PatternTwo(px, py, pz + 2, counter, palletHeight, palletWidth, r, palletZ),
-                3 => PatternThree(px, pz + 2, counter, palletHeight, palletWidth, palletZ),
-                4 => PatternFour(px, py, pz + 2, counter, palletHeight, palletWidth, r, pri, palletZ),
-                5 => PatternFive(px, py, pz + 2, counter, palletHeight, palletWidth, r, palletZ),
-                6 => PatternSix(px, py, pz + 2, counter, palletHeight, palletWidth, palletZ),
+                1 => PatternOne(pz + 2, counter, palletWidth, palletZ),
+                2 => PatternTwo(px, pz + 2, counter, palletWidth, r, palletZ),
+                3 => PatternThree(px, pz + 2, counter, palletWidth, palletZ),
+                4 => PatternFour(px, py, pz + 2, counter, palletWidth, r, pri, palletZ),
+                5 => PatternFive(py, pz + 2, counter, palletWidth, r, palletZ),
+                6 => PatternSix(px, py, pz + 2, counter, palletWidth, palletZ),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
 
-        private static Offsets PatternOne(int pz, int counter, int palletHeight, int palletWidth, int palletZ)
+        private static Offsets PatternOne(int pz, int counter, int palletWidth, int palletZ)
         {
             return new Offsets(0, 0 + ((palletWidth * 10) % 200) / 2, pz * (counter - 1) + palletZ, 1, counter, 0, 0,
                 counter + 1);
         }
 
 
-        private static Offsets PatternTwo(int px, int py, int pz, int counter, int palletHeight, int palletWidth,
+        private static Offsets PatternTwo(int px, int pz, int counter, int palletWidth,
             string rotation, int palletZ)
         {
             if (rotation == "90-270")
@@ -128,7 +126,7 @@ namespace RobotProject
             };
         }
 
-        private static Offsets PatternThree(int px, int pz, int counter, int palletHeight, int palletWidth, int palletZ)
+        private static Offsets PatternThree(int px, int pz, int counter, int palletWidth, int palletZ)
         {
             return (counter % 3) switch
             {
@@ -142,7 +140,7 @@ namespace RobotProject
             };
         }
 
-        private static Offsets PatternFour(int px, int py, int pz, int counter, int palletHeight, int palletWidth,
+        private static Offsets PatternFour(int px, int py, int pz, int counter, int palletWidth,
             string rotation, bool priority, int palletZ)
         {
             if (rotation == "90-270" && !priority)
@@ -199,7 +197,7 @@ namespace RobotProject
             };
         }
 
-        private static Offsets PatternFive(int px, int py, int pz, int counter, int palletHeight, int palletWidth,
+        private static Offsets PatternFive(int py, int pz, int counter, int palletWidth,
             string rotation, int palletZ)
         {
             if (rotation == "90-270")
@@ -208,6 +206,7 @@ namespace RobotProject
                 {
                     0 => new Offsets(0, 0, pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 90, 270, (counter + 2) / 2),
                     1 => new Offsets(0, 0, pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 270, 90, (counter + 2) / 2),
+                    _ => throw new ArgumentOutOfRangeException()
                 };
             }
 
@@ -221,7 +220,7 @@ namespace RobotProject
             };
         }
 
-        private static Offsets PatternSix(int px, int py, int pz, int counter, int palletHeight, int palletWidth,
+        private static Offsets PatternSix(int px, int py, int pz, int counter, int palletWidth,
             int palletZ)
         {
             return (counter % 6) switch
