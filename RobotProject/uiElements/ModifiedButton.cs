@@ -14,6 +14,9 @@ namespace RobotProject.uiElements
             Location = new Point(100, 50);
             Size = new Size(200, 200);
             TabIndex = 0;
+            BackColor = Color.LightGray;
+            
+            
             Click += ClickFunction;
             //BackgroundImage = System.Drawing.Image.FromFile("E:\\supreme_command\\cs_projects\\RobotProject\\RobotProject\\Images\\placeholder.jpg");
             //BackgroundImageLayout = ImageLayout.Stretch;

@@ -60,6 +60,40 @@ namespace RobotProject.Form2Items.palletteStuff
             
             
         }
+        
+        public void resize(Geometry.Rectangle r)
+        {
+            //Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( x,y ));
+            //var a = r.Split(1, 4,0.05f,0.05f);
+            
+            var centreRect = r.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.2f, 0.7f)); // centre
+            var a = centreRect.SliceVertical(0.05f,0.95f).Split(staticTexts.Count, 2);
+            a = new List<Geometry.Rectangle>
+            {
+                centreRect.SliceVertical(0.05f,0.65f),
+                centreRect.SliceVertical(0.65f,0.95f)
+
+            };
+            a = new List<Geometry.Rectangle> { };
+            a.AddRange(centreRect.SliceVertical(0.05f,0.7f).Split(staticTexts.Count,1));
+            a.AddRange(centreRect.SliceVertical(0.7f,0.95f).Split(staticTexts.Count,1));
+            
+            
+            
+            _palleteBoxBg.Reorient(centreRect);
+            
+            for (int i = 0; i < staticTexts.Count; i++)
+            {
+                _staticLabels[i].Reorient(a[i]);
+                _dynamicLabels[i].Reorient(a[i+staticTexts.Count]);
+            }
+            
+            _modifiedProgressBarDefined.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.7f, 0.75f)));
+            _modifiedProgressBarFilled.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.75f, 0.8f)));
+            _palleteName.Reorient(r.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
+            _palleteButton.Reorient(r.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
+            
+        }
 
         public void Implement(Control.ControlCollection motherControlCollection)
         {
@@ -74,6 +108,7 @@ namespace RobotProject.Form2Items.palletteStuff
             e.ClickAction = EmptyPallette;
             e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
             motherControlCollection.Add(e);
+            _palleteButton = e;
 
             var f = new ModifiedLabel("r", $"Hücre {_palleteNo+1}");
             f.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
@@ -81,6 +116,7 @@ namespace RobotProject.Form2Items.palletteStuff
             // var c2 = Color.FromArgb(255,255,255,15); burayı uncommentlersen geri kalanıyla aynı sarı olur
             f.BackColor = c2;
             f.TextAlign = ContentAlignment.MiddleCenter;
+            _palleteName = f;
             /*
              fast testing
             f.ClickAction = () =>
@@ -96,6 +132,8 @@ namespace RobotProject.Form2Items.palletteStuff
             motherControlCollection.Add(_modifiedProgressBarDefined);
 
         }
+        
+        
 
         /** Sets info to the pallete box
          * also 
@@ -170,6 +208,8 @@ namespace RobotProject.Form2Items.palletteStuff
         }
 
         private ModifiedLabel _palleteBoxBg;
+        private ModifiedLabel _palleteName;
+        private ModifiedButton _palleteButton;
         private ModifiedProgressBar _modifiedProgressBarFilled;
         private ModifiedProgressBar _modifiedProgressBarDefined;
         private List<ModifiedLabel> _staticLabels = new List<ModifiedLabel>();
