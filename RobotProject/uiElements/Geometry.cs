@@ -73,6 +73,24 @@ namespace RobotProject.uiElements
                     return new Rectangle(ShortSide()*n, ShortSide()*n, new Point(_x, _y));
                 }
 
+                /** Rated rect finds the rectangle with width/height ratio as widthToHeightRating and returns the largest such rect that fits
+                 * 
+                 */
+                public Rectangle RatedRectangle(float widthToHeightRating = 1f)
+                {
+                    // sena bunu kötü görünmesin diye tek satır yapmadım, aynı uyarı bana da verilmişti
+                    var n = W / H;
+                    if ( (W / H) > widthToHeightRating)
+                    {
+                        return new Rectangle(H*widthToHeightRating, H, new Point(_x, _y));
+                    }
+                    else
+                    {
+                        return new Rectangle(W, W/widthToHeightRating, new Point(_x, _y));
+                    }
+
+                }
+
                 private float ShortSide()
                 {
                     return Math.Min(W, H);

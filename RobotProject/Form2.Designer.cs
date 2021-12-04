@@ -17,8 +17,11 @@ namespace RobotProject
 {
     partial class Form2
     {
-        private static int appWidth = 1280;
-        private static int appHeight = 720;
+        private static int appWidthInit = 1280;
+        private static int appHeightInit = 720;
+        private static float appRatio = (float)(appWidthInit) / (float)appHeightInit;
+        private int appHeight = appHeightInit;
+        private int appWidth = appWidthInit;
         
         
 
@@ -42,14 +45,17 @@ namespace RobotProject
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(appWidth, appHeight);
+            this.ClientSize = new System.Drawing.Size(appWidthInit, appHeightInit);
             this.Text = "Paletleyici Kontrolleri";
-            this.BackColor = Color.White;
+            this.BackColor = Color.DimGray;
 
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            
+            //this.AutoScaleMode = AutoScaleMode.Font;
 
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            //this.MaximizeBox = false;
+            //this.MinimizeBox = false;
 
             this.Icon = new System.Drawing.Icon(References.ProjectPath + "Images\\t-ara128.ico");
             
@@ -60,6 +66,7 @@ namespace RobotProject
             systemControls.PalleteButton.ClickAction = () =>
             {
                 // input is the list of options, change options here
+                
                 
                 List<string> orders = ConnectionManager.Sql.GetOrders();
                 pp.Opening(orders.ToArray());
@@ -91,7 +98,10 @@ namespace RobotProject
             systemControls.ReconnectButton.ClickAction = () =>
             {
                // ConnectionManager.Connect();
+               Console.Write("Enter your name: ");
+            
             };
+            
 
             
             
@@ -112,8 +122,13 @@ namespace RobotProject
                 }
             };
             
+            
+            
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
+            
+             
+            
             //boxVisuals.Implement(this.Controls);
             
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
@@ -129,11 +144,42 @@ namespace RobotProject
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
             connectionIndicators.TaperConnect(ConnectionManager.PlcClient2.Connected);
+            
+            Resize += new EventHandler(Form2_Resize);
+            
+            bg.Reorient(0,0,appWidth,appHeight);
+            Controls.Add(bg);
+            
         }
 
         
 
         #endregion
+        
+        private void Form2_Resize(object sender, System.EventArgs e)
+        {
+            
+            Console.Write("Enter your name: ");
+            
+            Control control = (Control)sender;
+        
+            // Ensure the Form remains square (Height = Width).
+            //if(control.Size.Height != control.Size.Width)
+            //{
+            //    control.Size = new Size(control.Size.Width, control.Size.Width);
+            //}
+            
+            var appRect = new Geometry.Rectangle(0f, Size.Width-10, 0f, Size.Height);
+            var boxRect = appRect.RatedRectangle(appRatio);
+            systemControls.resizeToWindowRect(boxRect);
+            connectionIndicators.resizeToWindowRect(boxRect);
+            palleteVisuals.resizeToWindowRect(boxRect);
+            bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W,(int)boxRect.H);
+            
+            
+            
+            //systemControls = new SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
+        }
 
         private void barcodeIndicatorUpdater(object sender, EventArgs e)
         {
@@ -230,11 +276,27 @@ namespace RobotProject
             }
 
         }
+        
+        
+        
+        /*
+        private void Form2_ResizeEnd(object sender, System.EventArgs e)
+        {
+            Control control = (Control)sender;
+        
+            // Ensure the Form remains square (Height = Width).
+            if(control.Size.Height != control.Size.Width)
+            {
+                control.Size = new Size(control.Size.Width, control.Size.Width);
+            }
+        }
+        */
 
-        private SystemControls systemControls = new SystemControls(3*appWidth/8, 50, 3*appWidth/4, 100,false);
-        private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidth/8, 50, appWidth/4, 100,false);
+        private SystemControls systemControls = new SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
+        private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidthInit/8, 50, appWidthInit/4, 100,false);
         // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
-        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidth/2, (appHeight-100)/2+100, appWidth, appHeight-100,false);
+        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
+        private Indicator bg  = new Indicator("bg", References.ProjectPath + "Images\\bg.png");
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();
     }
@@ -254,6 +316,7 @@ namespace RobotProject
 
 
 
+    
     
 
     

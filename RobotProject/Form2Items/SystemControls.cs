@@ -37,6 +37,25 @@ namespace RobotProject.Form2Items
             
         }
 
+        public void resizeToWindowRect(Geometry.Rectangle boxRect)
+        {
+            var x = boxRect.L + 3 * boxRect.W / 8;
+            var y = boxRect.T + boxRect.H/720*50;
+            var w = boxRect.W * 3 / 4;
+            var h = boxRect.H/720*100;
+            resize((int)x,(int)y,(int)w,(int)h);
+            //SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
+        }
+
+        public void resize(int x, int y, int w, int h)
+        {
+            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( x,y ));
+            var a = r.Split(1, 4,0.05f,0.05f);
+            PalleteButton.Reorient(a[0]);
+            AddProductButton.Reorient(a[1]);
+            ReconnectButton.Reorient(a[2]);
+        }
+
         public void Implement(Control.ControlCollection motherControlCollection)
         {
             if (_asVisual)
