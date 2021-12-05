@@ -32,9 +32,12 @@ namespace RobotProject.Form2Items
             Boxed = boxed;
         }
     }
+    
     #region delegates
 
     public delegate void ProductIncoming(int r);
+
+    public delegate void ProductDropped(int r);
 
     public delegate void CellFull(int i);
 
@@ -56,7 +59,11 @@ namespace RobotProject.Form2Items
         public static bool TaperConnected;
         private static string? _receiveData;
         private static string? _plcData;
+        private static string? _taken;
+        private static string? _dropped;
+        private static string? _droppedNo;
         private static string? _data;
+        private static bool[] _inProcess = new bool[3];
         public static bool PatternMode;
         public static Product? PatternProduct;
         public static List<Cell> Cells = new List<Cell>(3);
@@ -64,12 +71,13 @@ namespace RobotProject.Form2Items
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static long _time;
         private static int _productComing;
-        private static List<Signal> _buffer = new List<Signal>(5);
+        private static Buffer _buffer = new Buffer();
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
         public static event EventHandler TaperConnectionChanged = null!;
         public static event ProductIncoming ProductIncoming = null!;
+        public static event ProductDropped ProductDropped = null!;
         public static event CellFull CellFull = null!;
         public static event CellAssigned CellAssigned = null!;
 
@@ -80,6 +88,11 @@ namespace RobotProject.Form2Items
         private static void ProductAdd(int r)
         {
             ProductIncoming.Invoke(r);
+        }
+
+        private static void ProductDrop(int r)
+        {
+            ProductDropped.Invoke(r);
         }
 
         private static void OnCellFull(int i)
@@ -119,6 +132,9 @@ namespace RobotProject.Form2Items
         private static void ReadFromPlc(object sender)
         {
             _plcData = PlcClient.receiveData[10].ToString();
+            _taken = PlcClient.receiveData[11].ToString();
+            _dropped = PlcClient.receiveData[12].ToString();
+            _droppedNo = PlcClient.receiveData[13].ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -242,21 +258,50 @@ namespace RobotProject.Form2Items
             }
         }
 
-
-        private static void SendPlcSignals(Signal s)
+        private static void SendFromBuffer(int r)
         {
+            if (_buffer.Empty(r)) return;
+            _inProcess[r] = true;
+            var s = _buffer.Pop(r);
             int[] values =
             {
-                s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type, s.Count, s.CellFull,
+                s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type,
+                s.Count, s.CellFull,
                 s.Boxed
             };
             PlcClient.WriteMultipleRegisters(0, values);
             PlcClient.WriteSingleRegister(15, s.Offsets.Rotation);
             PlcClient.WriteSingleRegister(17, s.Offsets.NextRotation);
-            // await robot okudum
-            // reset offsets
+        }
+        
+        private static void SendPlcSignals(Signal s)
+        {
+            if (_inProcess[s.Cell-1])
+            {
+                _buffer.Add(s, s.Cell-1);
+            }
+            else
+            {
+                _inProcess[s.Cell-1] = true;
+                int[] values =
+                {
+                    s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type,
+                    s.Count, s.CellFull,
+                    s.Boxed
+                };
+                PlcClient.WriteMultipleRegisters(0, values);
+                PlcClient.WriteSingleRegister(15, s.Offsets.Rotation);
+                PlcClient.WriteSingleRegister(17, s.Offsets.NextRotation);
+            }
         }
 
+        private static void ResetRobotOffsets()
+        {
+            PlcClient.WriteMultipleRegisters(0, new int[12]);
+            PlcClient.WriteSingleRegister(15, 0);
+            PlcClient.WriteSingleRegister(17, 0);
+        }
+        
         #endregion
 
         #region listeners
@@ -306,16 +351,27 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _time) > 900)
-            {
+          //  if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _time) > 800)
+          //  {
                 _productComing = int.Parse(_plcData!);
-                _time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+          //      _time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-                if (_productComing == 1 && PatternMode)
-                {
-                    ProcessNonBarcode();
-                }
-            }
+          if (_productComing == 1 && PatternMode)
+          {
+              ProcessNonBarcode();
+          }
+
+          if (int.Parse(_taken ?? "0") == 1)
+          {
+              ResetRobotOffsets();
+          }
+
+          if (int.Parse(_dropped ?? "0") != 1) return;
+          var r = int.Parse(_droppedNo!);
+          _inProcess[r] = false;
+          ProductDrop(r);
+          SendFromBuffer(r);
+          //   }
         }
 
         private static string ConvertFromHex(string hexString)

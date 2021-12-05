@@ -110,6 +110,11 @@ namespace RobotProject.Form2Items.palletteStuff
             _pallettes[n - 1].incementCount(0, increment);
         }
 
+        public void increaseFillCount(int n, int increment = 1)
+        {
+            _pallettes[n - 1].incementCount(increment, 0);
+        }
+
 
 
         private List<PalletteVisual> _pallettes = new List<PalletteVisual>();

@@ -96,6 +96,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Buffer.cs" />
         <Compile Include="Cell.cs" />
         <Compile Include="ExcelReader.cs" />
         <Compile Include="Form2.cs">

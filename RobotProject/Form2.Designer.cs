@@ -22,8 +22,6 @@ namespace RobotProject
         private static float appRatio = (float)(appWidthInit) / (float)appHeightInit;
         private int appHeight = appHeightInit;
         private int appWidth = appWidthInit;
-        
-        
 
         private IContainer components = null;
 
@@ -135,6 +133,7 @@ namespace RobotProject
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
             ConnectionManager.TaperConnectionChanged += taperIndicatorUpdater;
             ConnectionManager.ProductIncoming += productAdd;
+            ConnectionManager.ProductDropped += productFill;
             ConnectionManager.CellFull += resetKat;
             ConnectionManager.CellAssigned += assignCell;
             ConnectionManager.Init();
@@ -199,6 +198,11 @@ namespace RobotProject
         {
             palleteVisuals.increaseProdCount(r, 1);
             //boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
+        }
+
+        private void productFill(int r)
+        {
+            palleteVisuals.increaseFillCount(r, 1);
         }
 
         private void resetKat(int i)
