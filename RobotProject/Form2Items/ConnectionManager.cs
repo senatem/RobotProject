@@ -64,13 +64,13 @@ namespace RobotProject.Form2Items
         private static string? _droppedSecond;
         private static string? _droppedThird;
         private static string? _data;
-        private static readonly bool[] _inProcess = new bool[3];
+        private static bool _inProcess;
         public static bool PatternMode;
         public static Product? PatternProduct;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
-        private static long _time;
+        private static long[] _times = new long[5];
         private static int _productComing;
 
         public static event EventHandler BarcodeConnectionChanged = null!;
@@ -131,11 +131,11 @@ namespace RobotProject.Form2Items
 
         private static void ReadFromPlc(object sender)
         {
-            _plcData = PlcClient.receiveData[10].ToString();
-            //_taken = PlcClient.receiveData[39].ToString();
-            //_droppedFirst = PlcClient.receiveData[12].ToString();
-            //_droppedSecond = PlcClient.receiveData[13].ToString();
-            //_droppedThird = PlcClient.receiveData[14].ToString();
+            _plcData = PlcClient.receiveData[18].ToString();
+            _taken = PlcClient.receiveData[64].ToString();
+            _droppedFirst = PlcClient.receiveData[10].ToString();
+            _droppedSecond = PlcClient.receiveData[12].ToString();
+            _droppedThird = PlcClient.receiveData[14].ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -252,7 +252,7 @@ namespace RobotProject.Form2Items
         {
             try
             {
-                client.ReadHoldingRegisters(16, 1);
+                client.ReadHoldingRegisters(12, 28);
             }
             catch (Exception)
             {
@@ -260,50 +260,61 @@ namespace RobotProject.Form2Items
             }
         }
 
+        private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
+            int boxed)
+        {
+            int[] values =
+            {
+                cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
+                boxed
+            };
+            try
+            {
+                PlcClient.WriteMultipleRegisters(0, values);
+                PlcClient.WriteSingleRegister(15, offsets.Rotation);
+                PlcClient.WriteSingleRegister(17, offsets.NextRotation);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
+            
+        }
+
         private static void SendFromBuffer(int r)
         {
             if (Buffer.Empty(r)) return;
-            _inProcess[r] = true;
+            _inProcess = true;
             var s = Buffer.Pop(r);
-            int[] values =
-            {
-                s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type,
-                s.Count, s.CellFull,
-                s.Boxed
-            };
-            PlcClient.WriteMultipleRegisters(0, values);
-            PlcClient.WriteSingleRegister(15, s.Offsets.Rotation);
-            PlcClient.WriteSingleRegister(17, s.Offsets.NextRotation);
+            SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed);
         }
 
         private static void SendPlcSignals(Signal s)
         {
-            if (_inProcess[s.Cell - 1])
+            if (_inProcess)
             {
-                Buffer.Add(s, s.Cell - 1);
+                Buffer.Add(s, 0);
             }
             else
             {
-                _inProcess[s.Cell - 1] = true;
-                int[] values =
-                {
-                    s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type,
-                    s.Count, s.CellFull,
-                    s.Boxed
-                };
-
-                PlcClient.WriteMultipleRegisters(0, values);
-                PlcClient.WriteSingleRegister(15, s.Offsets.Rotation);
-                PlcClient.WriteSingleRegister(17, s.Offsets.NextRotation);
-                ProductAdd(s.Cell);
+                _inProcess = true;
+                SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed);
             }
         }
 
         private static void ResetRobotOffsets()
         {
-            PlcClient.WriteMultipleRegisters(0, new int[12]);
-            PlcClient.WriteSingleRegister(15, 0);
-            PlcClient.WriteSingleRegister(17, 0);
+            try
+            {
+                PlcClient.WriteMultipleRegisters(0, new int[12]);
+                PlcClient.WriteSingleRegister(15, 0);
+                PlcClient.WriteSingleRegister(17, 0);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         #endregion
@@ -322,7 +333,9 @@ namespace RobotProject.Form2Items
                 else
                 {
                     ConnectPlc();
-                    MessageBox.Show(@"Bağlantı Hatası! PlcClient Status: " + PlcClient.Connected);
+                    EventArgs args = new EventArgs();
+                    OnPlcConnectionChanged(args);
+                    //MessageBox.Show(@"Bağlantı Hatası! PlcClient Status: " + PlcClient.Connected);
                 }
             }
             // ReSharper disable once FunctionNeverReturns
@@ -358,39 +371,67 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            //  if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _time) > 800)
-            //  {
-            _productComing = int.Parse(_plcData!);
-            //      _time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-
-            if (_productComing == 1 && PatternMode)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[0]) > 800)
             {
-                ProcessNonBarcode();
+                _productComing = int.Parse(_plcData!);
+
+                if (_productComing == 1 && PatternMode)
+                {
+                    _times[0] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    ProcessNonBarcode();
+                }
             }
 
-            if (int.Parse(_taken ?? "0") == 1)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[1]) > 800)
             {
-                ResetRobotOffsets();
+                if (int.Parse(_taken ?? "0") == 1)
+                {
+                    _times[1] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    try
+                    {
+                        ResetRobotOffsets();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+
+                    _inProcess = false;
+                    SendFromBuffer(0);
+                }
             }
+
 
             var r = 0;
-            if (int.Parse(_droppedFirst ?? "0") == 1)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[2]) > 800)
             {
-                r = 1;
-            }
-            else if (int.Parse(_droppedSecond ?? "0") == 1)
-            {
-                r = 2;
-            }
-            else if (int.Parse(_droppedThird ?? "0") == 1)
-            {
-                r = 3;
+                if (int.Parse(_droppedFirst ?? "0") == 1)
+                {
+                    _times[2] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    r = 1;
+                    ProductDrop(r);
+                }
             }
 
-            _inProcess[r] = false;
-            ProductDrop(r);
-            SendFromBuffer(r);
-            //   }
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[3]) > 800)
+            {
+                if (int.Parse(_droppedSecond ?? "0") == 1)
+                {
+                    _times[3] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    r = 2;
+                    ProductDrop(r);
+                }
+            }
+
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[4]) > 800)
+            {
+                if (int.Parse(_droppedThird ?? "0") == 1)
+                {
+                    _times[4] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    r = 3;
+                    ProductDrop(r);
+                }
+            }
         }
 
         private static string ConvertFromHex(string hexString)
@@ -548,6 +589,8 @@ namespace RobotProject.Form2Items
                 OnCellAssigned(cNo + 1, 0, p);
                 */
             }
+
+            ProductAdd(cNo);
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
         }
