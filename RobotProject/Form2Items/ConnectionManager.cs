@@ -60,10 +60,11 @@ namespace RobotProject.Form2Items
         private static string? _receiveData;
         private static string? _plcData;
         private static string? _taken;
-        private static string? _dropped;
-        private static string? _droppedNo;
+        private static string? _droppedFirst;
+        private static string? _droppedSecond;
+        private static string? _droppedThird;
         private static string? _data;
-        private static bool[] _inProcess = new bool[3];
+        private static readonly bool[] _inProcess = new bool[3];
         public static bool PatternMode;
         public static Product? PatternProduct;
         public static List<Cell> Cells = new List<Cell>(3);
@@ -71,7 +72,6 @@ namespace RobotProject.Form2Items
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static long _time;
         private static int _productComing;
-        private static Buffer _buffer = new Buffer();
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
@@ -132,9 +132,10 @@ namespace RobotProject.Form2Items
         private static void ReadFromPlc(object sender)
         {
             _plcData = PlcClient.receiveData[10].ToString();
-            _taken = PlcClient.receiveData[11].ToString();
-            _dropped = PlcClient.receiveData[12].ToString();
-            _droppedNo = PlcClient.receiveData[13].ToString();
+            //_taken = PlcClient.receiveData[39].ToString();
+            //_droppedFirst = PlcClient.receiveData[12].ToString();
+            //_droppedSecond = PlcClient.receiveData[13].ToString();
+            //_droppedThird = PlcClient.receiveData[14].ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -260,9 +261,9 @@ namespace RobotProject.Form2Items
 
         private static void SendFromBuffer(int r)
         {
-            if (_buffer.Empty(r)) return;
+            if (Buffer.Empty(r)) return;
             _inProcess[r] = true;
-            var s = _buffer.Pop(r);
+            var s = Buffer.Pop(r);
             int[] values =
             {
                 s.Cell, s.Offsets.X, s.Offsets.Y, s.Offsets.Z, s.Offsets.Pattern, s.Px, s.Py, s.Offsets.Kat, s.Type,
@@ -278,7 +279,7 @@ namespace RobotProject.Form2Items
         {
             if (_inProcess[s.Cell-1])
             {
-                _buffer.Add(s, s.Cell-1);
+                Buffer.Add(s, s.Cell-1);
             }
             else
             {
@@ -292,6 +293,7 @@ namespace RobotProject.Form2Items
                 PlcClient.WriteMultipleRegisters(0, values);
                 PlcClient.WriteSingleRegister(15, s.Offsets.Rotation);
                 PlcClient.WriteSingleRegister(17, s.Offsets.NextRotation);
+                ProductAdd(s.Cell);
             }
         }
 
@@ -366,8 +368,18 @@ namespace RobotProject.Form2Items
               ResetRobotOffsets();
           }
 
-          if (int.Parse(_dropped ?? "0") != 1) return;
-          var r = int.Parse(_droppedNo!);
+          var r = 0;
+          if (int.Parse(_droppedFirst ?? "0") == 1)
+          {
+              r = 1;
+          } else if (int.Parse(_droppedSecond ?? "0") == 1)
+          {
+              r = 2;
+          } else if (int.Parse(_droppedThird ?? "0") == 1)
+          {
+              r = 3;
+          } 
+          
           _inProcess[r] = false;
           ProductDrop(r);
           SendFromBuffer(r);
@@ -531,7 +543,7 @@ namespace RobotProject.Form2Items
             }
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
-            ProductAdd(cNo);
+            
         }
 
         public static int GetKatMax(int px, int py, int yontem, int type)

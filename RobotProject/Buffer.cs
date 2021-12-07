@@ -3,25 +3,34 @@ using RobotProject.Form2Items;
 
 namespace RobotProject
 {
-    public class Buffer
+    public static class Buffer
     {
-        private static readonly List<List<Signal>> _buffer = new List<List<Signal>>(5);
+        private static readonly List<List<Signal>> Buffered;
 
-        public void Add(Signal s, int r)
+        static Buffer()
         {
-            _buffer[r].Add(s);
+            Buffered = new List<List<Signal>>(5);
+            for (int i = 0; i < 5; i++)
+            {
+                Buffered[i] = new List<Signal>();
+            }
         }
 
-        public Signal Pop(int r)
+        public static void Add(Signal s, int r)
         {
-            var res = _buffer[r][0];
-            _buffer[r].RemoveAt(0);
+            Buffered[r].Add(s);
+        }
+
+        public static Signal Pop(int r)
+        {
+            var res = Buffered[r][0];
+            Buffered[r].RemoveAt(0);
             return res;
         }
 
-        public bool Empty(int r)
+        public static bool Empty(int r)
         {
-            return _buffer[r].Count == 0;
+            return Buffered[r].Count == 0;
         }
     }
 }
