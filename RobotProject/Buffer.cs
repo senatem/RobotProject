@@ -5,32 +5,33 @@ namespace RobotProject
 {
     public static class Buffer
     {
-        private static readonly List<List<Signal>> Buffered;
+        private static List<List<Signal>> _buffered = null!;
 
-        static Buffer()
+        public static void Init()
         {
-            Buffered = new List<List<Signal>>(5);
-            for (int i = 0; i < 5; i++)
+            _buffered = new List<List<Signal>>(3);
+            for (var i = 0; i < 3; i++)
             {
-                Buffered[i] = new List<Signal>();
+                var l = new List<Signal>(5);
+                _buffered.Add(l);
             }
         }
 
         public static void Add(Signal s, int r)
         {
-            Buffered[r].Add(s);
+            _buffered[r].Add(s);
         }
 
         public static Signal Pop(int r)
         {
-            var res = Buffered[r][0];
-            Buffered[r].RemoveAt(0);
+            var res = _buffered[r][0];
+            _buffered[r].RemoveAt(0);
             return res;
         }
 
         public static bool Empty(int r)
         {
-            return Buffered[r].Count == 0;
+            return _buffered[r].Count == 0;
         }
     }
 }
