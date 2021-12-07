@@ -8,15 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ServoControls.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionIndicators.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +97,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35048753" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35046473" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -108,7 +107,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.externalResources" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -203,6 +202,8 @@
       <workItem from="1638521325552" duration="476000" />
       <workItem from="1638521823788" duration="8704000" />
       <workItem from="1638625977489" duration="1001000" />
+      <workItem from="1638891121638" duration="6899000" />
+      <workItem from="1638903712818" duration="5405000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -323,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630502728324</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Rescale çalışıyor">
+      <created>1638643978809</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1638643978809</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,26 +382,10 @@
     <MESSAGE value="Backup" />
     <MESSAGE value="rotation logic added" />
     <MESSAGE value="commit to pull" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit to pull" />
+    <MESSAGE value="Rescale çalışıyor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rescale çalışıyor" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs</url>
-          <line>45</line>
-          <properties documentPath="C:\Users\cdcth\RiderProjects\RobotProject\RobotProject\Form2Items\SystemControls.cs" initialLine="45" containingFunctionPresentation="method 'resizeToWindowRect'">
-            <startOffsets>
-              <option value="1656" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1692" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />
