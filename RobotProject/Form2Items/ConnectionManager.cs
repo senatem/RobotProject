@@ -60,8 +60,9 @@ namespace RobotProject.Form2Items
         private static string? _receiveData;
         private static string? _plcData;
         private static string? _taken;
-        private static string? _dropped;
-        private static string? _droppedNo;
+        private static string? _droppedFirst;
+        private static string? _droppedSecond;
+        private static string? _droppedThird;
         private static string? _data;
         private static bool[] _inProcess = new bool[3];
         public static bool PatternMode;
@@ -132,9 +133,10 @@ namespace RobotProject.Form2Items
         private static void ReadFromPlc(object sender)
         {
             _plcData = PlcClient.receiveData[10].ToString();
-            _taken = PlcClient.receiveData[11].ToString();
-            _dropped = PlcClient.receiveData[12].ToString();
-            _droppedNo = PlcClient.receiveData[13].ToString();
+            _taken = PlcClient.receiveData[39].ToString();
+            _droppedFirst = PlcClient.receiveData[12].ToString();
+            _droppedSecond = PlcClient.receiveData[13].ToString();
+            _droppedThird = PlcClient.receiveData[14].ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -366,8 +368,18 @@ namespace RobotProject.Form2Items
               ResetRobotOffsets();
           }
 
-          if (int.Parse(_dropped ?? "0") != 1) return;
-          var r = int.Parse(_droppedNo!);
+          var r = 0;
+          if (int.Parse(_droppedFirst ?? "0") == 1)
+          {
+              r = 1;
+          } else if (int.Parse(_droppedSecond ?? "0") == 1)
+          {
+              r = 2;
+          } else if (int.Parse(_droppedThird ?? "0") == 1)
+          {
+              r = 3;
+          } 
+          
           _inProcess[r] = false;
           ProductDrop(r);
           SendFromBuffer(r);
