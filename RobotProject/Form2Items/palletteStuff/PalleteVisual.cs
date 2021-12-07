@@ -202,9 +202,9 @@ namespace RobotProject.Form2Items.palletteStuff
         {
             _prodCountFill += incrementFill;
             _prodCountDefn += incrementDefn;
+            _dynamicLabels[3].Text = filled();
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;
-            _dynamicLabels[3].Text = filled();
         }
 
         private ModifiedLabel _palleteBoxBg;

@@ -25,8 +25,6 @@ namespace RobotProject.Form2Items.palletteStuff
             {
                 _background.Reorient(r);
                 // indicators
-                
-                
                 var a = r.Split(1, 3, 0.05f, 0.05f);
 
                 a = new List<Geometry.Rectangle> {
@@ -43,18 +41,19 @@ namespace RobotProject.Form2Items.palletteStuff
                     
                     _pallettes.Add(pv);
                 }
-                
 
             }    
         }
         
         public void resizeToWindowRect(Geometry.Rectangle boxRect)
         {
+            // (appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
             var x = boxRect.L + boxRect.W/2;
             var y = boxRect.T + (boxRect.H - 100f/720f*boxRect.H)/2f + boxRect.H/720f*100f;
             var w = boxRect.W;
             var h = boxRect.H - 100f/720f*boxRect.H;
             resize((int)x,(int)y,(int)w,(int)h);
+            //SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
         }
 
         public void resize(int x, int y, int w, int h)
@@ -124,6 +123,11 @@ namespace RobotProject.Form2Items.palletteStuff
             var h = height - 100f/720f*height;
             resize((int)x,(int)y,(int)w,(int)h);
             return new Geometry.Rectangle(width, height, new Geometry.Point(x, y));
+        }
+
+        public void increaseFillCount(int n, int increment = 1)
+        {
+            _pallettes[n - 1].incementCount(increment, 0);
         }
 
 

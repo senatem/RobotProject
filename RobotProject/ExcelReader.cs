@@ -37,7 +37,7 @@ namespace RobotProject
                 {
                     res = res.Select(fields[i] + " = " + values[i]).CopyToDataTable();
                 }
-                catch (InvalidOperationException e)
+                catch (InvalidOperationException)
                 {
                     j += 1;
                     i = -1;
