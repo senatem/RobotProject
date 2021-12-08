@@ -65,10 +65,6 @@
           <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="Sharp7, Version=1.1.79.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\packages\Sharp7.1.1.79\lib\net40\Sharp7.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.ComponentModel" />
         <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -117,7 +113,6 @@
         <Compile Include="Form2Items\popups\GenericWarning.cs" />
         <Compile Include="Form2Items\popups\NonBarcodePopup.cs" />
         <Compile Include="Form2Items\popups\PalletePopup.cs" />
-        <Compile Include="Form2Items\ServoControls.cs" />
         <Compile Include="Form2Items\SingleBox.cs" />
         <Compile Include="Form2Items\SystemControls.cs" />
         <Compile Include="OffsetCalculator.cs" />

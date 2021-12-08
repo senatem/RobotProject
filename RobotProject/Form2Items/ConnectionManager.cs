@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EasyModbus;
 using RobotProject.uiElements;
-using Sharp7;
 
 namespace RobotProject.Form2Items
 {
@@ -51,17 +50,19 @@ namespace RobotProject.Form2Items
         #region declarations
 
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
-        public static readonly S7Client PlcClient = new S7Client();
-        public static readonly S7Client PlcClient2 = new S7Client();
+        public static readonly ModbusClient PlcClient = new ModbusClient();
+        public static readonly ModbusClient PlcClient2 = new ModbusClient();
         public static readonly SqlCommunication Sql = new SqlCommunication();
 
+        public static bool PlcConnected;
+        public static bool BarcodeConnected;
         public static bool TaperConnected;
         private static string? _receiveData;
-        private static int _plcData;
-        private static int _taken;
-        private static int _droppedFirst;
-        private static int _droppedSecond;
-        private static int _droppedThird;
+        private static string? _plcData;
+        private static string? _taken;
+        private static string? _droppedFirst;
+        private static string? _droppedSecond;
+        private static string? _droppedThird;
         private static string? _data;
         private static bool _inProcess;
         public static bool PatternMode;
@@ -69,11 +70,13 @@ namespace RobotProject.Form2Items
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
-        private static readonly long[] Times = new long[5];
+        private static long[] _times = new long[5];
         private static int _productComing;
-        private static Task listenBarcode;
-        private static Task listenPlc;
-
+        private static CancellationTokenSource _cancelPlcSource = new CancellationTokenSource();
+        private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
+        private static CancellationTokenSource _cancelBarcodeSource = new CancellationTokenSource();
+        private static CancellationToken _cancelBarcode = _cancelBarcodeSource.Token;
+        
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
         public static event EventHandler TaperConnectionChanged = null!;
@@ -130,16 +133,13 @@ namespace RobotProject.Form2Items
             Parallel.Invoke(UpdateReceiveTextBox);
         }
 
-        private static void ReadFromPlc()
+        private static void ReadFromPlc(object sender)
         {
-            byte[] dataBuffer = new byte[70];
-            PlcClient.DBRead(1, 0, 40, dataBuffer);
-
-            _plcData = dataBuffer.GetIntAt(16);
-            _taken = dataBuffer.GetIntAt(39);
-            _droppedFirst = dataBuffer.GetIntAt(12);
-            _droppedSecond = dataBuffer.GetIntAt(13);
-            _droppedThird = dataBuffer.GetIntAt(14);
+            _plcData = PlcClient.receiveData[18].ToString();
+            _taken = PlcClient.receiveData[64].ToString();
+            _droppedFirst = PlcClient.receiveData[10].ToString();
+            _droppedSecond = PlcClient.receiveData[12].ToString();
+            _droppedThird = PlcClient.receiveData[14].ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -150,6 +150,7 @@ namespace RobotProject.Form2Items
         public static void Init()
         {
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
+            PlcClient.ReceiveDataChanged += ReadFromPlc;
             Buffer.Init();
         }
 
@@ -159,7 +160,7 @@ namespace RobotProject.Form2Items
 
             try
             {
-                listenBarcode.Dispose();
+                _cancelBarcodeSource.Cancel();
             }
             catch (Exception e)
             {
@@ -169,6 +170,7 @@ namespace RobotProject.Form2Items
             BarcodeClient.IPAddress = "192.168.0.100";
             BarcodeClient.Port = 51236;
             BarcodeClient.SerialPort = null;
+            BarcodeConnected = true;
             try
             {
                 BarcodeClient.Connect();
@@ -177,9 +179,12 @@ namespace RobotProject.Form2Items
             {
                 MessageBox.Show(@"Kaynak: Barkod okuyucu." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
+                BarcodeConnected = false;
             }
 
-            listenBarcode = Task.Run(Listen);
+            _cancelBarcodeSource = new CancellationTokenSource();
+            _cancelBarcode = _cancelBarcodeSource.Token;
+            Task.Run(Listen, _cancelBarcode);
             EventArgs args = new EventArgs();
             OnBarcodeConnectionChanged(args);
         }
@@ -187,25 +192,36 @@ namespace RobotProject.Form2Items
         private static void ConnectPlc()
         {
             if (PlcClient.Connected) PlcClient.Disconnect();
+
             try
             {
-                listenPlc.Dispose();
+                _cancelPlcSource.Cancel();
             }
             catch (Exception e)
             {
                 //ignored
             }
-
-            var res = PlcClient.ConnectTo("192.168.0.1", 0, 0);
             
-            if(res != 0)
+            PlcClient.IPAddress = "192.168.0.1";
+            PlcClient.Port = 502;
+            PlcClient.SerialPort = null;
+            PlcConnected = true;
+
+            try
             {
-                MessageBox.Show(@"Plc bağlantısı sağlanamadı.", @"Bağlantı Hatası", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
+                PlcClient.Connect();
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: Plc." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+                PlcConnected = false;
+            }
 
-            listenPlc = Task.Run(ListenPlc);
+
+            _cancelPlcSource = new CancellationTokenSource();
+            _cancelPlc = _cancelPlcSource.Token;
+            Task.Run(ListenPlc, _cancelPlc);
             EventArgs args = new EventArgs();
             OnPlcConnectionChanged(args);
         }
@@ -213,17 +229,21 @@ namespace RobotProject.Form2Items
         private static void ConnectTaper()
         {
             if (PlcClient2.Connected) PlcClient2.Disconnect();
-
-            var res = PlcClient2.ConnectTo("192.168.0.50", 0, 0);
-            
-            if(res != 0)
+            PlcClient2.IPAddress = "192.168.0.50";
+            PlcClient2.Port = 502;
+            PlcClient2.SerialPort = null;
+            try
             {
-                MessageBox.Show(@"Enine Bantlama Makinesi bağlantısı sağlanamadı.", @"Bağlantı Hatası",
+                PlcClient2.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: Enine Bantlama Makinesi." + ex.Message, @"Bağlantı Hatası",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
-
-            TaperConnected = PlcClient2.Connected;
+            
+            TaperConnected = PlcClient2.Available(100);
             EventArgs args = new EventArgs();
             OnTaperConnectionChanged(args);
         }
@@ -249,6 +269,18 @@ namespace RobotProject.Form2Items
             }
         }
 
+        private static void ReadHoldingRegsPlc(ModbusClient client)
+        {
+            try
+            {
+                client.ReadHoldingRegisters(12, 28);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
         private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
             int boxed)
         {
@@ -257,18 +289,16 @@ namespace RobotProject.Form2Items
                 cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
                 boxed
             };
-
-            byte[] pack = new byte[24];
-
-            for (var i = 0; i < values.Length; i++)
+            try
             {
-                pack.SetDIntAt(i, values[i]);
+                PlcClient.WriteMultipleRegisters(0, values);
+                PlcClient.WriteSingleRegister(15, offsets.Rotation);
+                PlcClient.WriteSingleRegister(17, offsets.NextRotation);
             }
-            
-            pack.SetDIntAt(15, offsets.Rotation);
-            pack.SetDIntAt(17, offsets.NextRotation);
-            
-            PlcClient.DBWrite(1, 0, pack.Length, pack);
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         private static void SendFromBuffer(int r)
@@ -294,14 +324,16 @@ namespace RobotProject.Form2Items
 
         private static void ResetRobotOffsets()
         {
-            byte[] pack = new byte[24];
-
-            for (var i = 0; i < 17; i++)
+            try
             {
-                pack.SetDIntAt(i, 0);
+                PlcClient.WriteMultipleRegisters(0, new int[12]);
+                PlcClient.WriteSingleRegister(15, 0);
+                PlcClient.WriteSingleRegister(17, 0);
             }
-
-            PlcClient.DBWrite(1, 0, pack.Length, pack);
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         #endregion
@@ -312,9 +344,13 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                if (PlcClient.Connected)
+                if (PlcClient.Available(50))
                 {
-                    ReadFromPlc();
+                    ReadHoldingRegsPlc(PlcClient);
+                    if (_cancelPlc.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     await Task.Delay(100, CancellationToken.None);
                 }
                 else
@@ -322,6 +358,7 @@ namespace RobotProject.Form2Items
                     ConnectPlc();
                     EventArgs args = new EventArgs();
                     OnPlcConnectionChanged(args);
+                    return;
                 }
             }
             // ReSharper disable once FunctionNeverReturns
@@ -334,6 +371,10 @@ namespace RobotProject.Form2Items
                 if (BarcodeClient.Available(50))
                 {
                     ReadHoldingRegsBarcode(BarcodeClient);
+                    if (_cancelBarcode.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     await Task.Delay(100, CancellationToken.None);
                 }
                 else
@@ -341,6 +382,7 @@ namespace RobotProject.Form2Items
                     ConnectBarcode();
                     EventArgs args = new EventArgs();
                     OnBarcodeConnectionChanged(args);
+                    return;
                 }
             }
             // ReSharper disable once FunctionNeverReturns
@@ -358,22 +400,22 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[0]) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[0]) > 1000)
             {
-                _productComing = _plcData!;
+                _productComing = int.Parse(_plcData!);
 
                 if (_productComing == 1 && PatternMode)
                 {
-                    Times[0] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    _times[0] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     ProcessNonBarcode();
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[1]) > 800)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[1]) > 800)
             {
-                if (_taken == 1)
+                if (int.Parse(_taken ?? "0") == 1)
                 {
-                    Times[1] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    _times[1] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     try
                     {
                         ResetRobotOffsets();
@@ -389,34 +431,40 @@ namespace RobotProject.Form2Items
             }
 
 
-            int r;
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[2]) > 1000)
+            var r = 0;
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[2]) > 1000)
             {
-                if (_droppedFirst == 1)
+                if (int.Parse(_droppedFirst ?? "0") == 1)
                 {
-                    Times[2] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    _times[2] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 1;
                     ProductDrop(r);
+                    var c = Cells.Find(cell => cell.RobotNo == r);
+                    c.Drop();
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[3]) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[3]) > 1000)
             {
-                if (_droppedSecond == 1)
+                if (int.Parse(_droppedSecond ?? "0") == 1)
                 {
-                    Times[3] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    _times[3] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 2;
                     ProductDrop(r);
+                    var c = Cells.Find(cell => cell.RobotNo == r);
+                    c.Drop();
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[4]) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[4]) > 1000)
             {
-                if (_droppedThird == 1)
+                if (int.Parse(_droppedThird ?? "0") == 1)
                 {
-                    Times[4] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    _times[4] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 3;
                     ProductDrop(r);
+                    var c = Cells.Find(cell => cell.RobotNo == r);
+                    c.Drop();
                 }
             }
         }
@@ -737,14 +785,14 @@ namespace RobotProject.Form2Items
             var orderSize = Sql.GetOrderSize(orderNo);
             if (katMax == 0) katMax = orderSize;
 
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax, 0));
         }
 
         public static void AssignNonBarcodeCell(int robotNo, int height, int width, int type, int orderSize,
             string yontemKodu, int palletH, int palletL, int palletZ, int katMax)
         {
             PatternProduct = new Product(height, width, type, orderSize, yontemKodu);
-            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax);
+            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax, 0);
             Cells.Add(c);
         }
 
