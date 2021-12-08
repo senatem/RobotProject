@@ -72,6 +72,8 @@ namespace RobotProject.Form2Items
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static long[] _times = new long[5];
         private static int _productComing;
+        private static Task listenBarcode;
+        private static Task listenPlc;
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
@@ -154,6 +156,15 @@ namespace RobotProject.Form2Items
         {
             if (BarcodeClient.Connected) BarcodeClient.Disconnect();
 
+            try
+            {
+                listenBarcode.Dispose();
+            }
+            catch (Exception e)
+            {
+                //ignored
+            }
+
             BarcodeClient.IPAddress = "192.168.0.100";
             BarcodeClient.Port = 51236;
             BarcodeClient.SerialPort = null;
@@ -169,7 +180,7 @@ namespace RobotProject.Form2Items
                 BarcodeConnected = false;
             }
 
-            Task.Run(Listen);
+            listenBarcode = Task.Run(Listen);
             EventArgs args = new EventArgs();
             OnBarcodeConnectionChanged(args);
         }
@@ -178,6 +189,15 @@ namespace RobotProject.Form2Items
         {
             if (PlcClient.Connected) PlcClient.Disconnect();
 
+            try
+            {
+                listenPlc.Dispose();
+            }
+            catch (Exception e)
+            {
+                //ignored
+            }
+            
             PlcClient.IPAddress = "192.168.0.1";
             PlcClient.Port = 502;
             PlcClient.SerialPort = null;
@@ -194,7 +214,7 @@ namespace RobotProject.Form2Items
                 PlcConnected = false;
             }
 
-            Task.Run(ListenPlc);
+            listenPlc = Task.Run(ListenPlc);
             EventArgs args = new EventArgs();
             OnPlcConnectionChanged(args);
         }
@@ -228,12 +248,6 @@ namespace RobotProject.Form2Items
             ConnectBarcode();
             ConnectPlc();
             ConnectTaper();
-        }
-
-        public static void Disconnect()
-        {
-            BarcodeClient.Disconnect();
-            PlcClient.Disconnect();
         }
 
         private static void ReadHoldingRegsBarcode(ModbusClient client)
