@@ -72,6 +72,5 @@ namespace RobotProject.uiElements
             get => _textBox.Text;
             set => _textBox.Text = value;
         }
-        
     }
 }

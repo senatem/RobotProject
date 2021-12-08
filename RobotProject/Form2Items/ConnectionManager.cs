@@ -130,14 +130,14 @@ namespace RobotProject.Form2Items
 
         private static void ReadFromPlc()
         {
-            byte[] dataBuffer = new byte[70];
-            PlcClient.DBRead(1, 0, 40, dataBuffer);
+            byte[] dataBuffer = new byte[100];
+            PlcClient.DBRead(1, 0, 100, dataBuffer);
 
-            _plcData = dataBuffer.GetIntAt(16);
-            _taken = dataBuffer.GetIntAt(39);
-            _droppedFirst = dataBuffer.GetIntAt(12);
-            _droppedSecond = dataBuffer.GetIntAt(13);
-            _droppedThird = dataBuffer.GetIntAt(14);
+            _plcData = dataBuffer.GetIntAt(32);
+            _taken = dataBuffer.GetIntAt(78);
+            _droppedFirst = dataBuffer.GetIntAt(24);
+            _droppedSecond = dataBuffer.GetIntAt(26);
+            _droppedThird = dataBuffer.GetIntAt(28);
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -177,7 +177,7 @@ namespace RobotProject.Form2Items
         {
             if (PlcClient.Connected) PlcClient.Disconnect();
 
-            var res = PlcClient.ConnectTo("192.168.0.1", 0, 0);
+            var res = PlcClient.ConnectTo("192.168.0.1", 0, 1);
             
             if(res != 0)
             {
@@ -194,7 +194,7 @@ namespace RobotProject.Form2Items
         {
             if (PlcClient2.Connected) PlcClient2.Disconnect();
 
-            var res = PlcClient2.ConnectTo("192.168.0.50", 0, 0);
+            var res = PlcClient2.ConnectTo("192.168.0.50", 0, 1);
             
             if(res != 0)
             {
@@ -248,11 +248,11 @@ namespace RobotProject.Form2Items
 
             for (var i = 0; i < values.Length; i++)
             {
-                pack.SetDIntAt(i, values[i]);
+                pack.SetIntAt(i, (short) values[i]);
             }
             
-            pack.SetDIntAt(15, offsets.Rotation);
-            pack.SetDIntAt(17, offsets.NextRotation);
+            pack.SetIntAt(15, (short) offsets.Rotation);
+            pack.SetIntAt(17, (short) offsets.NextRotation);
             
             PlcClient.DBWrite(1, 0, pack.Length, pack);
         }

@@ -338,14 +338,4 @@ namespace RobotProject
      * ConnectionIndicators.barcodeConnect (true on connect false on break)
      * SystemControls.runButton.clickAction shold be modified (other buttons too) to fit the backend needs
      */
-
-
-
-    
-    
-
-    
-
-    
-
 }

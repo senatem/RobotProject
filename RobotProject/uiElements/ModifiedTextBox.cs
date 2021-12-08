@@ -53,8 +53,5 @@ namespace RobotProject.uiElements
             SelectionStart = Text.Length;
             SelectionLength = 0;
         }
-        
-        
-
     }
 }
