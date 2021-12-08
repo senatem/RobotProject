@@ -120,8 +120,13 @@ namespace RobotProject
                 }
             };
             
-            
-            
+            servoControls.Implement(this.Controls);
+            servoControls.applyPressed = () =>
+            {
+                // buraya apply düğmesinde isteidğin şeyi yaz
+                servoControls.getValues(); // kayıtlı değerler için
+            };
+
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
             
@@ -138,16 +143,30 @@ namespace RobotProject
             ConnectionManager.CellAssigned += assignCell;
             ConnectionManager.Init();
             LoadData();
-            ConnectionManager.Connect();
+            //ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
             connectionIndicators.TaperConnect(ConnectionManager.PlcClient2.Connected);
             
+            
             Resize += new EventHandler(Form2_Resize);
             
+            
+            
+            //bg.PaintIndicator(Color.Brown);
             bg.Reorient(0,0,appWidth,appHeight);
             Controls.Add(bg);
+            
+            var appRect = new Geometry.Rectangle(0f, ClientSize.Width, 0f, ClientSize.Height);
+            
+            var boxRect = appRect.RatedRectangle(appRatio);
+            systemControls.resizeToWindowRect(boxRect);
+            connectionIndicators.resizeToWindowRect(boxRect);
+            palleteVisuals.resizeToWindowRect(boxRect);
+            //servoControls.resizeToWindowRect(boxRect);
+            
+            bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W,(int)boxRect.H);
             
         }
 
@@ -168,12 +187,13 @@ namespace RobotProject
             //    control.Size = new Size(control.Size.Width, control.Size.Width);
             //}
             
-            var appRect = new Geometry.Rectangle(0f, Size.Width-10, 0f, Size.Height);
+            var appRect = new Geometry.Rectangle(0f, ClientSize.Width, 0f, ClientSize.Height);
             var boxRect = appRect.RatedRectangle(appRatio);
             systemControls.resizeToWindowRect(boxRect);
             connectionIndicators.resizeToWindowRect(boxRect);
             palleteVisuals.resizeToWindowRect(boxRect);
-            bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W,(int)boxRect.H);
+            servoControls.resizeToWindowRect(boxRect);
+            bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W+2,(int)boxRect.H);
             
             
             
@@ -182,12 +202,12 @@ namespace RobotProject
 
         private void barcodeIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeConnected);
+            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Available(50));
         }
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(ConnectionManager.PlcConnected);
+            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
         }
 
         private void taperIndicatorUpdater(object sender, EventArgs e)
@@ -300,6 +320,7 @@ namespace RobotProject
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidthInit/8, 50, appWidthInit/4, 100,false);
         // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
         private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
+        private ServoControls servoControls = new ServoControls(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);
         private Indicator bg  = new Indicator("bg", References.ProjectPath + "Images\\bg.png");
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();

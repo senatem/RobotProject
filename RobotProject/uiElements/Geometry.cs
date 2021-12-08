@@ -101,6 +101,11 @@ namespace RobotProject.uiElements
                     return Math.Max(W, H);
                 }
 
+                public Point Centre()
+                {
+                    return new Point(_x, _y);
+                }
+
 
                 private readonly float _x;
                 private readonly float _y;
