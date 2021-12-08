@@ -25,7 +25,7 @@ namespace RobotProject.Form2Items
                 var rows = r.SliceHorizontal(0.0f,0.8f).Split(6, 1);
                 for (var i = 0; i < 6; i++)
                 {
-                    _textPairs.Add( new TextPair($"R{i / 2 + 1}S{i % 2 + 1}", $"Robot{i / 3 + 1} Servo{i % 2 + 1} (mm):", rows[i],11f,split:0.8f,textAlign: ContentAlignment.TopLeft));
+                    _textPairs.Add( new TextPair($"R{i / 2 + 1}S{i % 2 + 1}", $"Robot{i / 2 + 1} Servo{i % 2 + 1} (mm):", rows[i],11f,split:0.8f,textAlign: ContentAlignment.TopLeft));
                 }
                 _apply.Reorient(r.SliceHorizontal(0.8f,1f));                
             }

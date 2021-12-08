@@ -143,7 +143,7 @@ namespace RobotProject
             ConnectionManager.CellAssigned += assignCell;
             ConnectionManager.Init();
             LoadData();
-            ConnectionManager.Connect();
+            //ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
