@@ -182,12 +182,12 @@ namespace RobotProject
 
         private void barcodeIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeConnected);
+            connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Available(50));
         }
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(ConnectionManager.PlcConnected);
+            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Available(50));
         }
 
         private void taperIndicatorUpdater(object sender, EventArgs e)

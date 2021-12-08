@@ -335,7 +335,6 @@ namespace RobotProject.Form2Items
                     ConnectPlc();
                     EventArgs args = new EventArgs();
                     OnPlcConnectionChanged(args);
-                    //MessageBox.Show(@"Bağlantı Hatası! PlcClient Status: " + PlcClient.Connected);
                 }
             }
             // ReSharper disable once FunctionNeverReturns
@@ -353,7 +352,8 @@ namespace RobotProject.Form2Items
                 else
                 {
                     ConnectBarcode();
-                    MessageBox.Show(@"Bağlantı Hatası! BarcodeClient Status: " + BarcodeClient.Connected);
+                    EventArgs args = new EventArgs();
+                    OnBarcodeConnectionChanged(args);
                 }
             }
             // ReSharper disable once FunctionNeverReturns
