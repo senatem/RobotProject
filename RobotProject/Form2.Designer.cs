@@ -207,7 +207,7 @@ namespace RobotProject
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Available(50));
+            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
         }
 
         private void taperIndicatorUpdater(object sender, EventArgs e)
