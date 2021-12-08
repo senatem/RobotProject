@@ -371,7 +371,7 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[0]) > 800)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[0]) > 1000)
             {
                 _productComing = int.Parse(_plcData!);
 
@@ -403,7 +403,7 @@ namespace RobotProject.Form2Items
 
 
             var r = 0;
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[2]) > 800)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[2]) > 1000)
             {
                 if (int.Parse(_droppedFirst ?? "0") == 1)
                 {
@@ -413,7 +413,7 @@ namespace RobotProject.Form2Items
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[3]) > 800)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[3]) > 1000)
             {
                 if (int.Parse(_droppedSecond ?? "0") == 1)
                 {
@@ -423,7 +423,7 @@ namespace RobotProject.Form2Items
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[4]) > 800)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[4]) > 1000)
             {
                 if (int.Parse(_droppedThird ?? "0") == 1)
                 {
@@ -491,6 +491,8 @@ namespace RobotProject.Form2Items
         {
             var c = GetCell(0);
 
+            if (c!.Full()) return;
+            
             var boxed = 0;
             if (PatternProduct!.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
             {
@@ -574,7 +576,7 @@ namespace RobotProject.Form2Items
 
             if (offsets.NextKat > c.KatMax)
             {
-                OnCellFull(cNo - 1);
+                //OnCellFull(cNo - 1);
                 /*if (cNo == 3)
                 {
                     cNo = 0;

@@ -113,6 +113,7 @@
         <Compile Include="Form2Items\popups\GenericWarning.cs" />
         <Compile Include="Form2Items\popups\NonBarcodePopup.cs" />
         <Compile Include="Form2Items\popups\PalletePopup.cs" />
+        <Compile Include="Form2Items\ServoControls.cs" />
         <Compile Include="Form2Items\SingleBox.cs" />
         <Compile Include="Form2Items\SystemControls.cs" />
         <Compile Include="OffsetCalculator.cs" />

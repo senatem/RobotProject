@@ -33,9 +33,9 @@ namespace RobotProject
         {
             return Holding;
         }
-        public int Full()
+        public bool Full()
         {
-            return Holding == OrderSize ? 1 : 0;
+            return Holding == OrderSize;
         }
 
         public long GetCellType()

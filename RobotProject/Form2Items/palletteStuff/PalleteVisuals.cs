@@ -49,7 +49,7 @@ namespace RobotProject.Form2Items.palletteStuff
         {
             // (appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
             var x = boxRect.L + boxRect.W/2;
-            var y = boxRect.T + (boxRect.H - 100f/720f*boxRect.H)/2 + boxRect.H/720f*100f;
+            var y = boxRect.T + (boxRect.H - 100f/720f*boxRect.H)/2f + boxRect.H/720f*100f;
             var w = boxRect.W;
             var h = boxRect.H - 100f/720f*boxRect.H;
             resize((int)x,(int)y,(int)w,(int)h);
@@ -108,6 +108,21 @@ namespace RobotProject.Form2Items.palletteStuff
         public void increaseProdCount(int n, int increment = 1)
         {
             _pallettes[n - 1].incementCount(0, increment);
+        }
+
+        private Geometry.Rectangle makeMyRect(Geometry.Rectangle boxRect)
+        {
+            return makeMyRect(boxRect.W, boxRect.H, boxRect.L, boxRect.T);
+        }
+        
+        private Geometry.Rectangle makeMyRect(float width, float height, float leftMargin = 0f, float topMargin = 0f)
+        {
+            var x = leftMargin + width/2;
+            var y = topMargin + (height - 100f/720f*height)/2 + height/720f*100f;
+            var w = width;
+            var h = height - 100f/720f*height;
+            resize((int)x,(int)y,(int)w,(int)h);
+            return new Geometry.Rectangle(width, height, new Geometry.Point(x, y));
         }
 
         public void increaseFillCount(int n, int increment = 1)
