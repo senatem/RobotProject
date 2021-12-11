@@ -112,6 +112,7 @@
         <Compile Include="Form2Items\BoxVisuals.cs" />
         <Compile Include="Form2Items\ConnectionIndicators.cs" />
         <Compile Include="Form2Items\ConnectionManager.cs" />
+        <Compile Include="Form2Items\ErrorBox.cs" />
         <Compile Include="Form2Items\palletteStuff\PalleteVisual.cs" />
         <Compile Include="Form2Items\palletteStuff\PalleteVisuals.cs" />
         <Compile Include="Form2Items\popups\GenericWarning.cs" />

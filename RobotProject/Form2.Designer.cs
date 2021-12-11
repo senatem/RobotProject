@@ -126,6 +126,8 @@ namespace RobotProject
                 // buraya apply düğmesinde isteidğin şeyi yaz
                 servoControls.getValues(); // kayıtlı değerler için
             };
+            
+            errorBox.Implement(this.Controls);
 
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
@@ -165,6 +167,11 @@ namespace RobotProject
             connectionIndicators.resizeToWindowRect(boxRect);
             palleteVisuals.resizeToWindowRect(boxRect);
             //servoControls.resizeToWindowRect(boxRect);
+            errorBox.resizeToWindowRect(boxRect);
+            var l = new List<String>();
+            l.Add("some error");
+            l.Add("Bantlama 1-2 Hizalama Motorları Hatada");
+            errorBox.setErrorText(l);
             
             bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W,(int)boxRect.H);
             
@@ -193,6 +200,7 @@ namespace RobotProject
             connectionIndicators.resizeToWindowRect(boxRect);
             palleteVisuals.resizeToWindowRect(boxRect);
             servoControls.resizeToWindowRect(boxRect);
+            errorBox.resizeToWindowRect(boxRect);
             bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W+2,(int)boxRect.H);
             
             
@@ -319,8 +327,11 @@ namespace RobotProject
         private SystemControls systemControls = new SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidthInit/8, 50, appWidthInit/4, 100,false);
         // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
-        private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
+        
+        //private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
+        private PalleteVisuals palleteVisuals = new PalleteVisuals(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),false);
         private ServoControls servoControls = new ServoControls(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);
+        private ErrorBox errorBox= new ErrorBox(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);
         private Indicator bg  = new Indicator("bg", References.ProjectPath + "Images\\bg.png");
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();

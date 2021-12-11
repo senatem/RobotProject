@@ -25,7 +25,7 @@ namespace RobotProject.Form2Items
                 var rows = r.SliceHorizontal(0.0f,0.8f).Split(6, 1);
                 for (var i = 0; i < 6; i++)
                 {
-                    _textPairs.Add( new TextPair($"R{i / 2 + 1}S{i % 2 + 1}", $"Robot{i / 2 + 1} Servo{i % 2 + 1} (mm):", rows[i],11f,split:0.8f,textAlign: ContentAlignment.TopLeft));
+                    _textPairs.Add( new TextPair($"R{i / 2 + 1}S{i % 2 + 1}", $"Robot{i / 2 + 1} Servo{i % 2 + 1} (mm):", rows[i],10f,split:0.85f,textAlign: ContentAlignment.TopLeft));
                 }
                 _apply.Reorient(r.SliceHorizontal(0.8f,1f));                
             }
@@ -135,11 +135,13 @@ namespace RobotProject.Form2Items
         private Geometry.Rectangle makeMyRect(float width, float height, float leftMargin = 0f, float topMargin = 0f)
         {
             //1040, 1255
-            var x = leftMargin + width/1280f*1147f;
-            var y = topMargin + (height*0.58f);
-            var w = width/1280f*216f;
-            var h = height*0.3f;
-            return new Geometry.Rectangle(w, h, new Geometry.Point(x, y));
+            //var left = leftMargin + width / 1280f * 1039f;
+            //var w = width / 1280f * 216f;
+            var left = leftMargin + width / 1280f * 1058f;
+            var w = width / 1280f * 198f;
+            return new Geometry.Rectangle(left, left+w,
+                topMargin + (height * 0.43f), topMargin + (height * 0.73f));
+            //return new Geometry.Rectangle(w, h, new Geometry.Point(x, y));
         }
 
 

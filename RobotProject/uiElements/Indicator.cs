@@ -5,7 +5,7 @@ namespace RobotProject.uiElements
 {
     public class Indicator: ModifiedLabel
     {
-        public Indicator(string id, string? path=null, string text = "", ImageLayout il = ImageLayout.Stretch) : base(id, text)
+        public Indicator(string id, string? path=null, string text = "", ImageLayout il = ImageLayout.Stretch, float emSize = 15.75f) : base(id, text,emSize)
         {
             if (path == null) return;
             _fig = new BetterBitmap(new Bitmap(path))
