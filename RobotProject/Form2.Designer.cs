@@ -151,12 +151,8 @@ namespace RobotProject
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
             connectionIndicators.TaperConnect(ConnectionManager.PlcClient2.Connected);
             
-            
             Resize += new EventHandler(Form2_Resize);
             
-            
-            
-            //bg.PaintIndicator(Color.Brown);
             bg.Reorient(0,0,appWidth,appHeight);
             Controls.Add(bg);
             
@@ -194,7 +190,7 @@ namespace RobotProject
             //    control.Size = new Size(control.Size.Width, control.Size.Width);
             //}
             
-            var appRect = new Geometry.Rectangle(0f, ClientSize.Width, 0f, ClientSize.Height);
+            var appRect = new Geometry.Rectangle(0f, Size.Width-10, 0f, Size.Height);
             var boxRect = appRect.RatedRectangle(appRatio);
             systemControls.resizeToWindowRect(boxRect);
             connectionIndicators.resizeToWindowRect(boxRect);
@@ -289,6 +285,7 @@ namespace RobotProject
                     palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize);
                     // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
                     palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
+                    palleteVisuals.setProdCount(cell.RobotNo-1, valueFill: cell.Dropped);
                 }
                 
                 using (var sr = new StreamReader(Path.Combine(docPath, "config")))

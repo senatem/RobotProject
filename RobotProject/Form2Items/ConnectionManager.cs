@@ -71,7 +71,11 @@ namespace RobotProject.Form2Items
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static readonly long[] Times = new long[5];
         private static int _productComing;
-
+        private static CancellationTokenSource _cancelPlcSource = new CancellationTokenSource();
+        private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
+        private static CancellationTokenSource _cancelBarcodeSource = new CancellationTokenSource();
+        private static CancellationToken _cancelBarcode = _cancelBarcodeSource.Token;
+        
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
         public static event EventHandler TaperConnectionChanged = null!;
@@ -155,6 +159,15 @@ namespace RobotProject.Form2Items
         {
             if (BarcodeClient.Connected) BarcodeClient.Disconnect();
 
+            try
+            {
+                _cancelBarcodeSource.Cancel();
+            }
+            catch (Exception e)
+            {
+                //ignored
+            }
+
             BarcodeClient.IPAddress = "192.168.0.100";
             BarcodeClient.Port = 51236;
             BarcodeClient.SerialPort = null;
@@ -168,7 +181,9 @@ namespace RobotProject.Form2Items
                     MessageBoxIcon.Hand);
             }
 
-            Task.Run(Listen);
+            _cancelBarcodeSource = new CancellationTokenSource();
+            _cancelBarcode = _cancelBarcodeSource.Token;
+            Task.Run(Listen, _cancelBarcode);
             EventArgs args = new EventArgs();
             OnBarcodeConnectionChanged(args);
         }
@@ -177,6 +192,15 @@ namespace RobotProject.Form2Items
         {
             if (PlcClient.Connected) PlcClient.Disconnect();
 
+            try
+            {
+                _cancelPlcSource.Cancel();
+            }
+            catch (Exception e)
+            {
+                //ignored
+            }
+            
             var res = PlcClient.ConnectTo("192.168.0.1", 0, 1);
             
             if(res != 0)
@@ -184,8 +208,12 @@ namespace RobotProject.Form2Items
                 MessageBox.Show(@"Plc bağlantısı sağlanamadı.", @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
+            
 
-            Task.Run(ListenPlc);
+
+            _cancelPlcSource = new CancellationTokenSource();
+            _cancelPlc = _cancelPlcSource.Token;
+            Task.Run(ListenPlc, _cancelPlc);
             EventArgs args = new EventArgs();
             OnPlcConnectionChanged(args);
         }
@@ -215,12 +243,6 @@ namespace RobotProject.Form2Items
             ConnectBarcode();
             ConnectPlc();
             ConnectTaper();
-        }
-
-        public static void Disconnect()
-        {
-            BarcodeClient.Disconnect();
-            PlcClient.Disconnect();
         }
 
         private static void ReadHoldingRegsBarcode(ModbusClient client)
@@ -284,7 +306,7 @@ namespace RobotProject.Form2Items
 
             for (var i = 0; i < 17; i++)
             {
-                pack.SetDIntAt(i, 0);
+                pack.SetIntAt(i, 0);
             }
 
             PlcClient.DBWrite(1, 0, pack.Length, pack);
@@ -301,6 +323,10 @@ namespace RobotProject.Form2Items
                 if (PlcClient.Connected)
                 {
                     ReadFromPlc();
+                    if (_cancelPlc.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     await Task.Delay(100, CancellationToken.None);
                 }
                 else
@@ -308,6 +334,7 @@ namespace RobotProject.Form2Items
                     ConnectPlc();
                     EventArgs args = new EventArgs();
                     OnPlcConnectionChanged(args);
+                    return;
                 }
             }
             // ReSharper disable once FunctionNeverReturns
@@ -320,6 +347,10 @@ namespace RobotProject.Form2Items
                 if (BarcodeClient.Available(50))
                 {
                     ReadHoldingRegsBarcode(BarcodeClient);
+                    if (_cancelBarcode.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     await Task.Delay(100, CancellationToken.None);
                 }
                 else
@@ -327,6 +358,7 @@ namespace RobotProject.Form2Items
                     ConnectBarcode();
                     EventArgs args = new EventArgs();
                     OnBarcodeConnectionChanged(args);
+                    return;
                 }
             }
             // ReSharper disable once FunctionNeverReturns
@@ -383,6 +415,8 @@ namespace RobotProject.Form2Items
                     Times[2] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 1;
                     ProductDrop(r);
+                    var c = Cells.Find(cell => cell.RobotNo == r);
+                    c.Drop();
                 }
             }
 
@@ -393,6 +427,8 @@ namespace RobotProject.Form2Items
                     Times[3] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 2;
                     ProductDrop(r);
+                    var c = Cells.Find(cell => cell.RobotNo == r);
+                    c.Drop();
                 }
             }
 
@@ -403,6 +439,8 @@ namespace RobotProject.Form2Items
                     Times[4] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 3;
                     ProductDrop(r);
+                    var c = Cells.Find(cell => cell.RobotNo == r);
+                    c.Drop();
                 }
             }
         }
@@ -723,14 +761,14 @@ namespace RobotProject.Form2Items
             var orderSize = Sql.GetOrderSize(orderNo);
             if (katMax == 0) katMax = orderSize;
 
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax, 0));
         }
 
         public static void AssignNonBarcodeCell(int robotNo, int height, int width, int type, int orderSize,
             string yontemKodu, int palletH, int palletL, int palletZ, int katMax)
         {
             PatternProduct = new Product(height, width, type, orderSize, yontemKodu);
-            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax);
+            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax, 0);
             Cells.Add(c);
         }
 

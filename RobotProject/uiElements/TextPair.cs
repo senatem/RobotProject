@@ -1,29 +1,17 @@
 using System.Windows.Forms;
 using System;
-using System.Drawing;
-
 
 namespace RobotProject.uiElements
 {
     public class TextPair
     {
-        public TextPair(string id, string text, Geometry.Rectangle r, float textEmSize=15.75f, float split = 0.5f, ContentAlignment  textAlign=  ContentAlignment.TopLeft)
+        public TextPair(string id, string text, Geometry.Rectangle r)
         {
-            _label = new ModifiedLabel(id + "_label", text,textEmSize);
-            _label.Reorient(r.SliceVertical(0f,split));
-            _label.TextAlign = textAlign;
-            _textBox = new ModifiedTextBox(id+"_tb","0",textEmSize);
-            _textBox.Reorient(r.SliceVertical(split,1f));
+            _label = new ModifiedLabel(id + "_label", text);
+            _label.Reorient(r.SliceVertical(0f,0.5f));
+            _textBox = new ModifiedTextBox(id+"_tb","0");
+            _textBox.Reorient(r.SliceVertical(0.5f,1f));
             _textBox.KeyPressed = KeyPressed;
-            this._split = split;
-
-
-        }
-
-        public void reorient(Geometry.Rectangle r)
-        {
-            _label.Reorient(r.SliceVertical(0f,_split));
-            _textBox.Reorient(r.SliceVertical(_split,1f));
         }
 
         public void Implement(Control.ControlCollection motherControlCollection)
@@ -37,22 +25,14 @@ namespace RobotProject.uiElements
             _textBox.CursorToEnd();
         }
 
-        public void recolour(Color backColour)
-        {
-            _label.BackColor = backColour;
-        }
-
         public int SelectionStart
         {
             get => _textBox.SelectionStart;
             set => _textBox.SelectionStart = value;
         }
 
-        public bool entryValid = true;
-
         private readonly ModifiedLabel _label;
         private readonly ModifiedTextBox _textBox;
-        private float _split = 0.5f;
         
         private Action _keyPressed = () => { }; 
         public Action KeyPressed  // can be used to change click function with an Action
