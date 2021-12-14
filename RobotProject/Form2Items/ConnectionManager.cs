@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,6 +68,7 @@ namespace RobotProject.Form2Items
         private static bool _inProcess;
         public static bool PatternMode;
         public static Product? PatternProduct;
+        private static int patternLast;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
@@ -76,7 +78,9 @@ namespace RobotProject.Form2Items
         private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
         private static CancellationTokenSource _cancelBarcodeSource = new CancellationTokenSource();
         private static CancellationToken _cancelBarcode = _cancelBarcodeSource.Token;
-        
+        private static string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string fileName = "plcLog" + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second;
+
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
         public static event EventHandler TaperConnectionChanged = null!;
@@ -140,6 +144,10 @@ namespace RobotProject.Form2Items
             _droppedFirst = PlcClient.receiveData[10].ToString();
             _droppedSecond = PlcClient.receiveData[12].ToString();
             _droppedThird = PlcClient.receiveData[14].ToString();
+
+            File.AppendAllText(Path.Combine(docPath, fileName),
+                "Time: " + DateTime.Now + " PlcData: " + _plcData + "\n");
+
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -152,6 +160,7 @@ namespace RobotProject.Form2Items
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
             PlcClient.ReceiveDataChanged += ReadFromPlc;
             Buffer.Init();
+            File.WriteAllText(Path.Combine(docPath, fileName), "");
         }
 
         private static void ConnectBarcode()
@@ -201,7 +210,7 @@ namespace RobotProject.Form2Items
             {
                 //ignored
             }
-            
+
             PlcClient.IPAddress = "192.168.0.1";
             PlcClient.Port = 502;
             PlcClient.SerialPort = null;
@@ -242,7 +251,7 @@ namespace RobotProject.Form2Items
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
-            
+
             TaperConnected = PlcClient2.Available(100);
             EventArgs args = new EventArgs();
             OnTaperConnectionChanged(args);
@@ -344,22 +353,33 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                if (PlcClient.Available(50))
+                PlcClient.Disconnect();
+                PlcClient.Connect();
+                //  if (PlcClient.Available(50))
+                // {
+                await Task.Delay(100, CancellationToken.None);
+                ReadHoldingRegsPlc(PlcClient);
+                await Task.Delay(100, CancellationToken.None);
+                PlcClient.Disconnect();
+                if (_cancelPlc.IsCancellationRequested)
                 {
-                    ReadHoldingRegsPlc(PlcClient);
-                    if (_cancelPlc.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    await Task.Delay(100, CancellationToken.None);
-                }
-                else
-                {
-                    ConnectPlc();
-                    EventArgs args = new EventArgs();
-                    OnPlcConnectionChanged(args);
                     return;
                 }
+                /*   }
+                    else
+                    {
+                        ConnectPlc();
+                        
+                        
+                        
+                        
+                        
+                        
+                        EventArgs args = new EventArgs();
+                        OnPlcConnectionChanged(args);
+                        return;
+                    }
+                    */
             }
             // ReSharper disable once FunctionNeverReturns
         }
@@ -368,22 +388,28 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                if (BarcodeClient.Available(50))
+                BarcodeClient.Disconnect();
+                BarcodeClient.Connect();
+                await Task.Delay(100, CancellationToken.None);
+                //      if (BarcodeClient.Available(50))
+                //    {
+                ReadHoldingRegsBarcode(BarcodeClient);
+                await Task.Delay(100, CancellationToken.None);
+                BarcodeClient.Disconnect();
+                if (_cancelBarcode.IsCancellationRequested)
                 {
-                    ReadHoldingRegsBarcode(BarcodeClient);
-                    if (_cancelBarcode.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    await Task.Delay(100, CancellationToken.None);
-                }
-                else
-                {
-                    ConnectBarcode();
-                    EventArgs args = new EventArgs();
-                    OnBarcodeConnectionChanged(args);
                     return;
                 }
+
+                /*         }
+                         else
+                         {
+                             ConnectBarcode();
+                             EventArgs args = new EventArgs();
+                             OnBarcodeConnectionChanged(args);
+                             return;
+                         }
+                         */
             }
             // ReSharper disable once FunctionNeverReturns
         }
@@ -524,10 +550,16 @@ namespace RobotProject.Form2Items
 
         private static void ProcessNonBarcode()
         {
-            var c = GetCell(0);
+            var cList = GetNonBarcodeCells();
+            var c = cList[patternLast];
+            patternLast += 1;
+            if (patternLast == cList.Count)
+            {
+                patternLast = 0;
+            }
 
             if (c!.Full()) return;
-            
+
             var boxed = 0;
             if (PatternProduct!.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
             {
@@ -774,6 +806,11 @@ namespace RobotProject.Form2Items
         #endregion
 
         #region control
+
+        private static List<Cell> GetNonBarcodeCells()
+        {
+            return Cells.FindAll(cell => cell.GetCellType() == 0);
+        }
 
         private static Cell? GetCell(long type)
         {
