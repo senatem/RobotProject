@@ -215,6 +215,7 @@ namespace RobotProject.Form2Items
             PlcClient.Port = 502;
             PlcClient.SerialPort = null;
             PlcConnected = true;
+            PlcClient.ConnectionTimeout = 1000000000;
 
             try
             {
@@ -222,7 +223,7 @@ namespace RobotProject.Form2Items
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Kaynak: Plc." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                MessageBox.Show(@"Kaynak: Plc. " + ex.Message + "\n" + ex.StackTrace, @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
                 PlcConnected = false;
             }
@@ -290,7 +291,8 @@ namespace RobotProject.Form2Items
             }
         }
 
-        private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
+        private static async void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count,
+            int cellFull,
             int boxed)
         {
             int[] values =
@@ -300,9 +302,13 @@ namespace RobotProject.Form2Items
             };
             try
             {
+                PlcClient.Connect();
+                await Task.Delay(100, CancellationToken.None);
                 PlcClient.WriteMultipleRegisters(0, values);
                 PlcClient.WriteSingleRegister(15, offsets.Rotation);
                 PlcClient.WriteSingleRegister(17, offsets.NextRotation);
+                await Task.Delay(100, CancellationToken.None);
+                PlcClient.Disconnect();
             }
             catch (Exception e)
             {
@@ -331,13 +337,17 @@ namespace RobotProject.Form2Items
             }
         }
 
-        private static void ResetRobotOffsets()
+        private static async void ResetRobotOffsets()
         {
             try
             {
+                PlcClient.Connect();
+                await Task.Delay(100, CancellationToken.None);
                 PlcClient.WriteMultipleRegisters(0, new int[12]);
                 PlcClient.WriteSingleRegister(15, 0);
                 PlcClient.WriteSingleRegister(17, 0);
+                await Task.Delay(100, CancellationToken.None);
+                PlcClient.Disconnect();
             }
             catch (Exception e)
             {
@@ -355,31 +365,25 @@ namespace RobotProject.Form2Items
             {
                 PlcClient.Disconnect();
                 PlcClient.Connect();
-                //  if (PlcClient.Available(50))
-                // {
-                await Task.Delay(100, CancellationToken.None);
-                ReadHoldingRegsPlc(PlcClient);
-                await Task.Delay(100, CancellationToken.None);
-                PlcClient.Disconnect();
-                if (_cancelPlc.IsCancellationRequested)
+                if (PlcClient.Available(50))
                 {
-                    return;
-                }
-                /*   }
-                    else
+                    await Task.Delay(100, CancellationToken.None);
+                    ReadHoldingRegsPlc(PlcClient);
+                    await Task.Delay(100, CancellationToken.None);
+                    PlcClient.Disconnect();
+                    if (_cancelPlc.IsCancellationRequested)
                     {
-                        ConnectPlc();
-                        
-                        
-                        
-                        
-                        
-                        
-                        EventArgs args = new EventArgs();
-                        OnPlcConnectionChanged(args);
                         return;
                     }
-                    */
+                }
+                else
+                {
+                    ConnectPlc();
+
+                    EventArgs args = new EventArgs();
+                    OnPlcConnectionChanged(args);
+                    return;
+                }
             }
             // ReSharper disable once FunctionNeverReturns
         }

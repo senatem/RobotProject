@@ -260,7 +260,7 @@ namespace RobotProject
                 {
                     palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize);
                     // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
-                    palleteVisuals.setProdCount(cell.RobotNo-1, cell.Holding);
+                    palleteVisuals.setProdCount(cell.RobotNo-1, valueDefn: cell.Holding);
                     palleteVisuals.setProdCount(cell.RobotNo-1, valueFill: cell.Dropped);
                 }
                 
