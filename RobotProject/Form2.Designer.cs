@@ -17,8 +17,8 @@ namespace RobotProject
 {
     partial class Form2
     {
-        private static int appWidthInit = 1280;
-        private static int appHeightInit = 720;
+        private static int appWidthInit = 1920;
+        private static int appHeightInit = 1080;
         private static float appRatio = (float)(appWidthInit) / (float)appHeightInit;
         private int appHeight = appHeightInit;
         private int appWidth = appWidthInit;
@@ -162,7 +162,7 @@ namespace RobotProject
             systemControls.resizeToWindowRect(boxRect);
             connectionIndicators.resizeToWindowRect(boxRect);
             palleteVisuals.resizeToWindowRect(boxRect);
-            //servoControls.resizeToWindowRect(boxRect);
+            servoControls.resizeToWindowRect(boxRect);
             errorBox.resizeToWindowRect(boxRect);
             var l = new List<String>();
             l.Add("some error");
@@ -320,12 +320,11 @@ namespace RobotProject
             }
         }
         */
-
+        
         private SystemControls systemControls = new SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidthInit/8, 50, appWidthInit/4, 100,false);
         // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
-        
-        //private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
+        // private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
         private PalleteVisuals palleteVisuals = new PalleteVisuals(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),false);
         private ServoControls servoControls = new ServoControls(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);
         private ErrorBox errorBox= new ErrorBox(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);

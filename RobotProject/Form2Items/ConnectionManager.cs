@@ -66,6 +66,7 @@ namespace RobotProject.Form2Items
         private static bool _inProcess;
         public static bool PatternMode;
         public static Product? PatternProduct;
+        public static int patternLast;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
@@ -793,6 +794,34 @@ namespace RobotProject.Form2Items
             }
         }
 
+        #endregion
+        
+        #region errors
+
+        private static List<int> ToBinary(int x)
+        {
+            List<int> res = new List<int>();
+            while(x>0)
+            {
+               res.Add(x % 2);
+               x = x / 2;
+            }
+
+            return res;
+        }
+
+        private static int FromBinary(List<int> x)
+        {
+            int res = 0;
+
+            for (var i = 0; i < x.Count; i++)
+            {
+                res = (int) (res + x[i] * Math.Pow(2, i));
+            }
+
+            return res;
+        }
+        
         #endregion
     }
 }
