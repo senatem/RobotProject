@@ -23,6 +23,72 @@ namespace RobotProject
         private int appHeight = appHeightInit;
         private int appWidth = appWidthInit;
 
+        #region error texts
+
+        private List<List<string>>errorList = new List<List<string>>();
+
+        private void SetErrorTexts()
+        {
+            var r1Errors = new List<string>();
+            r1Errors.Add("");
+            r1Errors.Add("Servo 1 Hatada");
+            r1Errors.Add("Servo 2 Hatada");
+            r1Errors.Add("Servo 1-2 Hatada");
+            r1Errors.Add("Servo 3 Hatada");
+            r1Errors.Add("Servo 1-3 Hatada");
+            r1Errors.Add("Servo 2-3 Hatada");
+            r1Errors.Add("Servo 1-2-3 Hatada");
+            errorList.Add(r1Errors);
+            
+            var r2Errors = new List<string>();
+            r2Errors.Add("");
+            r2Errors.Add("Servo 1 Hatada");
+            r2Errors.Add("Servo 2 Hatada");
+            r2Errors.Add("Servo 1-2 Hatada");
+            r2Errors.Add("Servo 3 Hatada");
+            r2Errors.Add("Servo 1-3 Hatada");
+            r2Errors.Add("Servo 2-3 Hatada");
+            r2Errors.Add("Servo 1-2-3 Hatada");
+            errorList.Add(r2Errors);
+            
+            var r3Errors = new List<string>();
+            r3Errors.Add("");
+            r3Errors.Add("Servo 1 Hatada");
+            r3Errors.Add("Servo 2 Hatada");
+            r3Errors.Add("Servo 1-2 Hatada");
+            r3Errors.Add("Servo 3 Hatada");
+            r3Errors.Add("Servo 1-3 Hatada");
+            r3Errors.Add("Servo 2-3 Hatada");
+            r3Errors.Add("Servo 1-2-3 Hatada");
+            errorList.Add(r3Errors);
+
+            var tableErrors = new List<string>();
+            tableErrors.Add("");
+            tableErrors.Add("Döner Tabla 1 Hatada");
+            tableErrors.Add("Döner Tabla 2 Hatada");
+            tableErrors.Add("Döner Tabla 1-2 Hatada");
+            tableErrors.Add("Döner Tabla 3 Hatada");
+            tableErrors.Add("Döner Tabla 1-3 Hatada");
+            tableErrors.Add("Döner Tabla 2-3 Hatada");
+            tableErrors.Add("Döner Tabla 1-2-3 Hatada");
+            errorList.Add(tableErrors);
+            
+            var taperErrors = new List<string>();
+            taperErrors.Add("");
+            taperErrors.Add("Bantlama 1 Servo Hatada");
+            taperErrors.Add("Bantlama 2 Servo Hatada");            
+            taperErrors.Add("Bantlama 1-2 Servo Hatada");            
+            taperErrors.Add("Bantlama 1 Bant Bitti");
+            taperErrors.Add("Bantlama 2 Bant Bitti");
+            taperErrors.Add("Bantlama 1-2 Bant Bitti");
+            taperErrors.Add("Bantlama 1 Hizalama Motoru Hatada");
+            taperErrors.Add("Bantlama 2 Hizalama Motoru Hatada");
+            taperErrors.Add("Bantlama 1-2 Hizalama Motoru Hatada");
+            errorList.Add(taperErrors);
+        }
+
+        #endregion
+
         private IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -60,6 +126,8 @@ namespace RobotProject
 
             var n = 5;
             var n2 = String.Format("{0}", n);
+            
+            SetErrorTexts();
 
             systemControls.PalleteButton.ClickAction = () =>
             {
@@ -141,6 +209,7 @@ namespace RobotProject
             ConnectionManager.ProductDropped += productFill;
             ConnectionManager.CellFull += resetKat;
             ConnectionManager.CellAssigned += assignCell;
+            ConnectionManager.ErrorUpdate += updateErrors;
             ConnectionManager.Init();
             LoadData();
             //ConnectionManager.Connect();
@@ -162,17 +231,9 @@ namespace RobotProject
             palleteVisuals.resizeToWindowRect(boxRect);
             servoControls.resizeToWindowRect(boxRect);
             errorBox.resizeToWindowRect(boxRect);
-            var l = new List<String>();
-            l.Add("some error");
-            l.Add("Bantlama 1-2 Hizalama Motorları Hatada");
-            errorBox.setErrorText(l);
-            
             bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W,(int)boxRect.H);
-            
         }
-
         
-
         #endregion
         
         private void Form2_Resize(object sender, System.EventArgs e)
@@ -249,6 +310,17 @@ namespace RobotProject
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        private void updateErrors(int[] errors)
+        {
+            var l = new List<String>();
+            for (var i = 0; i < 5; i++)
+            {
+                var e = errorList[i][errors[i]];
+                if (e!="") l.Add(e);
+            }
+            errorBox.setErrorText(l);
         }
 
         private void SaveData()

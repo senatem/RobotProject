@@ -44,6 +44,8 @@ namespace RobotProject.Form2Items
 
     public delegate void CellAssigned(int i, long orderNo, Pallet pallet);
 
+    public delegate void ErrorUpdate(int[] errorList);
+
     #endregion
 
     public static class ConnectionManager
@@ -71,6 +73,7 @@ namespace RobotProject.Form2Items
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static long[] _times = new long[5];
+        private static int[] errorList = new int[5];
         private static int _productComing;
         private static CancellationTokenSource _cancelPlcSource = new CancellationTokenSource();
         private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
@@ -84,6 +87,8 @@ namespace RobotProject.Form2Items
         public static event ProductDropped ProductDropped = null!;
         public static event CellFull CellFull = null!;
         public static event CellAssigned CellAssigned = null!;
+
+        public static event ErrorUpdate ErrorUpdate = null;
 
         #endregion
 
@@ -127,6 +132,11 @@ namespace RobotProject.Form2Items
             handler.Invoke(null, e);
         }
 
+        private static void OnErrorUpdate(int[] errorList)
+        {
+            ErrorUpdate.Invoke(errorList);
+        }
+
         private static void UpdateReceiveData(object sender)
         {
             _receiveData = BitConverter.ToString(BarcodeClient.receiveData).Replace("-", " ") + Environment.NewLine;
@@ -143,6 +153,12 @@ namespace RobotProject.Form2Items
             _droppedFirst = dataBuffer.GetIntAt(24).ToString();
             _droppedSecond = dataBuffer.GetIntAt(26).ToString();
             _droppedThird = dataBuffer.GetIntAt(28).ToString();
+
+            for (var i = 0; i < 5; i++)
+            {
+                errorList[i] = dataBuffer.GetIntAt(86 + i*2);
+            }
+
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -460,6 +476,8 @@ namespace RobotProject.Form2Items
                     c.Drop();
                 }
             }
+            
+            OnErrorUpdate(errorList);
         }
 
         private static string ConvertFromHex(string hexString)
