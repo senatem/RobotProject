@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EasyModbus;
 using RobotProject.uiElements;
+using Sharp7;
 
 namespace RobotProject.Form2Items
 {
@@ -50,8 +51,8 @@ namespace RobotProject.Form2Items
         #region declarations
 
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
-        public static readonly ModbusClient PlcClient = new ModbusClient();
-        public static readonly ModbusClient PlcClient2 = new ModbusClient();
+        public static readonly S7Client PlcClient = new S7Client();
+        public static readonly S7Client PlcClient2 = new S7Client();
         public static readonly SqlCommunication Sql = new SqlCommunication();
 
         public static bool PlcConnected;
@@ -134,13 +135,16 @@ namespace RobotProject.Form2Items
             Parallel.Invoke(UpdateReceiveTextBox);
         }
 
-        private static void ReadFromPlc(object sender)
+        private static void ReadFromPlc()
         {
-            _plcData = PlcClient.receiveData[18].ToString();
-            _taken = PlcClient.receiveData[64].ToString();
-            _droppedFirst = PlcClient.receiveData[10].ToString();
-            _droppedSecond = PlcClient.receiveData[12].ToString();
-            _droppedThird = PlcClient.receiveData[14].ToString();
+            byte[] dataBuffer = new byte[100];
+            PlcClient.DBRead(57, 0, 100, dataBuffer);
+
+            _plcData = dataBuffer.GetIntAt(32).ToString();
+            _taken = dataBuffer.GetIntAt(78).ToString();
+            _droppedFirst = dataBuffer.GetIntAt(24).ToString();
+            _droppedSecond = dataBuffer.GetIntAt(26).ToString();
+            _droppedThird = dataBuffer.GetIntAt(28).ToString();
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -151,7 +155,6 @@ namespace RobotProject.Form2Items
         public static void Init()
         {
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
-            PlcClient.ReceiveDataChanged += ReadFromPlc;
             Buffer.Init();
         }
 
@@ -203,21 +206,12 @@ namespace RobotProject.Form2Items
                 //ignored
             }
 
-            PlcClient.IPAddress = "192.168.0.1";
-            PlcClient.Port = 502;
-            PlcClient.SerialPort = null;
-            PlcConnected = true;
-
-            try
+            var res = PlcClient.ConnectTo("192.168.0.1", 0, 1);
+            
+            if(res != 0)
             {
-                PlcClient.Connect();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Kaynak: Plc. " + ex.Message + "\n" + ex.StackTrace, @"Bağlantı Hatası",
-                    MessageBoxButtons.OK,
+                MessageBox.Show(@"Plc bağlantısı sağlanamadı.", @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
-                PlcConnected = false;
             }
 
 
@@ -231,21 +225,17 @@ namespace RobotProject.Form2Items
         private static void ConnectTaper()
         {
             if (PlcClient2.Connected) PlcClient2.Disconnect();
-            PlcClient2.IPAddress = "192.168.0.50";
-            PlcClient2.Port = 502;
-            PlcClient2.SerialPort = null;
-            try
+
+            var res = PlcClient2.ConnectTo("192.168.0.50", 0, 1);
+            
+            if(res != 0)
             {
-                PlcClient2.Connect();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Kaynak: Enine Bantlama Makinesi." + ex.Message, @"Bağlantı Hatası",
+                MessageBox.Show(@"Enine Bantlama Makinesi bağlantısı sağlanamadı.", @"Bağlantı Hatası",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
 
-            TaperConnected = PlcClient2.Available(100);
+            TaperConnected = PlcClient2.Connected;
             EventArgs args = new EventArgs();
             OnTaperConnectionChanged(args);
         }
@@ -291,32 +281,18 @@ namespace RobotProject.Form2Items
                 cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
                 boxed
             };
-            try
-            {
-                PlcClient.WriteMultipleRegisters(0, values);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
 
-            try
-            {
-                PlcClient.WriteSingleRegister(15, offsets.Rotation);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            byte[] pack = new byte[36];
 
-            try
+            for (var i = 0; i < values.Length; i++)
             {
-                PlcClient.WriteSingleRegister(17, offsets.NextRotation);
+                pack.SetIntAt(i*2, (short) values[i]);
             }
-            catch (Exception)
-            {
-                // ignored
-            }
+            
+            pack.SetIntAt(30, (short) offsets.Rotation);
+            pack.SetIntAt(34, (short) offsets.NextRotation);
+            
+            PlcClient.DBWrite(57, 0, pack.Length, pack);
         }
 
         private static void SendFromBuffer(int r)
@@ -342,32 +318,17 @@ namespace RobotProject.Form2Items
 
         private static void ResetRobotOffsets()
         {
-            try
-            {
-                PlcClient.WriteMultipleRegisters(0, new int[12]);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            byte[] pack = new byte[36];
 
-            try
+            for (var i = 0; i < 12; i++)
             {
-                PlcClient.WriteSingleRegister(15, 0);
+                pack.SetIntAt(i*2, 0);
             }
-            catch (Exception)
-            {
-                // ignored
-            }
-
-            try
-            {
-                PlcClient.WriteSingleRegister(17, 0);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            
+            pack.SetIntAt(30, 0);
+            pack.SetIntAt(34, 0);
+            
+            PlcClient.DBWrite(57, 0, pack.Length, pack);
         }
 
         #endregion
@@ -378,28 +339,9 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                /*
-                if (PlcClient.Connected) PlcClient.Disconnect();
-                PlcClient.Connect();
-                await Task.Delay(100, CancellationToken.None);
-                ReadHoldingRegsPlc(PlcClient);
-                PlcClient.Disconnect();
-                if (_cancelPlc.IsCancellationRequested)
+                if (PlcClient.Connected)
                 {
-                    return;
-                }
-
-                await Task.Delay(100, CancellationToken.None);
-                return;
-                */
-                if (PlcClient.Available(50))
-                {
-                    ReadHoldingRegsPlc(PlcClient);
-                    if (_cancelPlc.IsCancellationRequested)
-                    {
-                        return;
-                    }
-
+                    ReadFromPlc();
                     await Task.Delay(100, CancellationToken.None);
                 }
                 else
