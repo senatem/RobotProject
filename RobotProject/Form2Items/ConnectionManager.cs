@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,8 +77,6 @@ namespace RobotProject.Form2Items
         private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
         private static CancellationTokenSource _cancelBarcodeSource = new CancellationTokenSource();
         private static CancellationToken _cancelBarcode = _cancelBarcodeSource.Token;
-        private static string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string fileName = "plcLog" + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second;
 
         public static event EventHandler BarcodeConnectionChanged = null!;
         public static event EventHandler PlcConnectionChanged = null!;
@@ -144,10 +141,6 @@ namespace RobotProject.Form2Items
             _droppedFirst = PlcClient.receiveData[10].ToString();
             _droppedSecond = PlcClient.receiveData[12].ToString();
             _droppedThird = PlcClient.receiveData[14].ToString();
-
-            File.AppendAllText(Path.Combine(docPath, fileName),
-                "Time: " + DateTime.Now + " PlcData: " + _plcData + "\n");
-
             Parallel.Invoke(UpdatePlcData);
         }
 
@@ -160,7 +153,6 @@ namespace RobotProject.Form2Items
             BarcodeClient.ReceiveDataChanged += UpdateReceiveData;
             PlcClient.ReceiveDataChanged += ReadFromPlc;
             Buffer.Init();
-            File.WriteAllText(Path.Combine(docPath, fileName), "");
         }
 
         private static void ConnectBarcode()
@@ -215,7 +207,6 @@ namespace RobotProject.Form2Items
             PlcClient.Port = 502;
             PlcClient.SerialPort = null;
             PlcConnected = true;
-            PlcClient.ConnectionTimeout = 1000000000;
 
             try
             {
@@ -223,7 +214,8 @@ namespace RobotProject.Form2Items
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Kaynak: Plc. " + ex.Message + "\n" + ex.StackTrace, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                MessageBox.Show(@"Kaynak: Plc. " + ex.Message + "\n" + ex.StackTrace, @"Bağlantı Hatası",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
                 PlcConnected = false;
             }
@@ -291,8 +283,7 @@ namespace RobotProject.Form2Items
             }
         }
 
-        private static async void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count,
-            int cellFull,
+        private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
             int boxed)
         {
             int[] values =
@@ -302,15 +293,27 @@ namespace RobotProject.Form2Items
             };
             try
             {
-                PlcClient.Connect();
-                await Task.Delay(100, CancellationToken.None);
                 PlcClient.WriteMultipleRegisters(0, values);
-                PlcClient.WriteSingleRegister(15, offsets.Rotation);
-                PlcClient.WriteSingleRegister(17, offsets.NextRotation);
-                await Task.Delay(100, CancellationToken.None);
-                PlcClient.Disconnect();
             }
-            catch (Exception e)
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            try
+            {
+                PlcClient.WriteSingleRegister(15, offsets.Rotation);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            try
+            {
+                PlcClient.WriteSingleRegister(17, offsets.NextRotation);
+            }
+            catch (Exception)
             {
                 // ignored
             }
@@ -337,19 +340,31 @@ namespace RobotProject.Form2Items
             }
         }
 
-        private static async void ResetRobotOffsets()
+        private static void ResetRobotOffsets()
         {
             try
             {
-                PlcClient.Connect();
-                await Task.Delay(100, CancellationToken.None);
                 PlcClient.WriteMultipleRegisters(0, new int[12]);
-                PlcClient.WriteSingleRegister(15, 0);
-                PlcClient.WriteSingleRegister(17, 0);
-                await Task.Delay(100, CancellationToken.None);
-                PlcClient.Disconnect();
             }
-            catch (Exception e)
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            try
+            {
+                PlcClient.WriteSingleRegister(15, 0);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            try
+            {
+                PlcClient.WriteSingleRegister(17, 0);
+            }
+            catch (Exception)
             {
                 // ignored
             }
@@ -363,23 +378,33 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                PlcClient.Disconnect();
+                /*
+                if (PlcClient.Connected) PlcClient.Disconnect();
                 PlcClient.Connect();
+                await Task.Delay(100, CancellationToken.None);
+                ReadHoldingRegsPlc(PlcClient);
+                PlcClient.Disconnect();
+                if (_cancelPlc.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                await Task.Delay(100, CancellationToken.None);
+                return;
+                */
                 if (PlcClient.Available(50))
                 {
-                    await Task.Delay(100, CancellationToken.None);
                     ReadHoldingRegsPlc(PlcClient);
-                    await Task.Delay(100, CancellationToken.None);
-                    PlcClient.Disconnect();
                     if (_cancelPlc.IsCancellationRequested)
                     {
                         return;
                     }
+
+                    await Task.Delay(100, CancellationToken.None);
                 }
                 else
                 {
                     ConnectPlc();
-
                     EventArgs args = new EventArgs();
                     OnPlcConnectionChanged(args);
                     return;
@@ -392,28 +417,23 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                BarcodeClient.Disconnect();
-                BarcodeClient.Connect();
-                await Task.Delay(100, CancellationToken.None);
-                //      if (BarcodeClient.Available(50))
-                //    {
-                ReadHoldingRegsBarcode(BarcodeClient);
-                await Task.Delay(100, CancellationToken.None);
-                BarcodeClient.Disconnect();
-                if (_cancelBarcode.IsCancellationRequested)
+                if (BarcodeClient.Available(50))
                 {
+                    ReadHoldingRegsBarcode(BarcodeClient);
+                    if (_cancelBarcode.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    await Task.Delay(100, CancellationToken.None);
+                }
+                else
+                {
+                    ConnectBarcode();
+                    EventArgs args = new EventArgs();
+                    OnBarcodeConnectionChanged(args);
                     return;
                 }
-
-                /*         }
-                         else
-                         {
-                             ConnectBarcode();
-                             EventArgs args = new EventArgs();
-                             OnBarcodeConnectionChanged(args);
-                             return;
-                         }
-                         */
             }
             // ReSharper disable once FunctionNeverReturns
         }
@@ -653,7 +673,7 @@ namespace RobotProject.Form2Items
                     cNo = 0;
                 }
                 
-
+        
                 AssignNonBarcodeCell(cNo + 1, PatternProduct.GetHeight(), PatternProduct.GetWidth(),
                     PatternProduct.GetProductType(), PatternProduct.GetOrderSize(),
                     PatternProduct.GetYontem().ToString(), c.GetPalletHeight(), c.GetPalletWidth(), c.GetPalletZ(),
