@@ -96,8 +96,6 @@ namespace RobotProject
             systemControls.ReconnectButton.ClickAction = () =>
             {
                ConnectionManager.Connect();
-               Console.Write("Enter your name: ");
-            
             };
             
 
@@ -124,7 +122,7 @@ namespace RobotProject
             servoControls.applyPressed = () =>
             {
                 // buraya apply düğmesinde isteidğin şeyi yaz
-                servoControls.getValues(); // kayıtlı değerler için
+                ConnectionManager.SendServoAdjustments(servoControls.getValues()); // kayıtlı değerler için
             };
             
             errorBox.Implement(this.Controls);

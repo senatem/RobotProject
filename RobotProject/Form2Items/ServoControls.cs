@@ -8,6 +8,7 @@ namespace RobotProject.Form2Items
 {
     public class ServoControls
     {
+        private int _rowCount = 3;
         public ServoControls(Geometry.Rectangle boxRect, bool asVisual = false)
         {
             
@@ -22,11 +23,16 @@ namespace RobotProject.Form2Items
             }
             else
             {
-                var rows = r.SliceHorizontal(0.0f,0.8f).Split(6, 1);
-                for (var i = 0; i < 6; i++)
+                var rows = r.SliceHorizontal(0.0f,0.8f).Split(_rowCount, 1);
+ /*               for (var i = 0; i < 6; i++)
                 {
                     _textPairs.Add( new TextPair($"R{i / 2 + 1}S{i % 2 + 1}", $"Robot{i / 2 + 1} Servo{i % 2 + 1} (mm):", rows[i],10f,split:0.85f,textAlign: ContentAlignment.TopLeft));
                 }
+*/
+                _textPairs.Add( new TextPair($"R", $"Robot:", rows[0],10f,split:0.85f,textAlign: ContentAlignment.TopLeft));
+                _textPairs.Add( new TextPair($"S1", $"Servo1:", rows[1],10f,split:0.85f,textAlign: ContentAlignment.TopLeft));
+                _textPairs.Add( new TextPair($"S2", $"Servo2:", rows[2],10f,split:0.85f,textAlign: ContentAlignment.TopLeft));
+
                 _apply.Reorient(r.SliceHorizontal(0.8f,1f));                
             }
 
@@ -73,12 +79,7 @@ namespace RobotProject.Form2Items
                         textPair.recolour(Color.Red);
                         textPair.entryValid = false;
                     }
-                    
-
-
                 };
-
-
             }
             motherControlCollection.Add(_apply);
         }
@@ -117,9 +118,9 @@ namespace RobotProject.Form2Items
         {
             Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( x,y ));
             
-            var rows = r.SliceHorizontal(0.0f,0.8f).Split(6, 1, 0f, 0f);
+            var rows = r.SliceHorizontal(0.0f,0.8f).Split(_rowCount, 1, 0f, 0f);
 
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < _rowCount; i++)
             {
                 _textPairs[i].reorient( rows[i]);
             }

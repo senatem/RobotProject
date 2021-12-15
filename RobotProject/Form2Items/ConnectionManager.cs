@@ -258,6 +258,18 @@ namespace RobotProject.Form2Items
             }
         }
 
+        public static void SendServoAdjustments(List<int?> adj)
+        {
+            byte[] pack = new byte[6];
+
+            for (var i = 0; i < 3; i++)
+            {
+                pack.SetIntAt(i*2, (short) (adj[i] ?? 0));
+            }
+
+            PlcClient.DBWrite(57, 40, 3, pack);
+        }
+        
         private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
             int boxed)
         {
