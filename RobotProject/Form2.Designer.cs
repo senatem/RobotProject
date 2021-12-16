@@ -187,12 +187,12 @@ namespace RobotProject
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(ConnectionManager.PlcConnected);
+            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
         }
 
         private void taperIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.TaperConnect(ConnectionManager.TaperConnected);
+            connectionIndicators.TaperConnect(ConnectionManager.PlcClient2.Connected);
         }
         private void productAdd(int r)
         {

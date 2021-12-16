@@ -12,7 +12,7 @@ namespace RobotProject
 
         public void Connect()
         {
-            const string connCommand = "server=localhost;user=root;database=Elba;port=3306;password=Elba_Project2021";
+            const string connCommand = "server=10.100.11.148;user=sa;database=ELBA_Server;port=3306;password=acrobat";
             _connection = new MySqlConnection(connCommand);
             try
             {
@@ -34,7 +34,7 @@ namespace RobotProject
         {
             try
             {
-                string cmdString = $"SELECT * FROM Siparis WHERE {column}={value};";
+                string cmdString = $"SELECT * FROM Ambalaj WHERE {column}={value};";
                 MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -58,7 +58,7 @@ namespace RobotProject
 
         public int GetOrderSize(long orderNo)
         {
-            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Siparis WHERE Siparis_No={orderNo};";
+            string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Ambalaj WHERE Siparis_No={orderNo};";
             MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
             object res = cmd.ExecuteScalar();
             return res != null ? Convert.ToInt32(res) : 0;
@@ -66,7 +66,7 @@ namespace RobotProject
 
         public List<string> GetOrders()
         {
-            string cmdString = $"SELECT Siparis_No FROM Siparis;";
+            string cmdString = $"SELECT Siparis_No FROM Ambalaj;";
             List<string> res = new List<string>();
             MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -82,7 +82,7 @@ namespace RobotProject
 
         public Pallet? GetPallet(string orderNo)
         {
-            string cmdString = $"SELECT Palet_Yuksekligi, Palet_uzunlugu, Toplam_Siparis_Miktar, Tip  FROM Siparis WHERE Siparis_No={orderNo};";
+            string cmdString = $"SELECT Palet_Yuksekligi, Palet_uzunlugu, Toplam_Siparis_Miktar, Tip  FROM Ambalaj WHERE Siparis_No={orderNo};";
             MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
             MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
