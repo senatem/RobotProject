@@ -112,11 +112,13 @@
         <Compile Include="Form2Items\BoxVisuals.cs" />
         <Compile Include="Form2Items\ConnectionIndicators.cs" />
         <Compile Include="Form2Items\ConnectionManager.cs" />
+        <Compile Include="Form2Items\ErrorBox.cs" />
         <Compile Include="Form2Items\palletteStuff\PalleteVisual.cs" />
         <Compile Include="Form2Items\palletteStuff\PalleteVisuals.cs" />
         <Compile Include="Form2Items\popups\GenericWarning.cs" />
         <Compile Include="Form2Items\popups\NonBarcodePopup.cs" />
         <Compile Include="Form2Items\popups\PalletePopup.cs" />
+        <Compile Include="Form2Items\ServoControls.cs" />
         <Compile Include="Form2Items\SingleBox.cs" />
         <Compile Include="Form2Items\SystemControls.cs" />
         <Compile Include="OffsetCalculator.cs" />

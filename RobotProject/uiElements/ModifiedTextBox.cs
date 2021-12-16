@@ -6,11 +6,11 @@ namespace RobotProject.uiElements
     public class ModifiedTextBox: System.Windows.Forms.TextBox, IUiElement
     {
         
-        public ModifiedTextBox(string id, string text = "hey")
+        public ModifiedTextBox(string id, string text = "hey", float emSize = 15.75F)
         {
             Name = id;
             Text = text;
-            Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 162);
+            Font = new System.Drawing.Font("Microsoft Sans Serif", emSize, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 162);
             Location = new System.Drawing.Point(30, 20);
             Size = new System.Drawing.Size(100, 30);
             TabIndex = 0;
@@ -53,8 +53,5 @@ namespace RobotProject.uiElements
             SelectionStart = Text.Length;
             SelectionLength = 0;
         }
-        
-        
-
     }
 }

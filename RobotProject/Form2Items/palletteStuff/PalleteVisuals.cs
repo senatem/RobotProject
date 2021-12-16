@@ -9,10 +9,11 @@ namespace RobotProject.Form2Items.palletteStuff
     public class PalleteVisuals
     {
         const int palleteNumber = 3;
-        public PalleteVisuals(int x, int y, int w, int h, bool asVisual = false)
+        
+        public PalleteVisuals(Geometry.Rectangle boxRect, bool asVisual = false)
         {
             _asVisual = asVisual;
-            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point(x, y));
+            Geometry.Rectangle r = makeMyRect(boxRect);
 
             if (asVisual)
             {
@@ -47,24 +48,17 @@ namespace RobotProject.Form2Items.palletteStuff
         
         public void resizeToWindowRect(Geometry.Rectangle boxRect)
         {
-            // (appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
-            var x = boxRect.L + boxRect.W/2;
-            var y = boxRect.T + (boxRect.H - 100f/720f*boxRect.H)/2 + boxRect.H/720f*100f;
-            var w = boxRect.W;
-            var h = boxRect.H - 100f/720f*boxRect.H;
-            resize((int)x,(int)y,(int)w,(int)h);
-            //SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
+            var n = makeMyRect(boxRect);
+            resize(n);
         }
-
-        public void resize(int x, int y, int w, int h)
+        
+        public void resize(Geometry.Rectangle r)
         {
-            Geometry.Rectangle r = new Geometry.Rectangle(w, h, new Geometry.Point( x,y ));
-            var a = r.Split(1, 4,0.05f,0.05f);
             _background.Reorient(r);
-            a = new List<Geometry.Rectangle> {
-                new Geometry.Rectangle(r.L + r.W/1280*177, r.L +r.W/1280*405, r.T + r.H/620f*288f, r.T + r.H/620f*558f),
-                new Geometry.Rectangle(r.L +r.W/1280*455, r.L +r.W/1280*682, r.T + r.H/620f*288f, r.T + r.H/620f*558f),
-                new Geometry.Rectangle(r.L +r.W/1280*732, r.L +r.W/1280*959, r.T + r.H/620f*288f, r.T + r.H/620f*558f)
+            var a = new List<Geometry.Rectangle> {
+                new Geometry.Rectangle(r.L + r.W/1280*177+1, r.L +r.W/1280*405, r.T + r.H/620f*288f, r.T + r.H/620f*558f),
+                new Geometry.Rectangle(r.L +r.W/1280*455+1, r.L +r.W/1280*682, r.T + r.H/620f*288f, r.T + r.H/620f*558f),
+                new Geometry.Rectangle(r.L +r.W/1280*732+1, r.L +r.W/1280*959, r.T + r.H/620f*288f, r.T + r.H/620f*558f)
                     
             };
             
@@ -72,6 +66,11 @@ namespace RobotProject.Form2Items.palletteStuff
             _pallettes[1].resize(a[1]);
             _pallettes[2].resize(a[2]);
             
+        }
+
+        public void resize(int x, int y, int w, int h)
+        {
+            resize(new Geometry.Rectangle(w, h, new Geometry.Point( x,y )));
         }
         
 
@@ -108,6 +107,20 @@ namespace RobotProject.Form2Items.palletteStuff
         public void increaseProdCount(int n, int increment = 1)
         {
             _pallettes[n - 1].incementCount(0, increment);
+        }
+
+        private Geometry.Rectangle makeMyRect(Geometry.Rectangle boxRect)
+        {
+            return makeMyRect(boxRect.W, boxRect.H, boxRect.L, boxRect.T);
+        }
+        
+        private Geometry.Rectangle makeMyRect(float width, float height, float leftMargin = 0f, float topMargin = 0f)
+        {
+            var left = leftMargin + 100f / 1280 * width;
+            var w = 1180f / 1280f * width;
+            
+            
+            return new Geometry.Rectangle(left, left+w, topMargin+100f/ 720f * height, topMargin+720f / 720f * height);
         }
 
         public void increaseFillCount(int n, int increment = 1)

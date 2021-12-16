@@ -30,9 +30,9 @@ namespace RobotProject
 
     public class OffsetCalculator
     {
-        public readonly ExcelReader Er = new ExcelReader("C:\\Users\\deneme.robot8\\Desktop\\Paletleme.xlsx");
-        //public readonly ExcelReader Er = new ExcelReader(References.ProjectPath + "Paletleme.xlsx");
-
+       // public readonly ExcelReader Er = new ExcelReader("C:\\Users\\deneme.robot8\\Desktop\\Paletleme.xlsx");
+       public readonly ExcelReader Er = new ExcelReader(References.ProjectPath + "Paletleme.xlsx");
+        
         private int GetPattern(int px, int py, int yontemKodu, int type)
         {
             try
