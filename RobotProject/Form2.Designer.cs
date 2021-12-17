@@ -93,6 +93,7 @@ namespace RobotProject
 
         protected override void Dispose(bool disposing)
         {
+            ConnectionManager.Disconnect();
             SaveData();
             if (disposing && (components != null))
             {
@@ -112,18 +113,9 @@ namespace RobotProject
             this.ClientSize = new System.Drawing.Size(appWidthInit, appHeightInit);
             this.Text = "Paletleyici Kontrolleri";
             this.BackColor = Color.DimGray;
-
-            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.FormBorderStyle = FormBorderStyle.Sizable;
-            
-            //this.AutoScaleMode = AutoScaleMode.Font;
-
-            //this.MaximizeBox = false;
-            //this.MinimizeBox = false;
-
             this.Icon = new System.Drawing.Icon(References.ProjectPath + "Images\\t-ara128.ico");
             
-
             var n = 5;
             var n2 = String.Format("{0}", n);
             
@@ -132,8 +124,6 @@ namespace RobotProject
             systemControls.PalleteButton.ClickAction = () =>
             {
                 // input is the list of options, change options here
-                
-                
                 List<string> orders = ConnectionManager.Sql.GetOrders();
                 pp.Opening(orders.ToArray());
                 pp.ShowDialog();
@@ -153,10 +143,6 @@ namespace RobotProject
                     int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
                         product.GetProductType());
                     ConnectionManager.AssignCell(long.Parse(order), no+1, p, k);
-                    
-
-                    // pallete openin dialog confirmed
-                    // result can be taken as: pp.Text
                 }
             };
 
@@ -166,16 +152,12 @@ namespace RobotProject
                ConnectionManager.Connect();
             };
             
-
-            
-            
             systemControls.AddProductButton.ClickAction = () =>
             {
                 nbp.Opening();
                 nbp.ShowDialog();
                 if (nbp.confirmed)
                 {
-                    // new box add confirmed
                     var info = nbp.GetLines;
                     ConnectionManager.EmptyCell(nbp.RobotNo-1);
                     emptyCell(nbp.RobotNo-1);
@@ -189,19 +171,15 @@ namespace RobotProject
             servoControls.Implement(this.Controls);
             servoControls.applyPressed = () =>
             {
-                // buraya apply düğmesinde isteidğin şeyi yaz
-                ConnectionManager.SendServoAdjustments(servoControls.getValues()); // kayıtlı değerler için
+                ConnectionManager.SendServoAdjustments(servoControls.getValues());
+                servoControls.ResetNumbers();
             };
             
             errorBox.Implement(this.Controls);
 
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
-            
-             
-            
-            //boxVisuals.Implement(this.Controls);
-            
+
             ConnectionManager.BarcodeConnectionChanged += barcodeIndicatorUpdater;
             ConnectionManager.PlcConnectionChanged += plcIndicatorUpdater;
             ConnectionManager.TaperConnectionChanged += taperIndicatorUpdater;
@@ -212,7 +190,7 @@ namespace RobotProject
             ConnectionManager.ErrorUpdate += updateErrors;
             ConnectionManager.Init();
             LoadData();
-            //ConnectionManager.Connect();
+            ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
@@ -257,10 +235,6 @@ namespace RobotProject
             servoControls.resizeToWindowRect(boxRect);
             errorBox.resizeToWindowRect(boxRect);
             bg.Reorient((int)boxRect.L,(int)boxRect.T,(int)boxRect.W+2,(int)boxRect.H);
-            
-            
-            
-            //systemControls = new SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
         }
 
         private void barcodeIndicatorUpdater(object sender, EventArgs e)
@@ -280,7 +254,6 @@ namespace RobotProject
         private void productAdd(int r)
         {
             palleteVisuals.increaseProdCount(r, 1);
-            //boxVisuals.AddToBoxes(new SingleBox(o, p.GetHeight().ToString(), p.GetWidth().ToString(), false, r));
         }
 
         private void productFill(int r)
@@ -296,7 +269,6 @@ namespace RobotProject
         private void emptyCell(int i)
         {
             palleteVisuals.EmptyPallette(i);
-           // boxVisuals.EmptyPallete(i);
         }
 
         private void assignCell(int i, long orderNo, Pallet p)
@@ -353,7 +325,6 @@ namespace RobotProject
                 foreach (var cell in ConnectionManager.Cells)
                 {
                     palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize);
-                    // adjust here to adjust prodcuts, setProdCount has two inputs nullable first for defined, second for filled
                     palleteVisuals.setProdCount(cell.RobotNo-1, valueDefn: cell.Holding);
                     palleteVisuals.setProdCount(cell.RobotNo-1, valueFill: cell.Dropped);
                 }
@@ -376,25 +347,8 @@ namespace RobotProject
 
         }
         
-        
-        
-        /*
-        private void Form2_ResizeEnd(object sender, System.EventArgs e)
-        {
-            Control control = (Control)sender;
-        
-            // Ensure the Form remains square (Height = Width).
-            if(control.Size.Height != control.Size.Width)
-            {
-                control.Size = new Size(control.Size.Width, control.Size.Width);
-            }
-        }
-        */
-        
         private SystemControls systemControls = new SystemControls(3*appWidthInit/8, 50, 3*appWidthInit/4, 100,false);
         private ConnectionIndicators connectionIndicators = new ConnectionIndicators(7*appWidthInit/8, 50, appWidthInit/4, 100,false);
-        // private BoxVisuals boxVisuals = new BoxVisuals(appWidth/2, (appHeight-100)/2+100, 3*appWidth/4, appHeight-100,false);
-        // private PalleteVisuals palleteVisuals = new PalleteVisuals(appWidthInit/2, (appHeightInit-100)/2+100, appWidthInit, appHeightInit-100,false);
         private PalleteVisuals palleteVisuals = new PalleteVisuals(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),false);
         private ServoControls servoControls = new ServoControls(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);
         private ErrorBox errorBox= new ErrorBox(new Geometry.Rectangle(0f,appWidthInit,0f,appHeightInit),asVisual: false);
@@ -402,17 +356,4 @@ namespace RobotProject
         private NonBarcodePopup nbp = new NonBarcodePopup();
         private PalletePopup pp = new PalletePopup();
     }
-
-    
-    /** Outside functions
-     * BoxVisuals.addToBoxes (adds a new item to the belt, the struct has id but it is not used, and order is used)
-     * BoxVisuals.robotOperation (input no robot operates on the next item on the list)
-     * BoxVisuals.emptyPallete (empties the pallete given as input)
-     * BoxVisuals.relevantPallete (used to change the type of pallete to be used)
-     * PalleteVisuals.emptyPallette (empties the pallete given as input)
-     * PalleteVisuals.setProdCount/increaseProdCount (adjusts the product count as required)
-     * ConnectionIndicators.plcConnect (true on connect false on break)
-     * ConnectionIndicators.barcodeConnect (true on connect false on break)
-     * SystemControls.runButton.clickAction shold be modified (other buttons too) to fit the backend needs
-     */
 }

@@ -20,8 +20,10 @@ namespace RobotProject.Form2Items
         public readonly int Count;
         public readonly int CellFull;
         public readonly int Boxed;
+        public readonly int OffX;
+        public readonly int OffY;
 
-        public Signal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull, int boxed)
+        public Signal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull, int boxed, int offX, int offY)
         {
             Cell = cell;
             Offsets = offsets;
@@ -31,6 +33,8 @@ namespace RobotProject.Form2Items
             Count = count;
             CellFull = cellFull;
             Boxed = boxed;
+            OffX = offX;
+            OffY = offY;
         }
     }
 
@@ -213,7 +217,7 @@ namespace RobotProject.Form2Items
             {
                 _cancelPlcSource.Cancel();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //ignored
             }
@@ -225,8 +229,6 @@ namespace RobotProject.Form2Items
                 MessageBox.Show(@"Plc bağlantısı sağlanamadı.", @"Bağlantı Hatası", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
             }
-            
-
 
             _cancelPlcSource = new CancellationTokenSource();
             _cancelPlc = _cancelPlcSource.Token;
@@ -256,10 +258,17 @@ namespace RobotProject.Form2Items
         public static void Connect()
         {
             Sql.Connect();
-
             ConnectBarcode();
             ConnectPlc();
             ConnectTaper();
+        }
+
+        public static void Disconnect()
+        {
+            //Sql.Disconnect();
+            BarcodeClient.Disconnect();
+            PlcClient.Disconnect();
+            PlcClient2.Disconnect();
         }
 
         private static void ReadHoldingRegsBarcode(ModbusClient client)
@@ -283,15 +292,15 @@ namespace RobotProject.Form2Items
                 pack.SetIntAt(i*2, (short) (adj[i] ?? 0));
             }
 
-            PlcClient.DBWrite(57, 40, 3, pack);
+            PlcClient.DBWrite(57, 80, 6, pack);
         }
         
         private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
-            int boxed)
+            int boxed, int offX, int offY)
         {
             int[] values =
             {
-                cell, offsets.X, offsets.Y, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
+                cell, offsets.X + offX, offsets.Y + offY, offsets.Z, offsets.Pattern, px, py, offsets.Kat, type, count, cellFull,
                 boxed
             };
 
@@ -313,7 +322,7 @@ namespace RobotProject.Form2Items
             if (Buffer.Empty(r)) return;
             _inProcess = true;
             var s = Buffer.Pop(r);
-            SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed);
+            SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed, s.OffX, s.OffY);
         }
 
         private static void SendPlcSignals(Signal s)
@@ -325,7 +334,7 @@ namespace RobotProject.Form2Items
             else
             {
                 _inProcess = true;
-                SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed);
+                SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed, s.OffX, s.OffY);
             }
         }
 
@@ -545,11 +554,25 @@ namespace RobotProject.Form2Items
 
             if (c!.Full()) return;
 
+            var adjWidth = 0;
+            var adjHeight = 0;
+            var offadjX = 0;
+            var offadjY = 0;
             var boxed = 0;
             if (PatternProduct!.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
             {
                 boxed = 1;
+                adjHeight += 80;
+                adjWidth += 80;
             }
+
+            if (PatternProduct!.GetYontem() == 1)
+            {
+                adjHeight += 5;
+                offadjY += 60;
+            }
+            
+            
 
             var a = PatternProduct.GetProductType();
             var z = 0;
@@ -583,7 +606,7 @@ namespace RobotProject.Form2Items
             //offset hesapları
             if (boxed == 1)
             {
-                offsets = Calculator.Calculate(PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80, z,
+                offsets = Calculator.Calculate(PatternProduct.GetHeight() + adjHeight, PatternProduct.GetWidth() + adjWidth, z,
                     c.GetCounter(),
                     PatternProduct.GetYontem(), PatternProduct.GetProductType(), c.GetPalletHeight(),
                     c.GetPalletWidth(), c.GetPalletZ());
@@ -594,8 +617,8 @@ namespace RobotProject.Form2Items
                     full = 1;
                 }
 
-                var s = new Signal(cNo, offsets, PatternProduct.GetHeight() + 80, PatternProduct.GetWidth() + 80,
-                    PatternProduct.GetProductType(), c.GetCounter(), full, boxed);
+                var s = new Signal(cNo, offsets, PatternProduct.GetHeight() + adjHeight, PatternProduct.GetWidth() + adjWidth,
+                    PatternProduct.GetProductType(), c.GetCounter(), full, boxed, offadjX, offadjY);
                 SendPlcSignals(s);
 
                 if (full == 1)
@@ -617,7 +640,7 @@ namespace RobotProject.Form2Items
                 }
 
                 var s = new Signal(cNo, offsets, PatternProduct.GetHeight(), PatternProduct.GetWidth(),
-                    PatternProduct.GetProductType(), c.GetCounter(), full, boxed);
+                    PatternProduct.GetProductType(), c.GetCounter(), full, boxed, offadjX, offadjY);
                 SendPlcSignals(s);
                 if (full == 1)
                 {
@@ -695,10 +718,24 @@ namespace RobotProject.Form2Items
             }
 
             c = GetCell(orderNum);
+
+            var adjWidth = 0;
+            var adjHeight = 0;
+            var offadjX = 0;
+            var offadjY = 0;
+            
             var boxed = 0;
             if (product.GetYontem() == 156 || product.GetYontem() == 223)
             {
                 boxed = 1;
+                adjHeight += 80;
+                adjWidth += 80;
+            }
+
+            if (product.GetYontem() == 1)
+            {
+                adjHeight += 5;
+                offadjY += 60;
             }
 
             var a = product.GetProductType();
@@ -735,7 +772,7 @@ namespace RobotProject.Form2Items
             // if offsets == 0 write offsets to plc; else buffer it
             if (boxed == 1)
             {
-                offsets = Calculator.Calculate(product.GetHeight() + 80, product.GetWidth() + 80, z,
+                offsets = Calculator.Calculate(product.GetHeight() + adjHeight, product.GetWidth() + adjWidth, z,
                     c.GetCounter(),
                     product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(),
                     c.GetPalletZ());
@@ -747,7 +784,7 @@ namespace RobotProject.Form2Items
                 }
 
                 var s = new Signal(cNo, offsets, product.GetHeight() + 80, product.GetWidth() + 80,
-                    product.GetProductType(), c.GetCounter(), full, boxed);
+                    product.GetProductType(), c.GetCounter(), full, boxed, offadjX, offadjY);
                 SendPlcSignals(s);
 
                 if (full == 1)
@@ -769,7 +806,7 @@ namespace RobotProject.Form2Items
                 }
 
                 var s = new Signal(cNo, offsets, product.GetHeight(), product.GetWidth(),
-                    product.GetProductType(), c.GetCounter(), full, boxed);
+                    product.GetProductType(), c.GetCounter(), full, boxed, offadjX, offadjY);
                 SendPlcSignals(s);
 
                 if (full == 1)

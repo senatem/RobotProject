@@ -20,6 +20,11 @@ namespace RobotProject.uiElements
 
         }
 
+        public void ResetTextBox()
+        {
+            _textBox.Text = 0.ToString();
+        }
+
         public void reorient(Geometry.Rectangle r)
         {
             _label.Reorient(r.SliceVertical(0f,_split));

@@ -50,6 +50,14 @@ namespace RobotProject.Form2Items
             return staticText;
         }
 
+        public void ResetNumbers()
+        {
+            foreach (var textPair in _textPairs)
+            {
+                textPair.ResetTextBox();
+            }
+        }
+
         public void Implement(Control.ControlCollection motherControlCollection)
         {
             foreach (var textPair in _textPairs)
