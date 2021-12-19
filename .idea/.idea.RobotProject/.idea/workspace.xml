@@ -8,14 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ErrorBox.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ServoControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ServoControls.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ErrorBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ErrorBox.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/SystemControls.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Images/r3.png" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Images/r3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,11 +37,11 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -89,6 +87,9 @@
       <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
     </changedPaths>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -203,7 +204,8 @@
       <workItem from="1638521823788" duration="8704000" />
       <workItem from="1638625977489" duration="1001000" />
       <workItem from="1639216223660" duration="20000" />
-      <workItem from="1639218677983" duration="5514000" />
+      <workItem from="1639218677983" duration="5659000" />
+      <workItem from="1639922116378" duration="2826000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -324,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630502728324</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="kutuyu ekledim, placeholder hata ile denedim, 174. satırda string listesi input ile hata metnini güncelleyebiliyoruz (relevant hataları ortaya çıktığında ya da silindiğinde koyarsın)&#10;ayrıca hata varsa Hatalar yazısı kırmızı yanıyor, yoksa yanmıyor,&#10;kocaman sevgiler">
+      <created>1639224340721</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1639224340721</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -355,7 +364,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
@@ -375,7 +383,8 @@
     <MESSAGE value="Backup" />
     <MESSAGE value="rotation logic added" />
     <MESSAGE value="commit to pull" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit to pull" />
+    <MESSAGE value="kutuyu ekledim, placeholder hata ile denedim, 174. satırda string listesi input ile hata metnini güncelleyebiliyoruz (relevant hataları ortaya çıktığında ya da silindiğinde koyarsın)&#10;ayrıca hata varsa Hatalar yazısı kırmızı yanıyor, yoksa yanmıyor,&#10;kocaman sevgiler" />
+    <option name="LAST_COMMIT_MESSAGE" value="kutuyu ekledim, placeholder hata ile denedim, 174. satırda string listesi input ile hata metnini güncelleyebiliyoruz (relevant hataları ortaya çıktığında ya da silindiğinde koyarsın)&#10;ayrıca hata varsa Hatalar yazısı kırmızı yanıyor, yoksa yanmıyor,&#10;kocaman sevgiler" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

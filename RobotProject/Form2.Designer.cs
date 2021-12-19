@@ -185,7 +185,12 @@ namespace RobotProject
                     ConnectionManager.PatternMode = true;
                 }
             };
-            
+
+            systemControls.BypassButton.ClickAction = () =>
+            {
+                // TODO bypass action
+            };
+
             servoControls.Implement(this.Controls);
             servoControls.applyPressed = () =>
             {
@@ -194,6 +199,11 @@ namespace RobotProject
             };
             
             errorBox.Implement(this.Controls);
+
+            errorBox._fixButton.ClickAction = () =>
+            {
+                // TODO fix button action
+            };
 
             systemControls.Implement(this.Controls);
             palleteVisuals.Implement(this.Controls);
