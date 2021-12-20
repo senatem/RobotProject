@@ -115,13 +115,13 @@ namespace RobotProject.Form2Items.palletteStuff
             _palleteButton = e;
             
             var e2 = new ModifiedButton($"c{_palleteNo}", $"+",12f);
-            e2.ClickAction = manuelPlus;
+            e2.ClickAction = Increment;
             e2.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.85f, 0.95f, 0.83f, 0.97f)));
             motherControlCollection.Add(e2);
             _plusButton = e2;
             
             var e3 = new ModifiedButton($"c{_palleteNo}", $"-",12f);
-            e3.ClickAction = manuelMinus;
+            e3.ClickAction = Decrement;
             e3.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.05f, 0.15f, 0.83f, 0.97f)));
             motherControlCollection.Add(e3);
             _minusButton = e3;
@@ -171,26 +171,23 @@ namespace RobotProject.Form2Items.palletteStuff
         /** this function manually increases the amount stored in bars
          * any byfunction can be added here
          */
-        public void manuelEntry(int n)
+
+        /** this function manually increases the amount stored in bars
+         * any byfunction can be added here
+         */
+        public void Increment()
         {
-            incementCount(n);
-            // TODO additional functionality
+            ConnectionManager.IncrementCell(_palleteNo, 1, 1);
+            incementCount(1, 1);
         }
         
         /** this function manually increases the amount stored in bars
          * any byfunction can be added here
          */
-        private void manuelPlus()
+        public void Decrement()
         {
-            manuelEntry(+1);
-        }
-        
-        /** this function manually increases the amount stored in bars
-         * any byfunction can be added here
-         */
-        private void manuelMinus()
-        {
-            manuelEntry(-1);
+            ConnectionManager.IncrementCell(_palleteNo, -1, -1);
+            incementCount(-1, -1);
         }
 
         /** Clears the given pallete
@@ -201,18 +198,6 @@ namespace RobotProject.Form2Items.palletteStuff
             setInfo();
         }
 
-        public void Increment()
-        {
-            ConnectionManager.IncrementCell(_palleteNo, 1, 1);
-            incementCount(1, 1);
-        }
-        
-        public void Decrement()
-        {
-            ConnectionManager.IncrementCell(_palleteNo, -1, -1);
-            incementCount(-1, -1);
-        }
-        
         private string filled()
         {
             if (_prodCap == 0)
