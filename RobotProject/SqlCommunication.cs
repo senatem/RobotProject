@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -12,11 +13,29 @@ namespace RobotProject
 
         public void Connect()
         {
+            /*
             const string connCommand = "server=10.100.11.148;user=sa;database=ELBA_Server;port=3306;password=acrobat";
             _connection = new MySqlConnection(connCommand);
             try
             {
                 _connection.Open();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, @"Sql Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
+            */
+            string connetionString;
+            SqlConnection cnn;
+            connetionString = @"Data Source=ELBASAP;Initial Catalog=ELBA_Server;User ID=sa;Password=acrobat";
+            cnn = new SqlConnection(connetionString);
+
+            try
+            {
+                cnn.Open();
+                MessageBox.Show(@"Connection Open !");
+                cnn.Close();
             }
             catch (Exception e)
             {

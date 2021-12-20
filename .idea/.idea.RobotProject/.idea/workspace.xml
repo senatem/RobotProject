@@ -8,9 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/RobotProject/disabled.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,53 +38,45 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/5a/b304e312/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3B28F550-0D54-4E01-9E30-DCA09FAB36D7/51/f06deb3e/Control.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/05/4b77428a/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3B28F550-0D54-4E01-9E30-DCA09FAB36D7/d1/c9cffae8/ProgressBar.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/808A782E-B93A-4039-AD4E-344A67668503/54/5b489eb0/DbConnectionInternal.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29A6C194-5F57-4474-95FC-AD42118554C7/c0/92224968/Socket.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/16/dce4c86c/ExecutionContextSwitcher.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1E9166BF-CA65-4377-B09C-EA42D003812D/06/7efdb8d0/Image.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/39/3d884f44/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/d9/7db2cbbe/Thread.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/5d/333e2a68/ThreadPoolTaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29A6C194-5F57-4474-95FC-AD42118554C7/f4/0efea850/Ping.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/887AC26A-56AC-43C9-8D6E-3811A8B7B6C5/e4/f9726f00/ModbusClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/99/62f06666/TaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/82/0902c3bf/Number.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/05/a1ad976d/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/a6/cc72ffc2/__Error.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F7499511-9334-484F-B6DB-6825BE2EAC0D/39/JsonSerializer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/808A782E-B93A-4039-AD4E-344A67668503/94/0a4d69cd/DataSet.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/f8/0ac2bba3/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/31/f6206102/ThreadPoolTaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/3d/7c60994a/TaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/Form2Items/ConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/85/fda7e45a/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/4e/d9abc11a/Task.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/14/52fafd22/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/97/c4e5bbff/FileIOPermission.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/05/4b77428a/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/16/dce4c86c/ExecutionContextSwitcher.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/d9/7db2cbbe/Thread.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/82/0902c3bf/Number.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/a6/cc72ffc2/__Error.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F7499511-9334-484F-B6DB-6825BE2EAC0D/39/JsonSerializer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F7499511-9334-484F-B6DB-6825BE2EAC0D/28/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/31/f6206102/ThreadPoolTaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/8e/885ec8e6/NumberFormatInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/obj/Release/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/Form2Items/ConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/3d/7c60994a/TaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/8c/b960618d/Int32.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/85/fda7e45a/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/af/d3d69883/Int64.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/73/46ff5102/Int32.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/220F2AAB-ED1D-4738-94A8-8B65AAF6C105/50/60364234/List`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/Form2Items/ConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/4e/d9abc11a/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48827A05-C015-4B4B-ADA3-2EAF5C10D8B0/14/52fafd22/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/9a/e2d5e6c3/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/80B91411-A12C-47C0-9EF0-8ADA0C3B72F0/eb/738e9e44/S7Client.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/c3/66e7cd28/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8F9A7EA3-47A4-4FFD-AD6C-91B550598CCD/97/c4e5bbff/FileIOPermission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/deneme.robot8/Documents/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -103,7 +96,6 @@
       <option value="$PROJECT_DIR$/RobotProject/SystemControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/NonBarcodePopup.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedTextBox.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedRadioButton.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/BoxVisuals.cs" />
       <option value="$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" />
@@ -124,9 +116,13 @@
       <option value="$PROJECT_DIR$/RobotProject/uiElements/References.cs" />
       <option value="$PROJECT_DIR$/RobotProject/ExcelReader.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
-      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/uiElements/TextPair.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/Form2Items/ServoControls.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
+      <option value="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" />
+      <option value="$APPLICATION_CONFIG_DIR$/consoles/db/03148c83-bf6f-4f21-a5c5-5c475c67d548/console.sql" />
+      <option value="$PROJECT_DIR$/RobotProject/disabled.properties" />
+      <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
       <option value="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" />
     </changedPaths>
   </component>
@@ -137,7 +133,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35038933" />
+    <property name="DatabaseDriversLRU" value="sqlserver" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35022026" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -242,10 +239,25 @@
       <workItem from="1638521325552" duration="476000" />
       <workItem from="1638521823788" duration="8704000" />
       <workItem from="1638625977489" duration="1001000" />
-      <workItem from="1639478369873" duration="129000" />
-      <workItem from="1639560710027" duration="9052000" />
-      <workItem from="1639580917711" duration="400000" />
-      <workItem from="1639581346754" duration="3373000" />
+      <workItem from="1639216223660" duration="20000" />
+      <workItem from="1639218677983" duration="5514000" />
+      <workItem from="1639643006224" duration="2428000" />
+      <workItem from="1639647777126" duration="83000" />
+      <workItem from="1639647883068" duration="475000" />
+      <workItem from="1639655591468" duration="869000" />
+      <workItem from="1639656491678" duration="24000" />
+      <workItem from="1639670758412" duration="439000" />
+      <workItem from="1639671221320" duration="67000" />
+      <workItem from="1639728602073" duration="213000" />
+      <workItem from="1639728839274" duration="40000" />
+      <workItem from="1639732924106" duration="66000" />
+      <workItem from="1639733011627" duration="81000" />
+      <workItem from="1639745465809" duration="5152000" />
+      <workItem from="1639750679425" duration="324000" />
+      <workItem from="1639751457970" duration="7000" />
+      <workItem from="1639751492042" duration="674000" />
+      <workItem from="1639761055287" duration="205000" />
+      <workItem from="1639761290226" duration="2119000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -366,19 +378,19 @@
       <option name="project" value="LOCAL" />
       <updated>1630502728324</updated>
     </task>
-    <task id="LOCAL-00018" summary="idk what the fuck is wrong now">
-      <created>1639566567788</created>
+    <task id="LOCAL-00018" summary="minor adjustments">
+      <created>1639645388441</created>
       <option name="number" value="00018" />
       <option name="presentableId" value="LOCAL-00018" />
       <option name="project" value="LOCAL" />
-      <updated>1639566567788</updated>
+      <updated>1639645388441</updated>
     </task>
     <task id="LOCAL-00019" summary="up to date">
-      <created>1639570531888</created>
+      <created>1639671274476</created>
       <option name="number" value="00019" />
       <option name="presentableId" value="LOCAL-00019" />
       <option name="project" value="LOCAL" />
-      <updated>1639570531888</updated>
+      <updated>1639671274476</updated>
     </task>
     <option name="localTasksCounter" value="20" />
     <servers />
@@ -400,7 +412,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/nonsharp7" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
@@ -431,11 +443,41 @@
     <MESSAGE value="Backup" />
     <MESSAGE value="rotation logic added" />
     <MESSAGE value="commit to pull" />
-    <MESSAGE value="idk what the fuck is wrong now" />
+    <MESSAGE value="minor adjustments" />
     <MESSAGE value="up to date" />
     <option name="LAST_COMMIT_MESSAGE" value="up to date" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
+          <line>366</line>
+          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="366" containingFunctionPresentation="method 'ResetRobotOffsets'">
+            <startOffsets>
+              <option value="11271" />
+            </startOffsets>
+            <endOffsets>
+              <option value="11315" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
+          <line>330</line>
+          <properties documentPath="C:\Users\deneme.robot8\Documents\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="330" containingFunctionPresentation="method 'SendSignal'">
+            <startOffsets>
+              <option value="10280" />
+            </startOffsets>
+            <endOffsets>
+              <option value="10324" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />
