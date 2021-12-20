@@ -73,18 +73,27 @@ namespace RobotProject
             tableErrors.Add("Döner Tabla 1-2-3 Hatada");
             errorList.Add(tableErrors);
             
-            var taperErrors = new List<string>();
-            taperErrors.Add("");
-            taperErrors.Add("Bantlama 1 Servo Hatada");
-            taperErrors.Add("Bantlama 2 Servo Hatada");            
-            taperErrors.Add("Bantlama 1-2 Servo Hatada");            
-            taperErrors.Add("Bantlama 1 Bant Bitti");
-            taperErrors.Add("Bantlama 2 Bant Bitti");
-            taperErrors.Add("Bantlama 1-2 Bant Bitti");
-            taperErrors.Add("Bantlama 1 Hizalama Motoru Hatada");
-            taperErrors.Add("Bantlama 2 Hizalama Motoru Hatada");
-            taperErrors.Add("Bantlama 1-2 Hizalama Motoru Hatada");
-            errorList.Add(taperErrors);
+            var taper1Errors = new List<string>();
+            taper1Errors.Add("");
+            taper1Errors.Add("Bantlama 1 Servo Hatada");
+            taper1Errors.Add("Bantlama 1 Hizalama Motoru Hatada");
+            taper1Errors.Add("Bantlama 1 Servo-Hizalama Motoru Hatada");
+            taper1Errors.Add("Bantlama 1 Bant Bitti");
+            taper1Errors.Add("Bantlama 1 Servo Hatada-Bant Bitti");
+            taper1Errors.Add("Bantlama 1 Servo Hatada-Hizalama Motoru Hatada-Bant Bitti");
+            
+            
+            var taper2Errors = new List<string>();
+            taper2Errors.Add("");
+            taper2Errors.Add("Bantlama 2 Servo Hatada");
+            taper2Errors.Add("Bantlama 2 Hizalama Motoru Hatada");
+            taper2Errors.Add("Bantlama 2 Servo-Hizalama Motoru Hatada");
+            taper2Errors.Add("Bantlama 2 Bant Bitti");
+            taper2Errors.Add("Bantlama 2 Servo Hatada-Bant Bitti");
+            taper2Errors.Add("Bantlama 2 Servo Hatada-Hizalama Motoru Hatada-Bant Bitti");
+
+            errorList.Add(taper1Errors);
+            errorList.Add(taper2Errors);
         }
 
         #endregion
@@ -190,7 +199,7 @@ namespace RobotProject
             ConnectionManager.ErrorUpdate += updateErrors;
             ConnectionManager.Init();
             LoadData();
-            ConnectionManager.Connect();
+            //ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);

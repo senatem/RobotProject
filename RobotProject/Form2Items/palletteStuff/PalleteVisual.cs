@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.PerformanceData;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
@@ -91,8 +92,10 @@ namespace RobotProject.Form2Items.palletteStuff
             _modifiedProgressBarDefined.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.7f, 0.75f)));
             _modifiedProgressBarFilled.Reorient(r.SubRectangle(new Geometry.Rectangle(0.02f, 0.99f, 0.75f, 0.8f)));
             _palleteName.Reorient(r.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
-            _palleteButton.Reorient(r.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
-            
+            _palleteButton.Reorient(r.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.95f)));
+           // _incButton.Reorient(r.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.03f, 0.97f)));
+            //_decButton.Reorient(r.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.03f, 0.97f)));
+
         }
 
         public void Implement(Control.ControlCollection motherControlCollection)
@@ -109,6 +112,19 @@ namespace RobotProject.Form2Items.palletteStuff
             e.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
             motherControlCollection.Add(e);
             _palleteButton = e;
+/*
+            var add = new ModifiedButton($"c{_palleteNo}", $"{_palleteNo + 1}, Ürün Ekle", 12f);
+            add.ClickAction = Increment;
+            add.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
+            motherControlCollection.Add(add);
+            _incButton = add;
+            
+            var remove = new ModifiedButton($"c{_palleteNo}", $"{_palleteNo + 1}, Ürün Çıkart", 12f);
+            remove.ClickAction = Decrement;
+            remove.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0.1f, 0.9f, 0.83f, 0.97f)));
+            motherControlCollection.Add(remove);
+            _decButton = remove;
+            */
 
             var f = new ModifiedLabel("r", $"Hücre {_palleteNo+1}");
             f.Reorient(_thisRectangle.SubRectangle(new Geometry.Rectangle(0f, 1f, 0.1f, 0.201f)));
@@ -159,6 +175,18 @@ namespace RobotProject.Form2Items.palletteStuff
             ConnectionManager.EmptyCell(_palleteNo);
             setInfo();
         }
+
+        public void Increment()
+        {
+            ConnectionManager.IncrementCell(_palleteNo, 1, 1);
+            incementCount(1, 1);
+        }
+        
+        public void Decrement()
+        {
+            ConnectionManager.IncrementCell(_palleteNo, -1, -1);
+            incementCount(-1, -1);
+        }
         
         private string filled()
         {
@@ -206,10 +234,13 @@ namespace RobotProject.Form2Items.palletteStuff
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;
         }
+        
 
         private ModifiedLabel _palleteBoxBg;
         private ModifiedLabel _palleteName;
         private ModifiedButton _palleteButton;
+        private ModifiedButton _incButton;
+        private ModifiedButton _decButton;
         private ModifiedProgressBar _modifiedProgressBarFilled;
         private ModifiedProgressBar _modifiedProgressBarDefined;
         private List<ModifiedLabel> _staticLabels = new List<ModifiedLabel>();

@@ -72,12 +72,12 @@ namespace RobotProject.Form2Items
         private static bool _inProcess;
         public static bool PatternMode;
         public static Product? PatternProduct;
-        public static int patternLast;
+        private static int _patternLast;
         public static List<Cell> Cells = new List<Cell>(3);
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
-        private static long[] _times = new long[5];
-        private static int[] errorList = new int[5];
+        private static readonly long[] Times = new long[5];
+        private static readonly int[] ErrorList = new int[6];
         private static int _productComing;
         private static CancellationTokenSource _cancelPlcSource = new CancellationTokenSource();
         private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
@@ -92,7 +92,7 @@ namespace RobotProject.Form2Items
         public static event CellFull CellFull = null!;
         public static event CellAssigned CellAssigned = null!;
 
-        public static event ErrorUpdate ErrorUpdate = null;
+        public static event ErrorUpdate ErrorUpdate = null!;
 
         #endregion
 
@@ -149,21 +149,30 @@ namespace RobotProject.Form2Items
 
         private static void ReadFromPlc()
         {
-            byte[] dataBuffer = new byte[100];
-            PlcClient.DBRead(57, 0, 100, dataBuffer);
-
-            _plcData = dataBuffer.GetIntAt(32).ToString();
-            _taken = dataBuffer.GetIntAt(78).ToString();
-            _droppedFirst = dataBuffer.GetIntAt(24).ToString();
-            _droppedSecond = dataBuffer.GetIntAt(26).ToString();
-            _droppedThird = dataBuffer.GetIntAt(28).ToString();
-
-            for (var i = 0; i < 5; i++)
+            try
             {
-                errorList[i] = dataBuffer.GetIntAt(86 + i*2);
-            }
+                byte[] dataBuffer = new byte[100];
+                PlcClient.DBRead(57, 0, 100, dataBuffer);
 
-            Parallel.Invoke(UpdatePlcData);
+                _plcData = dataBuffer.GetIntAt(32).ToString();
+                _taken = dataBuffer.GetIntAt(78).ToString();
+                _droppedFirst = dataBuffer.GetIntAt(24).ToString();
+                _droppedSecond = dataBuffer.GetIntAt(26).ToString();
+                _droppedThird = dataBuffer.GetIntAt(28).ToString();
+
+                for (var i = 0; i < 5; i++)
+                {
+                    ErrorList[i] = dataBuffer.GetIntAt(86 + i * 2);
+                }
+
+                ErrorList[5] = dataBuffer.GetIntAt(100);
+
+                Parallel.Invoke(UpdatePlcData);
+            }
+            catch (Exception)
+            {
+                ConnectPlc();
+            }
         }
 
         #endregion
@@ -184,7 +193,7 @@ namespace RobotProject.Form2Items
             {
                 _cancelBarcodeSource.Cancel();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //ignored
             }
@@ -418,22 +427,22 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[0]) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[0]) > 1000)
             {
                 _productComing = int.Parse(_plcData!);
 
                 if (_productComing == 1 && PatternMode)
                 {
-                    _times[0] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    Times[0] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     ProcessNonBarcode();
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[1]) > 800)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[1]) > 800)
             {
                 if (int.Parse(_taken ?? "0") == 1)
                 {
-                    _times[1] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    Times[1] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     try
                     {
                         ResetRobotOffsets();
@@ -449,12 +458,12 @@ namespace RobotProject.Form2Items
             }
 
 
-            var r = 0;
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[2]) > 1000)
+            int r;
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[2]) > 1000)
             {
                 if (int.Parse(_droppedFirst ?? "0") == 1)
                 {
-                    _times[2] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    Times[2] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 1;
                     ProductDrop(r);
                     var c = Cells.Find(cell => cell.RobotNo == r);
@@ -462,11 +471,11 @@ namespace RobotProject.Form2Items
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[3]) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[3]) > 1000)
             {
                 if (int.Parse(_droppedSecond ?? "0") == 1)
                 {
-                    _times[3] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    Times[3] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 2;
                     ProductDrop(r);
                     var c = Cells.Find(cell => cell.RobotNo == r);
@@ -474,11 +483,11 @@ namespace RobotProject.Form2Items
                 }
             }
 
-            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - _times[4]) > 1000)
+            if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Times[4]) > 1000)
             {
                 if (int.Parse(_droppedThird ?? "0") == 1)
                 {
-                    _times[4] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    Times[4] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     r = 3;
                     ProductDrop(r);
                     var c = Cells.Find(cell => cell.RobotNo == r);
@@ -486,7 +495,7 @@ namespace RobotProject.Form2Items
                 }
             }
             
-            OnErrorUpdate(errorList);
+            OnErrorUpdate(ErrorList);
         }
 
         private static string ConvertFromHex(string hexString)
@@ -545,11 +554,11 @@ namespace RobotProject.Form2Items
         private static void ProcessNonBarcode()
         {
             var cList = GetNonBarcodeCells();
-            var c = cList[patternLast];
-            patternLast += 1;
-            if (patternLast == cList.Count)
+            var c = cList[_patternLast];
+            _patternLast += 1;
+            if (_patternLast == cList.Count)
             {
-                patternLast = 0;
+                _patternLast = 0;
             }
 
             if (c!.Full()) return;
@@ -857,11 +866,6 @@ namespace RobotProject.Form2Items
 
         public static void EmptyCell(int i)
         {
-            if (i == 1)
-            {
-                PatternMode = false;
-            }
-
             try
             {
                 var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
@@ -876,34 +880,21 @@ namespace RobotProject.Form2Items
             }
         }
 
-        #endregion
-        
-        #region errors
-
-        private static List<int> ToBinary(int x)
+        public static void IncrementCell(int i, int fill, int drop)
         {
-            List<int> res = new List<int>();
-            while(x>0)
+            try
             {
-               res.Add(x % 2);
-               x = x / 2;
+                var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
+                if (c == null) return;
+                c.Holding += fill;
+                c.Dropped += drop;
             }
-
-            return res;
+            catch (Exception)
+            {
+                //ignore
+            }
         }
 
-        private static int FromBinary(List<int> x)
-        {
-            int res = 0;
-
-            for (var i = 0; i < x.Count; i++)
-            {
-                res = (int) (res + x[i] * Math.Pow(2, i));
-            }
-
-            return res;
-        }
-        
         #endregion
     }
 }

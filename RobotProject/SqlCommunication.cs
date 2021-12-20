@@ -1,33 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace RobotProject
 {
     public class SqlCommunication
     {
-        private MySqlConnection? _connection;
+        private SqlConnection _cnn;
 
         public void Connect()
         {
-            const string connCommand = "server=10.100.11.148;user=sa;database=ELBA_Server;port=3306;password=acrobat";
-            _connection = new MySqlConnection(connCommand);
-            try
-            {
-                _connection.Open();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, @"Sql Bağlantı Hatası", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
-            }
+            string connectionString =
+                @"Data Source=.\SQLEXPRESS;Initial Catalog=ELBA_SERVER;Integrated Security=False;User ID=sa;Password=acrobat;MultipleActiveResultSets=True;";
+            _cnn = new SqlConnection(connectionString);
+            _cnn.Open();
         }
 
         public void Disconnect()
         {
-            _connection?.Close();
+            _cnn.Close();
         }
 
         public Product? Select(string column, string value)
@@ -35,14 +28,14 @@ namespace RobotProject
             try
             {
                 string cmdString = $"SELECT * FROM Ambalaj WHERE {column}={value};";
-                MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
-                MySqlDataReader rdr = cmd.ExecuteReader();
+                SqlCommand cmd = new SqlCommand(cmdString, _cnn);
+                SqlDataReader rdr = cmd.ExecuteReader();
 
                 Product? res = null;
                 if (rdr.Read())
                 {
-                    res = new Product(rdr.GetInt32("Yukseklik"), rdr.GetInt32("Uzunluk"), rdr.GetInt32("Tip"),
-                        rdr.GetFloat("Toplam_Siparis_Miktar"), rdr.GetString("Yontem_Kodu"));
+                    res = new Product(rdr.GetInt32(rdr.GetOrdinal("Yukseklik")), rdr.GetInt32(rdr.GetOrdinal("Uzunluk")), rdr.GetInt32(rdr.GetOrdinal("Tip")),
+                        rdr.GetFloat(rdr.GetOrdinal("Toplam_Siparis_Miktar")), rdr.GetString(rdr.GetOrdinal("Yontem_Kodu")));
                 }
 
                 rdr.Close();
@@ -59,7 +52,7 @@ namespace RobotProject
         public int GetOrderSize(long orderNo)
         {
             string cmdString = $"SELECT Toplam_Siparis_Miktar FROM Ambalaj WHERE Siparis_No={orderNo};";
-            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
+            SqlCommand cmd = new SqlCommand(cmdString, _cnn);
             object res = cmd.ExecuteScalar();
             return res != null ? Convert.ToInt32(res) : 0;
         }
@@ -68,12 +61,12 @@ namespace RobotProject
         {
             string cmdString = $"SELECT Siparis_No FROM Ambalaj;";
             List<string> res = new List<string>();
-            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
-            MySqlDataReader rdr = cmd.ExecuteReader();
+            SqlCommand cmd = new SqlCommand(cmdString, _cnn);
+            SqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                ((IList) res).Add(rdr.GetString("Siparis_No"));
+                ((IList) res).Add(rdr.GetString(rdr.GetOrdinal("Siparis_No")));
             }
 
             rdr.Close();
@@ -83,12 +76,12 @@ namespace RobotProject
         public Pallet? GetPallet(string orderNo)
         {
             string cmdString = $"SELECT Palet_Yuksekligi, Palet_uzunlugu, Toplam_Siparis_Miktar, Tip  FROM Ambalaj WHERE Siparis_No={orderNo};";
-            MySqlCommand cmd = new MySqlCommand(cmdString, _connection);
-            MySqlDataReader rdr = cmd.ExecuteReader();
+            SqlCommand cmd = new SqlCommand(cmdString, _cnn);
+            SqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                Pallet res = new Pallet(rdr.GetInt32("Palet_Yuksekligi"), rdr.GetInt32("Palet_Uzunlugu"),
-                    rdr.GetInt32("Tip"), rdr.GetInt32("Toplam_Siparis_Miktar"));
+                Pallet res = new Pallet(rdr.GetInt32(rdr.GetOrdinal("Palet_Yuksekligi")), rdr.GetInt32(rdr.GetOrdinal("Palet_Uzunlugu")),
+                    rdr.GetInt32(rdr.GetOrdinal("Tip")), rdr.GetInt32(rdr.GetOrdinal("Toplam_Siparis_Miktar")));
                 rdr.Close();
                 return res;
 
