@@ -163,6 +163,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="connection lines" />
+      <Content Include="disabled.properties" />
       <Content Include="Images\barcode_on.png" />
       <Content Include="Images\belt.jpg" />
       <Content Include="Images\placeholder.png" />
