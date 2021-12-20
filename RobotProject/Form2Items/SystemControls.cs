@@ -32,6 +32,9 @@ namespace RobotProject.Form2Items
 
                 ReconnectButton = new ModifiedButton("recon", "Yeniden Bağlan");
                 ReconnectButton.Reorient(a[2]);
+                
+                BypassButton = new ModifiedButton("bp", "Bantlama Bypass");
+                BypassButton.Reorient(a[3]);
             }
 
             
@@ -54,6 +57,7 @@ namespace RobotProject.Form2Items
             PalleteButton.Reorient(a[0]);
             AddProductButton.Reorient(a[1]);
             ReconnectButton.Reorient(a[2]);
+            BypassButton.Reorient(a[3]);
         }
 
         public void Implement(Control.ControlCollection motherControlCollection)
@@ -67,11 +71,13 @@ namespace RobotProject.Form2Items
                 motherControlCollection.Add(PalleteButton!);
                 motherControlCollection.Add(AddProductButton!);   
                 motherControlCollection.Add(ReconnectButton!);
+                motherControlCollection.Add(BypassButton!);
             }
         }
         public readonly ModifiedButton? PalleteButton;
         public readonly ModifiedButton? AddProductButton;
         public readonly ModifiedButton? ReconnectButton;
+        public readonly ModifiedButton? BypassButton;
         private readonly Indicator? _plotIndicator;
         private readonly bool _asVisual;
     }

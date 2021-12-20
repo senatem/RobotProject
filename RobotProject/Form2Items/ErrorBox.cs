@@ -33,9 +33,12 @@ namespace RobotProject.Form2Items
                 
                 
                 _errorList =  new Indicator("header",emSize: 9f);
-                _errorList.Reorient(new Geometry.Rectangle(r.L, r.L + r.W, r.T+30f, r.T + r.H));
+                _errorList.Reorient(new Geometry.Rectangle(r.L, r.L + r.W, r.T+30f, r.T + r.H-80f));
                 _errorList.BackColor = Color.LightGray;
                 
+                _fixButton  = new ModifiedButton("fix", "Hataları Düzelt",12f);
+                _fixButton.Reorient(new Geometry.Rectangle(r.L, r.L + r.W, r.T + r.H-80f, r.T + r.H));
+
 
 
             }
@@ -43,6 +46,8 @@ namespace RobotProject.Form2Items
             
 
         }
+
+        
 
         public void setErrorText(String s)
         {
@@ -74,12 +79,14 @@ namespace RobotProject.Form2Items
         {
             motherControlCollection.Add(_errorHeader);
             motherControlCollection.Add(_errorList);
+            motherControlCollection.Add(_fixButton);
         }
         
         public void resize(Geometry.Rectangle r)
         {
             _errorHeader.Reorient(new Geometry.Rectangle(r.L, r.L + r.W, r.T, r.T + 30f));
-            _errorList.Reorient(new Geometry.Rectangle(r.L, r.L + r.W, r.T+30f, r.T + r.H));
+            _errorList.Reorient(new Geometry.Rectangle(r.L, r.L + r.W, r.T+30f, r.T + r.H-80f));
+            _fixButton.Reorient(new Geometry.Rectangle(r.L+10f, r.L + r.W-20f, r.T + r.H-80f+10f, r.T + r.H-14f));
         }
         
         public void resize(int x, int y, int w, int h)
@@ -99,15 +106,16 @@ namespace RobotProject.Form2Items
         {
             //1040, 1255
             var left = leftMargin + 10f / 1280f * width;
-            var w = 210f / 1280f * width;
-            var top = topMargin + 340f / 720f * height;
-            var h = 320f / 720f * height;
+            var w = 220f / 1280f * width;
+            var top = topMargin + 290f / 720f * height;
+            var h = 370f / 720f * height;
             return new Geometry.Rectangle(left,left+w,top,top+h);
         }
         
         private readonly Indicator _plotIndicator;
         private readonly Indicator _errorHeader;
         private readonly Indicator _errorList;
+        public ModifiedButton _fixButton;
         private readonly bool _asVisual;
 
         public void resizeToWindowRect(Geometry.Rectangle boxRect)
