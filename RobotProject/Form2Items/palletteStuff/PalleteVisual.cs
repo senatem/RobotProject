@@ -177,8 +177,15 @@ namespace RobotProject.Form2Items.palletteStuff
          */
         public void Increment()
         {
-            ConnectionManager.IncrementCell(_palleteNo, 1, 1);
-            incementCount(1, 1);
+            try
+            {
+                ConnectionManager.IncrementCell(_palleteNo, 1, 1);
+                incementCount(1, 1);
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
         }
         
         /** this function manually increases the amount stored in bars
@@ -186,8 +193,15 @@ namespace RobotProject.Form2Items.palletteStuff
          */
         public void Decrement()
         {
-            ConnectionManager.IncrementCell(_palleteNo, -1, -1);
-            incementCount(-1, -1);
+            try
+            {
+                ConnectionManager.IncrementCell(_palleteNo, -1, -1);
+                incementCount(-1, -1);
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
         }
 
         /** Clears the given pallete
@@ -239,7 +253,9 @@ namespace RobotProject.Form2Items.palletteStuff
         public void incementCount(int incrementFill=0, int incrementDefn = 0)
         {
             _prodCountFill += incrementFill;
+            if (_prodCountFill < 0) _prodCountFill = 0;
             _prodCountDefn += incrementDefn;
+            if (_prodCountDefn < 0) _prodCountDefn = 0;
             _dynamicLabels[3].Text = filled();
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;

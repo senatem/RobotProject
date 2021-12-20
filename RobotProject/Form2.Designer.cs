@@ -23,6 +23,9 @@ namespace RobotProject
         private int appHeight = appHeightInit;
         private int appWidth = appWidthInit;
 
+        private bool bypassing = false;
+        private List<double> activeErrors = new List<double>();
+
         #region error texts
 
         private List<List<string>>errorList = new List<List<string>>();
@@ -179,7 +182,8 @@ namespace RobotProject
 
             systemControls.BypassButton.ClickAction = () =>
             {
-                // TODO bypass action
+                ConnectionManager.BypassTaper(!bypassing);
+                bypassing = !bypassing;
             };
 
             servoControls.Implement(this.Controls);
@@ -193,7 +197,13 @@ namespace RobotProject
 
             errorBox._fixButton.ClickAction = () =>
             {
-                // TODO fix button action
+                var x = 0.0;
+                foreach (var i in activeErrors)
+                {
+                    x = x + Math.Pow(2, i);
+                }
+
+                ConnectionManager.SendFixSignal(x);
             };
 
             systemControls.Implement(this.Controls);
@@ -209,7 +219,7 @@ namespace RobotProject
             ConnectionManager.ErrorUpdate += updateErrors;
             ConnectionManager.Init();
             LoadData();
-            //ConnectionManager.Connect();
+            ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
             connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
@@ -306,10 +316,13 @@ namespace RobotProject
         private void updateErrors(int[] errors)
         {
             var l = new List<String>();
+            activeErrors.Clear();
+            
             for (var i = 0; i < 5; i++)
             {
                 var e = errorList[i][errors[i]];
                 if (e!="") l.Add(e);
+                activeErrors.Add(i);
             }
             errorBox.setErrorText(l);
         }

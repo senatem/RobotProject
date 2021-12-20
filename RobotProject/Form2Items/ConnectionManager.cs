@@ -83,7 +83,7 @@ namespace RobotProject.Form2Items
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static long[] _times = new long[5];
-        private static int[] errorList = new int[5];
+        private static int[] errorList = new int[6];
         private static int _productComing;
         private static CancellationTokenSource _cancelPlcSource = new CancellationTokenSource();
         private static CancellationToken _cancelPlc = _cancelPlcSource.Token;
@@ -157,8 +157,8 @@ namespace RobotProject.Form2Items
         {
             try
             {
-                byte[] dataBuffer = new byte[100];
-                PlcClient.DBRead(57, 0, 100, dataBuffer);
+                byte[] dataBuffer = new byte[102];
+                PlcClient.DBRead(57, 0, 102, dataBuffer);
 
                 _plcData = dataBuffer.GetIntAt(32).ToString();
                 _taken = dataBuffer.GetIntAt(78).ToString();
@@ -274,7 +274,7 @@ namespace RobotProject.Form2Items
         public static void Connect()
         {
             Sql.Connect();
-            ConnectBarcode();
+            ConnectBarcode(); 
             ConnectPlc();
             ConnectTaper();
         }
@@ -309,6 +309,28 @@ namespace RobotProject.Form2Items
             }
 
             PlcClient.DBWrite(57, 80, 6, pack);
+        }
+        
+        
+        public static void SendFixSignal(double d)
+        {
+            var i = (short) d;
+            byte[] pack = new byte[2];
+
+            pack.SetIntAt(0, i);
+
+            PlcClient.DBWrite(57, 96, 2, pack);
+        }
+
+        public static void BypassTaper(bool val)
+        {
+            byte[] pack = new byte[2];
+
+            short i = 0;
+            if (val) i = 1;
+            pack.SetIntAt(0, i);
+
+            PlcClient.DBWrite(57, 98, 2, pack);
         }
 
         private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
@@ -385,6 +407,7 @@ namespace RobotProject.Form2Items
                     {
                         return;
                     }
+
                     await Task.Delay(100, CancellationToken.None);
                 }
                 else
@@ -864,19 +887,13 @@ namespace RobotProject.Form2Items
 
         public static void IncrementCell(int i, int fill, int drop)
         {
-            try
-            {
-                var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
-                if (c == null) return;
-                c.Holding += fill;
-                c.Dropped += drop;
-            }
-            catch (Exception)
-            {
-                //ignore
-            }
+            var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
+            if (c == null) return;
+            c.Holding += fill;
+            c.Dropped += drop;
         }
 
         #endregion
+
     }
 }

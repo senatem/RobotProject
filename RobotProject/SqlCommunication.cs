@@ -12,10 +12,23 @@ namespace RobotProject
 
         public void Connect()
         {
+            // Data Source=190.190.200.100,1433;Network Library=DBMSSOCN;Initial Catalog=myDataBase;User ID=myUsername;Password=myPassword;
             string connectionString =
-                @"Data Source=.\SQLEXPRESS;Initial Catalog=ELBA_SERVER;Integrated Security=False;User ID=sa;Password=acrobat;MultipleActiveResultSets=True;";
+                @"Data Source=10.100.11.148;Network Library=DBMSSOCN;Initial Catalog=ELBA_Server;User ID=sa;Password=acrobat;";
             _cnn = new SqlConnection(connectionString);
-            _cnn.Open();
+            try
+            {
+                _cnn.Open();
+                MessageBox.Show("Connected!");
+
+                //List<string> test = GetOrders();
+                //MessageBox.Show("First Order: " + test[0]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Kaynak: SQL bağlantısı ." + ex.Message, @"Bağlantı Hatası", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+            }
         }
 
         public void Disconnect()
