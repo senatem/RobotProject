@@ -151,6 +151,7 @@ namespace RobotProject
                     
                     // adjust the following line according to the returned index
                     var product = ConnectionManager.Sql.Select("Siparis_No", order);
+
                     palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax());
                     int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
                         product.GetProductType());

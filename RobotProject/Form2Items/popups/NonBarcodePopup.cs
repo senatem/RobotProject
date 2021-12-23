@@ -78,7 +78,7 @@ namespace RobotProject.Form2Items
         }
 
         private float w = 400f;
-        private float h = 800f;
+        private float h = 700f;
 
         public void Reset()
         {

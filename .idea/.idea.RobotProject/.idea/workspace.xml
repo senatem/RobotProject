@@ -9,12 +9,12 @@
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_10-Jun-21_13_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_10-Jun-21_13_54__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_29-May-21_19_45__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_29-May-21_19_45__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,85 +39,16 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/72/003a56d1/ExpressionParser.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/b3/5004ed6d/ExceptionInterceptor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/c7/cc159ee6/List`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/e4/aa1739a4/DataTable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/1e/7ec19e8b/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/c0/43b2e941/BitConverter.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C2A08500-0E32-4638-B307-E9A7DA0753F9/b0/7282ac76/NameNode.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29A6C194-5F57-4474-95FC-AD42118554C7/cb/07d6e12f/NetworkStream.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/6c/f405e3b8/ThreadHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4033D2CE-5292-4280-AD76-80AAE49D2077/cd/1a3700f1/DataTableExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/obj/Release/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/08373B46-87EF-4399-A6D9-AD66EA47C2ED/e9/af8c7d0c/DbConnectionInternal.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/808a782eb93a4039ad4e344a67668503361178/c5/05953b42/DbConnectionInternal.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/a3/045d2875/TaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/TR-DM-025/RiderProjects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/TR-DM-025/RiderProjects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/TR-DM-025/RiderProjects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13dbc81533d84edc819ac50a274c07355a42f8/e7/08dfc3df/Control.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/d8/dfc03ceb/ThreadPoolTaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/68/da6f2d8c/Task.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/e3/f186ed13/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E5F87E79-497D-45AB-AFFE-AE0FF46C4D9E/58/63b146d2/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1E9166BF-CA65-4377-B09C-EA42D003812D/e7/98572957/Bitmap.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F2625FD8-44AA-4DD5-B6A3-882F24F14D79/60/bd8c35b6/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/887AC26A-56AC-43C9-8D6E-3811A8B7B6C5/af/57253e1a/ModbusClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/84/d84b1d31/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13DBC815-33D8-4EDC-819A-C50A274C0735/96/0b7cad06/Button.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/f2/25d15697/Array.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/cd/793dcbf9/String.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/80B91411-A12C-47C0-9EF0-8ADA0C3B72F0/95/c7a66e95/S7Client.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/b3/b644912e/MySqlCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/9e/411664cb/Number.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04C5C85C-7E5E-4A4A-B66D-06C5A6DEE283/9e/6bb58efc/Int32.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13DBC815-33D8-4EDC-819A-C50A274C0735/67/2297accd/Control.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4DA7A3A1-B927-4010-88C7-82DDED0BC467/cc/c68a3abf/ResultSet.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/work stuff/TARA/RobotProject/RobotProject/SqlCommunication.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -163,6 +94,9 @@
       <option value="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" />
       <option value="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" />
     </changedPaths>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="1oEkNEF1UiWjWPbR7TylWY6zN8A" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -282,6 +216,9 @@
       <workItem from="1639580917711" duration="400000" />
       <workItem from="1639581346754" duration="3373000" />
       <workItem from="1639835866247" duration="10254000" />
+      <workItem from="1639998152354" duration="10877000" />
+      <workItem from="1640075138247" duration="227000" />
+      <workItem from="1640075413681" duration="6861000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -416,7 +353,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639570531888</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="up to date">
+      <created>1640000232822</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1640000232822</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -447,7 +391,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
