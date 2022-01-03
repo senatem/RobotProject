@@ -34,35 +34,35 @@ namespace RobotProject
         {
             var r1Errors = new List<string>();
             r1Errors.Add("");
-            r1Errors.Add("Servo 1 Hatada");
-            r1Errors.Add("Servo 2 Hatada");
-            r1Errors.Add("Servo 1-2 Hatada");
-            r1Errors.Add("Servo 3 Hatada");
-            r1Errors.Add("Servo 1-3 Hatada");
-            r1Errors.Add("Servo 2-3 Hatada");
-            r1Errors.Add("Servo 1-2-3 Hatada");
+            r1Errors.Add("Robot 1 Servo 1 Hatada");
+            r1Errors.Add("Robot 1 Servo 2 Hatada");
+            r1Errors.Add("Robot 1 Servo 1-2 Hatada");
+            r1Errors.Add("Robot 1 Servo 3 Hatada");
+            r1Errors.Add("Robot 1 Servo 1-3 Hatada");
+            r1Errors.Add("Robot 1 Servo 2-3 Hatada");
+            r1Errors.Add("Robot 1 Servo 1-2-3 Hatada");
             errorList.Add(r1Errors);
             
             var r2Errors = new List<string>();
             r2Errors.Add("");
-            r2Errors.Add("Servo 1 Hatada");
-            r2Errors.Add("Servo 2 Hatada");
-            r2Errors.Add("Servo 1-2 Hatada");
-            r2Errors.Add("Servo 3 Hatada");
-            r2Errors.Add("Servo 1-3 Hatada");
-            r2Errors.Add("Servo 2-3 Hatada");
-            r2Errors.Add("Servo 1-2-3 Hatada");
+            r2Errors.Add("Robot 2 Servo 1 Hatada");
+            r2Errors.Add("Robot 2 Servo 2 Hatada");
+            r2Errors.Add("Robot 2 Servo 1-2 Hatada");
+            r2Errors.Add("Robot 2 Servo 3 Hatada");
+            r2Errors.Add("Robot 2 Servo 1-3 Hatada");
+            r2Errors.Add("Robot 2 Servo 2-3 Hatada");
+            r2Errors.Add("Robot 2 Servo 1-2-3 Hatada");
             errorList.Add(r2Errors);
             
             var r3Errors = new List<string>();
             r3Errors.Add("");
-            r3Errors.Add("Servo 1 Hatada");
-            r3Errors.Add("Servo 2 Hatada");
-            r3Errors.Add("Servo 1-2 Hatada");
-            r3Errors.Add("Servo 3 Hatada");
-            r3Errors.Add("Servo 1-3 Hatada");
-            r3Errors.Add("Servo 2-3 Hatada");
-            r3Errors.Add("Servo 1-2-3 Hatada");
+            r3Errors.Add("Robot 3 Servo 1 Hatada");
+            r3Errors.Add("Robot 3 Servo 2 Hatada");
+            r3Errors.Add("Robot 3 Servo 1-2 Hatada");
+            r3Errors.Add("Robot 3 Servo 3 Hatada");
+            r3Errors.Add("Robot 3 Servo 1-3 Hatada");
+            r3Errors.Add("Robot 3 Servo 2-3 Hatada");
+            r3Errors.Add("Robot 3 Servo 1-2-3 Hatada");
             errorList.Add(r3Errors);
 
             var tableErrors = new List<string>();
@@ -137,7 +137,12 @@ namespace RobotProject
             {
                 // input is the list of options, change options here
                 List<string> orders = ConnectionManager.Sql.GetOrders();
-                pp.Opening(orders.ToArray());
+                List<string> zeroless = new List<string>();
+                foreach (string order in orders)
+                {
+                    zeroless.Add(order.Substring(5));
+                }
+                pp.Opening(zeroless.ToArray());
                 pp.ShowDialog();
                 if (pp.Confirmed)
                 {

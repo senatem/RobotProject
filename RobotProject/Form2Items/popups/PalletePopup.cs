@@ -6,7 +6,6 @@ namespace RobotProject.Form2Items
 {
     internal class PalletePopup: Form
     {
-        
         public PalletePopup()
         {
             AutoScaleMode = AutoScaleMode.Font;
@@ -77,8 +76,9 @@ namespace RobotProject.Form2Items
             cb.Reorient(v.SliceHorizontal(2.5f / 8f, 4f / 8f));
             //cb.IntegralHeight = false;
             cb.MaxDropDownItems = 5;
-            cb.DropDownStyle = ComboBoxStyle.DropDownList;
+            cb.DropDownStyle = ComboBoxStyle.Simple;
             //cb.DropDownStyle = ComboBoxStyle.DropDownList;
+            cb.AutoCompleteMode = AutoCompleteMode.Append;
             cb.TabIndex = 0;
             Controls.Add(cb);
             
@@ -93,7 +93,7 @@ namespace RobotProject.Form2Items
 
         private string _productNo = "";
 
-        private float w = 400f;
+        private float w = 600f;
         private float h = 350f;
 
         public void Reset()

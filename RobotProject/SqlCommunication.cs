@@ -19,7 +19,10 @@ namespace RobotProject
             } 
             catch (Exception) {//ignore
             }
+            
             string connectionString =
+                //@"Data Source=.\SQLEXPRESS;Initial Catalog=ELBA_SERVER;Integrated Security=False;User ID=sa;Password=acrobat;MultipleActiveResultSets=True;";
+
                 @"Data Source=10.100.11.148;Network Library=DBMSSOCN;Initial Catalog=ELBA_Server;User ID=sa;Password=acrobat;";
             _cnn = new SqlConnection(connectionString);
             try

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using EasyModbus;
 using RobotProject.uiElements;
 using Sharp7;
+using NModbus;
 
 namespace RobotProject.Form2Items
 {
@@ -58,7 +59,7 @@ namespace RobotProject.Form2Items
         #region declarations
 
         public static readonly ModbusClient BarcodeClient = new ModbusClient();
-        public static readonly S7Client PlcClient = new S7Client();
+        public static S7Client PlcClient = new S7Client();
         public static readonly S7Client PlcClient2 = new S7Client();
         public static readonly SqlCommunication Sql = new SqlCommunication();
 
@@ -212,14 +213,26 @@ namespace RobotProject.Form2Items
 
             _cancelBarcodeSource = new CancellationTokenSource();
             _cancelBarcode = _cancelBarcodeSource.Token;
-            Task.Run(Listen, _cancelBarcode);
+            
+            var barcodeListener = new Task(() => Listen());
+            barcodeListener.ContinueWith(t =>
+            {
+                MessageBox.Show("Barkod okuyucu dinleyicisinde bilinmeyen bir hata gerçekleşti.");
+            }, TaskContinuationOptions.OnlyOnFaulted);
+            
+            barcodeListener.Start();
             EventArgs args = new EventArgs();
             OnBarcodeConnectionChanged(args);
         }
 
         private static void ConnectPlc()
         {
-            if (PlcClient.Connected) PlcClient.Disconnect();
+            if (PlcClient.Connected)
+            {
+                PlcClient.Disconnect();
+                PlcClient = new S7Client();
+            }
+            
 
             try
             {
@@ -240,6 +253,13 @@ namespace RobotProject.Form2Items
 
             _cancelPlcSource = new CancellationTokenSource();
             _cancelPlc = _cancelPlcSource.Token;
+
+            var plcListener = new Task(() => ListenPlc());
+            plcListener.ContinueWith(t => 
+            {
+                MessageBox.Show("Plc dinleyicisinde bilinmeyen bir hata gerçekleşti.");
+            }, TaskContinuationOptions.OnlyOnFaulted);
+            
             Task.Run(ListenPlc, _cancelPlc);
             EventArgs args = new EventArgs();
             OnPlcConnectionChanged(args);
