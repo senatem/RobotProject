@@ -8,16 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_10-Jun-21_13_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_10-Jun-21_13_54__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_29-May-21_19_45__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_29-May-21_19_45__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Weights.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Weights.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/packages.config" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/packages.config" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +24,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -231,7 +225,8 @@
       <workItem from="1641462522998" duration="59000" />
       <workItem from="1641466857273" duration="771000" />
       <workItem from="1641474160020" duration="14201000" />
-      <workItem from="1641541844488" duration="4215000" />
+      <workItem from="1641541844488" duration="5935000" />
+      <workItem from="1641548073728" duration="595000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -373,7 +368,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640000232822</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="major optimizations, nothing is the same now. also switched to s7net for plc communications">
+      <created>1641546440389</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1641546440389</updated>
+    </task>
+    <task id="LOCAL-00022" summary="error messages updated">
+      <created>1641547816183</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1641547816183</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -425,9 +434,28 @@
     <MESSAGE value="commit to pull" />
     <MESSAGE value="idk what the fuck is wrong now" />
     <MESSAGE value="up to date" />
-    <option name="LAST_COMMIT_MESSAGE" value="up to date" />
+    <MESSAGE value="major optimizations, nothing is the same now. also switched to s7net for plc communications" />
+    <MESSAGE value="error messages updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="error messages updated" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs</url>
+          <line>356</line>
+          <properties documentPath="C:\Users\Lenovo\RiderProjects\RobotProject\RobotProject\Form2.Designer.cs" initialLine="354" containingFunctionPresentation="method 'updateErrors'">
+            <startOffsets>
+              <option value="14109" />
+            </startOffsets>
+            <endOffsets>
+              <option value="14134" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />

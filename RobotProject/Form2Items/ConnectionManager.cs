@@ -95,7 +95,7 @@ namespace RobotProject.Form2Items
         private static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static readonly long[] Times = new long[5];
-        private static readonly int[] ErrorList = new int[6];
+        private static readonly int[] ErrorList = new int[9];
         private static int _productComing;
         private static CancellationTokenSource _cancelBarcodeSource = new CancellationTokenSource();
         private static CancellationToken _cancelBarcode = _cancelBarcodeSource.Token;
@@ -164,23 +164,7 @@ namespace RobotProject.Form2Items
         }
 
         private static void ReadFromPlc()
-        {/*
-            _plcData = plc.Read("DB57.DBW32").ToString();
-            Console.WriteLine("Data: " + _plcData);
-            _taken = plc.Read("DB57.DBW78").ToString();
-            Console.WriteLine("Taken: " + _taken);
-            _droppedFirst = plc.Read("DB57.DBW24")?.ToString();
-            _droppedSecond = plc.Read("DB57.DBW26")?.ToString();
-            _droppedThird = plc.Read("DB57.DBW28")?.ToString();
-            
-            for (var i = 0; i < 5; i++)
-            {
-                var address = 86 + i * 2;
-                errorList[i] = (ushort) (plc.Read("DB57.DBW" + address) ?? 0);
-            }
-
-            errorList[5] = (ushort) (plc.Read("DB57.DBW100") ?? 0);
-*/
+        {
             Plc.ReadMultipleVars(Items);
             _plcData = (ushort) (Items[0].Value ?? 0);
             _taken = (ushort) (Items[1].Value ?? 0);
@@ -189,13 +173,11 @@ namespace RobotProject.Form2Items
             _droppedSecond = (ushort) (Items[3].Value ?? 0);
             _droppedThird = (ushort) (Items[4].Value ?? 0);
             
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 9; i++)
             {
                 var index = 5 + i;
                 ErrorList[i] = (ushort) (Items[index].Value ?? 0);
             }
-
-            ErrorList[5] = (ushort) (Items[10].Value ?? 0);
 
             UpdatePlcData();
         }
@@ -216,7 +198,7 @@ namespace RobotProject.Form2Items
                 sw.WriteLine("// read times //");
             }
 
-            AllocConsole();
+         //   AllocConsole();
             
             
             Items.Add(DataItem.FromAddress("DB57.DBW32"));
@@ -230,11 +212,17 @@ namespace RobotProject.Form2Items
                 Items.Add(DataItem.FromAddress("DB57.DBW" + address));
             }
             Items.Add(DataItem.FromAddress("DB57.DBW100"));
+            for (var i = 0; i < 3; i++)
+            {
+                var address = 38 + i * 2;
+                Items.Add(DataItem.FromAddress("DB57.DBW" + address));
+            }
         }
-
+/*
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool AllocConsole();
+        */
         
         private static void TimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -364,17 +352,6 @@ namespace RobotProject.Form2Items
 
         public static void SendServoAdjustments(List<int?> adj)
         {
-            /*
-            byte[] pack = new byte[6];
-
-            for (var i = 0; i < 3; i++)
-            {
-                pack.SetIntAt(i * 2, (short) (adj[i] ?? 0));
-            }
-
-            PlcClient.DBWrite(57, 80, 6, pack);
-            */  
-
             for (var i = 0; i < 3; i++)
             {
                 var address = 80 + i * 2;
@@ -386,9 +363,19 @@ namespace RobotProject.Form2Items
 
         public static void SendFixSignal(double d)
         {
-            var i = (ushort) d;
+            ushort i = 0;
+            if (d > 0) i = 1;
 
             Plc.Write("DB57.DBW96", i);
+            var pulser = new Timer(500);
+            pulser.AutoReset = false;
+            pulser.Enabled = true;
+            pulser.Elapsed += Pulsed;
+        }
+
+        private static void Pulsed(object sender, ElapsedEventArgs e)
+        {
+            Plc.Write("DB57.DBW96", 0);
         }
 
         public static void BypassTaper(bool val)
