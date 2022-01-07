@@ -96,6 +96,29 @@ namespace RobotProject
 
             errorList.Add(taper1Errors);
             errorList.Add(taper2Errors);
+
+            var barrierErrors = new List<string>();
+            barrierErrors.Add("");
+            barrierErrors.Add("Hücre 1 Işık Bariyeri İhlalde");
+            barrierErrors.Add("Hücre 2 Işık Bariyeri İhlalde");
+            barrierErrors.Add("Hücre 1-2 Işık Bariyeri İhlalde");
+            barrierErrors.Add("Hücre 3 Işık Bariyeri İhlalde");
+            barrierErrors.Add("Hücre 1-3 Işık Bariyeri İhlalde");
+            barrierErrors.Add("Hücre 2-3 Işık Bariyeri İhlalde");
+            barrierErrors.Add("Hücre 1-2-3 Işık Bariyeri İhlalde");
+            errorList.Add(barrierErrors);
+
+            var emergency = new List<string>();
+            emergency.Add("Hücre 1-2 Acil Butonu Basılı");
+            emergency.Add("Hücre 3 Acil Butonu Basılı");
+            emergency.Add("Hücre 1-2-3 Acil Butonu Basılı");
+            errorList.Add(emergency);
+
+            var misc = new List<string>();
+            misc.Add("Bantlama Tarafı Işık Bariyeri İhlalde");
+            misc.Add("Kapı Açık");
+            misc.Add("Bantlama Tarafı Işık Bariyeri İhlalde - Kapı Açık");
+            errorList.Add(misc);
         }
 
         #endregion
