@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using MySql.Data.Types;
-using RobotProject.Form2Items.palletteStuff;
 using RobotProject.uiElements;
 
 namespace RobotProject.Form2Items

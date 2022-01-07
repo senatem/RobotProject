@@ -44,7 +44,7 @@ namespace RobotProject
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ürün paletleme listesinde bulunamadı.mn");
+                MessageBox.Show(@"Ürün paletleme listesinde bulunamadı.mn");
                 return 0;
             }
         }

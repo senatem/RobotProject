@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
-using MySql.Data.Types;
 using RobotProject.Form2Items;
 using RobotProject.uiElements;
 using RobotProject.Form2Items.palletteStuff;
@@ -228,8 +227,8 @@ namespace RobotProject
             ConnectionManager.Connect();
             connectionIndicators.Implement(this.Controls);
             connectionIndicators.BarcodeConnect(ConnectionManager.BarcodeClient.Connected);
-            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
-            connectionIndicators.TaperConnect(ConnectionManager.PlcClient2.Connected);
+            connectionIndicators.PlcConnect(ConnectionManager.Plc.IsConnected);
+            connectionIndicators.TaperConnect(ConnectionManager.Plc2.IsConnected);
             
             Resize += new EventHandler(Form2_Resize);
             
@@ -279,7 +278,7 @@ namespace RobotProject
 
         private void plcIndicatorUpdater(object sender, EventArgs e)
         {
-            connectionIndicators.PlcConnect(ConnectionManager.PlcClient.Connected);
+            connectionIndicators.PlcConnect(ConnectionManager.Plc.IsConnected);
         }
 
         private void taperIndicatorUpdater(object sender, EventArgs e)

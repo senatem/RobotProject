@@ -8,14 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_10-Jun-21_13_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_10-Jun-21_13_54__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_29-May-21_19_45__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/shelf/Uncommitted_changes_before_Update_at_29-May-21_19_45__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Weights.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Weights.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/packages.config" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/packages.config" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,16 +41,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/808a782eb93a4039ad4e344a67668503361178/c5/05953b42/DbConnectionInternal.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4dbcab297616e2d776f83c3b469417fff5011103aefc5a34d119515586ef5a/PlcSynchronous.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/TR-DM-025/RiderProjects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/TR-DM-025/RiderProjects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/TR-DM-025/RiderProjects/RobotProject/RobotProject/Form2.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/13dbc81533d84edc819ac50a274c07355a42f8/e7/08dfc3df/Control.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/bf/a49e655b/TimeSpan.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/c5/5731f1ef/TimeSpanFormat.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/485db82a61b1468bbc9d4475ab6b2b8491700/9c/f2379265/Image.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -116,7 +117,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.externalResources" />
+    <property name="settings.editor.selected.configurable" value="ReSpellerSettingsId" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -219,6 +220,18 @@
       <workItem from="1639998152354" duration="10877000" />
       <workItem from="1640075138247" duration="227000" />
       <workItem from="1640075413681" duration="6861000" />
+      <workItem from="1641214752620" duration="183000" />
+      <workItem from="1641215016911" duration="1561000" />
+      <workItem from="1641299084503" duration="1987000" />
+      <workItem from="1641301140442" duration="417000" />
+      <workItem from="1641301597680" duration="719000" />
+      <workItem from="1641302347058" duration="1678000" />
+      <workItem from="1641305868674" duration="615000" />
+      <workItem from="1641452199166" duration="4640000" />
+      <workItem from="1641462522998" duration="59000" />
+      <workItem from="1641466857273" duration="771000" />
+      <workItem from="1641474160020" duration="14201000" />
+      <workItem from="1641541844488" duration="4215000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
