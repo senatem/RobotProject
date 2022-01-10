@@ -42,7 +42,7 @@ namespace RobotProject
                 var pattern = (int) (double) Er.Find(fields, values).Rows[0]["PaletlemeSekli"];
                 return pattern;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show(@"Ürün paletleme listesinde bulunamadı.mn");
                 return 0;
@@ -96,7 +96,17 @@ namespace RobotProject
 
         private static Offsets PatternOne(int pz, int counter, int palletWidth, int palletZ)
         {
-            return new Offsets(0, 0 + ((palletWidth * 10) % 200) / 2, pz * (counter - 1) + palletZ, 1, counter, 0, 0,
+            int adj;
+            
+            if (palletWidth * 10 % 200 >= 100)
+            {
+                adj = (200 - (palletWidth * 10 % 200 )) / 2;
+            }
+            else
+            {
+                adj = - palletWidth * 10 % 200 / 2;
+            }
+            return new Offsets(0, 0 + adj, pz * (counter - 1) + palletZ, 1, counter, 0, 0,
                 counter + 1);
         }
 
@@ -104,55 +114,67 @@ namespace RobotProject
         private static Offsets PatternTwo(int px, int pz, int counter, int palletWidth,
             string rotation, int palletZ)
         {
-            if (rotation == "90-270")
+            int adj;
+            
+            if (palletWidth * 10 % 200 >= 100)
             {
-                return (counter % 2) switch
-                {
-                    0 => new Offsets(0, 0, pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 270, 90,
-                        (counter + 2) / 2),
-                    1 => new Offsets(0, 0, pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 90, 270,
-                        (counter + 2) / 2),
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                adj = (200 - (palletWidth * 10 % 200 )) / 2;
+            }
+            else
+            {
+                adj = - palletWidth * 10 % 200 / 2;
             }
 
-            if (rotation == "0-180")
+            return rotation switch
             {
-                return (counter % 2) switch
+                "90-270" => (counter % 2) switch
                 {
-                    0 => new Offsets(-px - 20, 0 + ((palletWidth * 10) % 200) / 2,
-                        pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 0, 180, (counter + 2) / 2),
-                    1 => new Offsets(0, 0 + ((palletWidth * 10) % 200) / 2, pz * (((counter + 1) / 2) - 1) + palletZ,
-                        2, (counter + 1) / 2, 180, 0, (counter + 2) / 2),
+                    0 => new Offsets(0, 0, pz * ((counter + 1) / 2 - 1) + palletZ, 2, (counter + 1) / 2, 270, 90,
+                        (counter + 2) / 2),
+                    1 => new Offsets(0, 0, pz * ((counter + 1) / 2 - 1) + palletZ, 2, (counter + 1) / 2, 90, 270,
+                        (counter + 2) / 2),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            if (rotation == "90-90")
-            {
-                return (counter % 2) switch
+                },
+                "0-180" => (counter % 2) switch
                 {
-                    0 => new Offsets(-px - 20, 0 + ((palletWidth * 10) % 200) / 2,
-                        pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 0, 0, (counter + 2) / 2),
-                    1 => new Offsets(0, 0 + ((palletWidth * 10) % 200) / 2, pz * (((counter + 1) / 2) - 1) + palletZ,
+                    0 => new Offsets(-px - 20, adj, pz * ((counter + 1) / 2 - 1) + palletZ,
+                        2, (counter + 1) / 2, 0, 180, (counter + 2) / 2),
+                    1 => new Offsets(0, adj, pz * ((counter + 1) / 2 - 1) + palletZ, 2,
+                        (counter + 1) / 2, 180, 0, (counter + 2) / 2),
+                    _ => throw new ArgumentOutOfRangeException()
+                },
+                "90-90" => (counter % 2) switch
+                {
+                    0 => new Offsets(-px - 20, adj, pz * ((counter + 1) / 2 - 1) + palletZ,
                         2, (counter + 1) / 2, 0, 0, (counter + 2) / 2),
+                    1 => new Offsets(0, 0 + adj, pz * ((counter + 1) / 2 - 1) + palletZ, 2,
+                        (counter + 1) / 2, 0, 0, (counter + 2) / 2),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            return new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
+                },
+                _ => new Offsets(0, 0, 0, 0, 0, 0, 0, 0)
+            };
         }
 
         private static Offsets PatternThree(int px, int pz, int counter, int palletWidth, int palletZ)
         {
+            int adj;
+            
+            if (palletWidth * 10 % 200 >= 100)
+            {
+                adj = (200 - (palletWidth * 10 % 200 )) / 2;
+            }
+            else
+            {
+                adj = - palletWidth * 10 % 200 / 2;
+            }
             return (counter % 3) switch
             {
-                0 => new Offsets(-2 * px - 50, 0 + ((palletWidth * 10) % 200) / 2,
-                    pz * (((counter + 2) / 3) - 1) + palletZ, 3, (counter + 2) / 3, 0, 180, (counter + 3) / 3),
-                1 => new Offsets(0, 0 + ((palletWidth * 10) % 200) / 2, pz * (((counter + 2) / 3) - 1) + palletZ,
+                0 => new Offsets(-2 * px - 50, adj,
+                    pz * ((counter + 2) / 3 - 1) + palletZ, 3, (counter + 2) / 3, 0, 180, (counter + 3) / 3),
+                1 => new Offsets(0, adj, pz * ((counter + 2) / 3 - 1) + palletZ,
                     3, (counter + 2) / 3, 180, 0, (counter + 3) / 3),
-                2 => new Offsets(-px - 20, 0 + ((palletWidth * 10) % 200) / 2,
-                    pz * (((counter + 2) / 3) - 1) + palletZ, 3, (counter + 2) / 3, 0, 0, (counter + 3) / 3),
+                2 => new Offsets(-px - 20, adj,
+                    pz * ((counter + 2) / 3 - 1) + palletZ, 3, (counter + 2) / 3, 0, 0, (counter + 3) / 3),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -160,148 +182,155 @@ namespace RobotProject
         private static Offsets PatternFour(int px, int py, int pz, int counter, int palletWidth,
             string rotation, bool priority, int palletZ)
         {
-            if (rotation == "90-270" && !priority)
+            int adj;
+            
+            if (palletWidth * 10 % 200 >= 100)
             {
-                return (counter % 4) switch
-                {
-                    0 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 270, 90,
-                        (counter + 4) / 4),
-                    1 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 90, 90,
-                        (counter + 4) / 4),
-                    2 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 90, 270,
-                        (counter + 4) / 4),
-                    3 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 270, 270,
-                        (counter + 4) / 4),
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                adj = (200 - (palletWidth * 10 % 200 )) / 2;
+            }
+            else
+            {
+                adj = - palletWidth * 10 % 200 / 2;
             }
 
-            if (rotation == "90-270" && priority)
+            return rotation switch
             {
-                return (counter % 4) switch
+                "90-270" when !priority => (counter % 4) switch
                 {
-                    0 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 90, 270,
+                    0 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 270, 90,
                         (counter + 4) / 4),
-                    1 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 270, 90,
+                    1 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 90, 90,
                         (counter + 4) / 4),
-                    2 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 90, 270,
+                    2 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 90, 270,
                         (counter + 4) / 4),
-                    3 => new Offsets(0, 0, pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 270, 90,
+                    3 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 270, 270,
                         (counter + 4) / 4),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            if (rotation == "0-180" && !priority)
-            {
-                return (counter % 4) switch
+                },
+                "90-270" when priority => (counter % 4) switch
                 {
-                    0 => new Offsets(-px - 20, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
-                    1 => new Offsets(0, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 180, 0, (counter + 4) / 4),
-                    2 => new Offsets(0, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
-                    3 => new Offsets(-px - 20, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 180, 0, (counter + 4) / 4),
+                    0 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 90, 270,
+                        (counter + 4) / 4),
+                    1 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 270, 90,
+                        (counter + 4) / 4),
+                    2 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 90, 270,
+                        (counter + 4) / 4),
+                    3 => new Offsets(0, 0, pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 270, 90,
+                        (counter + 4) / 4),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            if (rotation == "0-180" && priority)
-            {
-                return (counter % 4) switch
+                },
+                "0-180" when !priority => (counter % 4) switch
                 {
-                    0 => new Offsets(-px - 20, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
-                    1 => new Offsets(0, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 180, 180, (counter + 4) / 4),
-                    2 => new Offsets(0, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 180, 0, (counter + 4) / 4),
-                    3 => new Offsets(-px - 20, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
+                    0 => new Offsets(-px - 20, -py / 2 - adj - 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
+                    1 => new Offsets(0, py / 2 - adj + 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 180, 0, (counter + 4) / 4),
+                    2 => new Offsets(0, -py / 2 - adj - 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
+                    3 => new Offsets(-px - 20, py / 2 - adj + 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 180, 0, (counter + 4) / 4),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            if (rotation == "90-90")
-            {
-                return (counter % 4) switch
+                },
+                "0-180" when priority => (counter % 4) switch
                 {
-                    0 => new Offsets(-px - 20, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
-                    1 => new Offsets(0, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
-                    2 => new Offsets(0, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
-                    3 => new Offsets(-px - 20, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                        pz * (((counter + 3) / 4) - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
+                    0 => new Offsets(-px - 20, -py / 2 - adj - 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
+                    1 => new Offsets(0, py / 2 - adj + 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 180, 180, (counter + 4) / 4),
+                    2 => new Offsets(0, -py / 2 - adj - 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 180, 0, (counter + 4) / 4),
+                    3 => new Offsets(-px - 20, py / 2 - adj + 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 180, (counter + 4) / 4),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            return new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
+                },
+                "90-90" => (counter % 4) switch
+                {
+                    0 => new Offsets(-px - 20, -py / 2 - adj- 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
+                    1 => new Offsets(0, py / 2 - adj + 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
+                    2 => new Offsets(0, -py / 2 - adj - 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
+                    3 => new Offsets(-px - 20, py / 2 - adj + 10,
+                        pz * ((counter + 3) / 4 - 1) + palletZ, 4, (counter + 3) / 4, 0, 0, (counter + 4) / 4),
+                    _ => throw new ArgumentOutOfRangeException()
+                },
+                _ => new Offsets(0, 0, 0, 0, 0, 0, 0, 0)
+            };
         }
 
         private static Offsets PatternFive(int py, int pz, int counter, int palletWidth,
             string rotation, int palletZ)
         {
-            if (rotation == "90-270")
+            int adj;
+            
+            if (palletWidth * 10 % 200 >= 100)
             {
-                return (counter % 2) switch
+                adj = (200 - (palletWidth * 10 % 200 )) / 2;
+            }
+            else
+            {
+                adj = - palletWidth * 10 % 200 / 2;
+            }
+
+            return rotation switch
+            {
+                "90-270" => (counter % 2) switch
                 {
-                    0 => new Offsets(0, 0, pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 90, 270,
+                    0 => new Offsets(0, 0, pz * ((counter + 1) / 2 - 1) + palletZ, 2, (counter + 1) / 2, 90, 270,
                         (counter + 2) / 2),
-                    1 => new Offsets(0, 0, pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 270, 90,
+                    1 => new Offsets(0, 0, pz * ((counter + 1) / 2 - 1) + palletZ, 2, (counter + 1) / 2, 270, 90,
                         (counter + 2) / 2),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            if (rotation == "0-180")
-            {
-                return (counter % 2) switch
+                },
+                "0-180" => (counter % 2) switch
                 {
-                    0 => new Offsets(0 - 20, py / 2 + ((palletWidth * 10) % 200) / 2,
-                        pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 0, 180, (counter + 2) / 2),
-                    1 => new Offsets(0, py / 2 + ((palletWidth * 10) % 200) / 2,
-                        pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 180, 0, (counter + 2) / 2),
+                    0 => new Offsets(0 - 20, py / 2 + adj,
+                        pz * ((counter + 1) / 2 - 1) + palletZ, 2, (counter + 1) / 2, 0, 180, (counter + 2) / 2),
+                    1 => new Offsets(0, py / 2 + adj, pz * ((counter + 1) / 2 - 1) + palletZ, 2,
+                        (counter + 1) / 2, 180, 0, (counter + 2) / 2),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            if (rotation == "90-90")
-            {
-                return (counter % 2) switch
+                },
+                "90-90" => (counter % 2) switch
                 {
-                    0 => new Offsets(0 - 20, py / 2 + ((palletWidth * 10) % 200) / 2,
-                        pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 0, 0, (counter + 2) / 2),
-                    1 => new Offsets(0, py / 2 + ((palletWidth * 10) % 200) / 2,
-                        pz * (((counter + 1) / 2) - 1) + palletZ, 2, (counter + 1) / 2, 0, 0, (counter + 2) / 2),
+                    0 => new Offsets(0 - 20, py / 2 + adj,
+                        pz * ((counter + 1) / 2 - 1) + palletZ, 2, (counter + 1) / 2, 0, 0, (counter + 2) / 2),
+                    1 => new Offsets(0, py / 2 + adj, pz * ((counter + 1) / 2 - 1) + palletZ, 2,
+                        (counter + 1) / 2, 0, 0, (counter + 2) / 2),
                     _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-
-            return new Offsets(0, 0, 0, 0, 0, 0, 0, 0);
+                },
+                _ => new Offsets(0, 0, 0, 0, 0, 0, 0, 0)
+            };
         }
 
         private static Offsets PatternSix(int px, int py, int pz, int counter, int palletWidth,
             int palletZ)
         {
+            int adj;
+            
+            if (palletWidth * 10 % 200 >= 100)
+            {
+                adj = (200 - (palletWidth * 10 % 200 )) / 2;
+            }
+            else
+            {
+                adj = - palletWidth * 10 % 200 / 2;
+            }
+            
             return (counter % 6) switch
             {
-                0 => new Offsets(-2 * px - 50, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                    pz * (((counter + 5) / 6) - 1) + palletZ, 6, (counter + 5) / 6, 0, 180, (counter + 6) / 6),
-                1 => new Offsets(0, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                    pz * (((counter + 5) / 6) - 1) + palletZ, 6, (counter + 5) / 6, 180, 0, (counter + 6) / 6),
-                2 => new Offsets(0, -py / 2 - ((palletWidth * 10) % 200) / 2 - 10,
-                    pz * (((counter + 5) / 6) - 1) + palletZ, 6, (counter + 5) / 6, 0, 180, (counter + 6) / 6),
-                3 => new Offsets(-px - 20, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                    pz * (((counter + 5) / 6) - 1) + palletZ, 6, (counter + 5) / 6, 180, 0, (counter + 6) / 6),
-                4 => new Offsets(-px - 20, -py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                    pz * (((counter + 5) / 6) - 1) + palletZ, 6, (counter + 5) / 6, 0, 180, (counter + 6) / 6),
-                5 => new Offsets(-2 * px - 50, py / 2 - ((palletWidth * 10) % 200) / 2 + 10,
-                    pz * (((counter + 5) / 6) - 1) + palletZ, 6, (counter + 5) / 6, 180, 0, (counter + 6) / 6),
+                0 => new Offsets(-2 * px - 50, -py / 2 - adj - 10,
+                    pz * ((counter + 5) / 6 - 1) + palletZ, 6, (counter + 5) / 6, 0, 180, (counter + 6) / 6),
+                1 => new Offsets(0, py / 2 - adj + 10,
+                    pz * ((counter + 5) / 6 - 1) + palletZ, 6, (counter + 5) / 6, 180, 0, (counter + 6) / 6),
+                2 => new Offsets(0, -py / 2 - adj - 10,
+                    pz * ((counter + 5) / 6 - 1) + palletZ, 6, (counter + 5) / 6, 0, 180, (counter + 6) / 6),
+                3 => new Offsets(-px - 20, py / 2 - adj + 10,
+                    pz * ((counter + 5) / 6 - 1) + palletZ, 6, (counter + 5) / 6, 180, 0, (counter + 6) / 6),
+                4 => new Offsets(-px - 20, -py / 2 - adj + 10,
+                    pz * ((counter + 5) / 6 - 1) + palletZ, 6, (counter + 5) / 6, 0, 180, (counter + 6) / 6),
+                5 => new Offsets(-2 * px - 50, py / 2 - adj + 10,
+                    pz * ((counter + 5) / 6 - 1) + palletZ, 6, (counter + 5) / 6, 180, 0, (counter + 6) / 6),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

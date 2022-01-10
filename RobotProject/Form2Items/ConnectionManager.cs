@@ -168,7 +168,6 @@ namespace RobotProject.Form2Items
             Plc.ReadMultipleVars(Items);
             _plcData = (ushort) (Items[0].Value ?? 0);
             _taken = (ushort) (Items[1].Value ?? 0);
-            Console.WriteLine(@"Taken: " + _taken);
             _droppedFirst = (ushort) (Items[2].Value ?? 0);
             _droppedSecond = (ushort) (Items[3].Value ?? 0);
             _droppedThird = (ushort) (Items[4].Value ?? 0);
@@ -451,7 +450,7 @@ namespace RobotProject.Form2Items
         {
             while (true)
             {
-                if (BarcodeClient.Available(50))
+                if (BarcodeClient.Available(100))
                 {
                     ReadHoldingRegsBarcode(BarcodeClient);
                     if (_cancelBarcode.IsCancellationRequested)
@@ -588,6 +587,7 @@ namespace RobotProject.Form2Items
 
         private static void Interpret(string barcode)
         {
+            Console.WriteLine("Barcode: " + barcode);
             if (barcode.IndexOf('S') == -1)
             {
                 //barkod okunamadı
@@ -733,9 +733,14 @@ namespace RobotProject.Form2Items
             var product = Sql.Select("Siparis_No", orderNum.ToString());
 
             if (product == null) return;
-
-            var c = GetCell(orderNum);
-
+            
+            var cList = Cells.FindAll(cell => cell.OrderNo == orderNum);
+            var c = cList[_patternLast];
+            _patternLast += 1;
+            if (_patternLast == cList.Count)
+            {
+                _patternLast = 0;
+            }
             switch (c)
             {
                 case null when Cells.Count < 3:
