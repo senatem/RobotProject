@@ -735,15 +735,12 @@ namespace RobotProject.Form2Items
             if (product == null) return;
             
             var cList = Cells.FindAll(cell => cell.OrderNo == orderNum);
-            var c = cList[_patternLast];
-            _patternLast += 1;
-            if (_patternLast == cList.Count)
+
+
+            Cell c = null;
+            switch (cList.Count)
             {
-                _patternLast = 0;
-            }
-            switch (c)
-            {
-                case null when Cells.Count < 3:
+                case 0 when Cells.Count < 3:
                 {
                     var px = product.GetHeight();
                     var py = product.GetWidth();
@@ -760,13 +757,31 @@ namespace RobotProject.Form2Items
                         OnCellAssigned(Cells.Count, orderNum, p!);
                     }
 
+                    c = GetCell(orderNum)!;
                     break;
                 }
-                case null when Cells.Count == Cells.Capacity:
+                case 0 when Cells.Count == Cells.Capacity:
                     return;
+                default:
+                {
+                    if (_patternLast < cList.Count)
+                    {
+                        c = cList[_patternLast];
+                        _patternLast += 1;
+                    }
+                    else
+                    {
+                        _patternLast = 0;
+                    }
+
+                    if (_patternLast == cList.Count)
+                    {
+                        _patternLast = 0;
+                    }
+
+                    break;
+                }
             }
-            
-            c = GetCell(orderNum);
 
             var adjWidth = 0;
             var adjHeight = 0;

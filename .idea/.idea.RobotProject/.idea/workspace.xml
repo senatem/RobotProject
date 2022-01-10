@@ -10,7 +10,6 @@
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,6 +231,8 @@
       <workItem from="1641559214975" duration="1591000" />
       <workItem from="1641567518327" duration="1562000" />
       <workItem from="1641628708757" duration="1722000" />
+      <workItem from="1641796494513" duration="133000" />
+      <workItem from="1641797312674" duration="916000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -394,7 +395,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641548712876</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="minor adjustments">
+      <created>1641796599889</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1641796599889</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,7 +456,8 @@
     <MESSAGE value="up to date" />
     <MESSAGE value="major optimizations, nothing is the same now. also switched to s7net for plc communications" />
     <MESSAGE value="error messages updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="error messages updated" />
+    <MESSAGE value="minor adjustments" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor adjustments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
