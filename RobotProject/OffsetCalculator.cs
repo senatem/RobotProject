@@ -44,7 +44,7 @@ namespace RobotProject
             }
             catch (Exception)
             {
-                MessageBox.Show(@"Ürün paletleme listesinde bulunamadı.mn");
+                MessageBox.Show(@"Ürün paletleme listesinde bulunamadı.Ürün bilgileri: YöntemKodu=" + yontemKodu + " Tip=" + type + " Yükseklik=" + (px - px % 100) + " Uzunluk=" + (py - py % 100));
                 return 0;
             }
         }
@@ -147,7 +147,7 @@ namespace RobotProject
                 {
                     0 => new Offsets(-px - 20, adj, pz * ((counter + 1) / 2 - 1) + palletZ,
                         2, (counter + 1) / 2, 0, 0, (counter + 2) / 2),
-                    1 => new Offsets(0, 0 + adj, pz * ((counter + 1) / 2 - 1) + palletZ, 2,
+                    1 => new Offsets(0, adj, pz * ((counter + 1) / 2 - 1) + palletZ, 2,
                         (counter + 1) / 2, 0, 0, (counter + 2) / 2),
                     _ => throw new ArgumentOutOfRangeException()
                 },

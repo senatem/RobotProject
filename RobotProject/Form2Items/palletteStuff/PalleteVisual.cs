@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
 using System.Drawing;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 using RobotProject.uiElements;
 
@@ -11,7 +9,7 @@ namespace RobotProject.Form2Items.palletteStuff
     public class PalletteVisual
     {
         // Dikkat!, aşağıdaki satırı bana sormadan değiştirirseniz, tüm kelimeler görünüyor mu diye de bakın
-        static List<string> staticTexts = new List<string>{"Sipariş no:", "Palet Yükseklik:", "Palet Uzunluk:","Doluluk:"};
+        static List<string> staticTexts = new List<string>{"Sipariş no:", "Palet Yükseklik:", "Palet Uzunluk:","Doluluk:","Palet Doluluk"};
         public PalletteVisual(Geometry.Rectangle r, int palleteNo)
         {
             _palleteNo = palleteNo;
@@ -154,18 +152,23 @@ namespace RobotProject.Form2Items.palletteStuff
         /** Sets info to the pallete box
          * also 
          */
-        public void setInfo(string no= "???" , string en= "???", string boy="???", int cap=0)
+        public void setInfo(string no= "???" , string en= "???", string boy="???", int cap=0, int kat=0)
         {
             _dynamicLabels[0].Text = no;
             _dynamicLabels[1].Text = en;
             _dynamicLabels[2].Text = boy;
             _prodCap = cap;
+            katMax = kat;
             _modifiedProgressBarFilled.Maximum = cap;
             _modifiedProgressBarDefined.Maximum = cap;
             _prodCountFill = 0;
             _prodCountDefn = 0;
+            currentDef = 0;
+            currentFill = 0;
             _dynamicLabels[3].ForeColor = Color.Black;
             _dynamicLabels[3].Text = filled();
+            _dynamicLabels[4].ForeColor = Color.Black;
+            _dynamicLabels[4].Text = palletFilled();
         }
 
         /** this function manually increases the amount stored in bars
@@ -181,6 +184,7 @@ namespace RobotProject.Form2Items.palletteStuff
             {
                 ConnectionManager.IncrementCell(_palleteNo, 1, 1);
                 incementCount(1, 1);
+                
             }
             catch (Exception)
             {
@@ -212,6 +216,25 @@ namespace RobotProject.Form2Items.palletteStuff
             setInfo();
         }
 
+        private string palletFilled()
+        {
+            if (katMax == 0)
+            {
+                return "???";
+            }
+            if (katMax == currentDef)
+            {
+                _dynamicLabels[4].ForeColor = Color.Yellow;
+            }
+            
+            // this bit truns it red if overfilled also warns
+            if (katMax == currentFill)
+            {
+                _dynamicLabels[3].ForeColor = Color.Red;
+            }
+
+            return $"{currentDef}/{katMax}";
+        }
         private string filled()
         {
             if (_prodCap == 0)
@@ -241,22 +264,37 @@ namespace RobotProject.Form2Items.palletteStuff
 //            return $"{_prodCountDefn}/{_prodCountFill}/{_prodCap}";
         }
 
-        public void setCounts(int? defn=null, int? fill=null)
+        public void resetPallet()
+        {
+            currentDef = 0;
+            currentFill = 0;
+            setCounts();
+        }
+        public void setCounts(int? defn=null, int? fill=null,  int? pdef=null, int? pfill=null)
         {
             _prodCountFill = fill ?? _prodCountFill;
             _prodCountDefn = defn ?? _prodCountDefn;
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;
             _dynamicLabels[3].Text = filled();
+
+            currentDef = pdef ?? currentDef;
+            currentFill = pfill ?? currentFill;
+            _dynamicLabels[4].Text = palletFilled();
         }
 
         public void incementCount(int incrementFill=0, int incrementDefn = 0)
         {
             _prodCountFill += incrementFill;
             if (_prodCountFill < 0) _prodCountFill = 0;
+            currentFill += incrementFill;
+            if (currentFill < 0) currentFill = 0;
             _prodCountDefn += incrementDefn;
             if (_prodCountDefn < 0) _prodCountDefn = 0;
+            currentDef += incrementDefn;
+            if (currentDef < 0) currentDef = 0;
             _dynamicLabels[3].Text = filled();
+            _dynamicLabels[4].Text = palletFilled();
             _modifiedProgressBarDefined.Value = _prodCountDefn;
             _modifiedProgressBarFilled.Value = _prodCountFill;
         }
@@ -273,6 +311,9 @@ namespace RobotProject.Form2Items.palletteStuff
         private Geometry.Rectangle _thisRectangle;
         private int _palleteNo;
         private int _prodCap=0;
+        private int katMax;
+        private int currentDef;
+        private int currentFill;
         private int _prodCountDefn=0;
         private int _prodCountFill=0;
     }

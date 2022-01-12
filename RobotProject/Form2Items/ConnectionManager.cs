@@ -55,7 +55,7 @@ namespace RobotProject.Form2Items
 
     public delegate void CellFull(int i);
 
-    public delegate void CellAssigned(int i, long orderNo, Pallet pallet);
+    public delegate void CellAssigned(int i, long orderNo, Pallet pallet, int katMax);
 
     public delegate void ErrorUpdate(int[] errorList);
 
@@ -92,7 +92,7 @@ namespace RobotProject.Form2Items
         public static Product? PatternProduct;
         private static int _patternLast;
         public static List<Cell> Cells = new List<Cell>(3);
-        private static readonly OffsetCalculator Calculator = new OffsetCalculator();
+        public static readonly OffsetCalculator Calculator = new OffsetCalculator();
         private static readonly ExcelReader Weights = new ExcelReader(References.ProjectPath + "Weights.xlsx");
         private static readonly long[] Times = new long[5];
         private static readonly int[] ErrorList = new int[9];
@@ -129,9 +129,9 @@ namespace RobotProject.Form2Items
             CellFull.Invoke(i);
         }
 
-        private static void OnCellAssigned(int i, long orderNo, Pallet pallet)
+        private static void OnCellAssigned(int i, long orderNo, Pallet pallet, int katMax)
         {
-            CellAssigned.Invoke(i, orderNo, pallet);
+            CellAssigned.Invoke(i, orderNo, pallet, katMax);
         }
 
         private static void OnPlcConnectionChanged(EventArgs e)
@@ -705,8 +705,9 @@ namespace RobotProject.Form2Items
 
             if (full == 1)
             {
-                c.OrderSize -= c.Holding;
-                c.Holding = 0;
+                c.PHolding = 0;
+                c.PDropped = 0;
+                OnCellFull(c.RobotNo-1);
             }
 
             ProductAdd(cNo);
@@ -746,15 +747,22 @@ namespace RobotProject.Form2Items
                     var py = product.GetWidth();
                     var katMax = GetKatMax(px, py, product.GetYontem(), product.GetProductType());
                     var p = Sql.GetPallet(orderNum.ToString());
-                    if (IsHeavy(product))
+                    if (IsHeavy(product) && Cells.Find(cell => cell.RobotNo == 2) == null)
                     {
                         AssignCell(orderNum, 2, p!, katMax);
-                        OnCellAssigned(2, orderNum, p!);
+                        OnCellAssigned(2, orderNum, p!, katMax);
                     }
                     else
                     {
-                        AssignCell(orderNum, Cells.Count + 1, p!, katMax);
-                        OnCellAssigned(Cells.Count, orderNum, p!);
+                        var r = 1;
+                        while(Cells.Find(c => c.RobotNo == r)!=null)
+                        {
+                            r++;
+                        }
+
+                        if (r > 3) return;
+                        AssignCell(orderNum, r, p!, katMax);
+                        OnCellAssigned(r, orderNum, p!, katMax);
                     }
 
                     c = GetCell(orderNum)!;
@@ -883,14 +891,14 @@ namespace RobotProject.Form2Items
             var orderSize = Sql.GetOrderSize(orderNo);
             if (katMax == 0) katMax = orderSize;
 
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax, 0));
+            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax));
         }
 
         public static void AssignNonBarcodeCell(int robotNo, int height, int width, int type, int orderSize,
             string yontemKodu, int palletH, int palletL, int palletZ, int katMax)
         {
             PatternProduct = new Product(height, width, type, orderSize, yontemKodu);
-            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax, 0);
+            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax);
             Cells.Add(c);
         }
 

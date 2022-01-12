@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using RobotProject.Form2Items;
 
 namespace RobotProject
 {
@@ -103,16 +104,31 @@ namespace RobotProject
             
             if (rdr.Read())
             {
-                var y = rdr.GetString(rdr.GetOrdinal("Palet_Yuksekligi"));
-                var u = rdr.GetString(rdr.GetOrdinal("Palet_Uzunlugu"));
+                var yontem = rdr.GetString(rdr.GetOrdinal("Yontem_Kodu"));
                 var t = rdr.GetInt32(rdr.GetOrdinal("Tip"));
                 var m = rdr.GetDouble(rdr.GetOrdinal("Toplam_Siparis_Miktar"));
+                var yparse = 0;
+                var uparse = 0;
+                
+                if (int.Parse(yontem) == 1)
+                {
+                    var px = rdr.GetInt32(rdr.GetOrdinal("Yukseklik"));
+                    var py = rdr.GetInt32(rdr.GetOrdinal("Uzunluk"));
+                    string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+                    int[] values = {int.Parse(yontem), t, px - px % 100, py - py % 100};
+                    
+                    yparse = (int) ConnectionManager.Calculator.Er.Find(fields, values).Rows[0]["Palet H"];
+                    uparse = (int) ConnectionManager.Calculator.Er.Find(fields, values).Rows[0]["Palet L"];
+                }
+                else
+                {
+                    var y = rdr.GetString(rdr.GetOrdinal("Palet_Yuksekligi"));
+                    var u = rdr.GetString(rdr.GetOrdinal("Palet_Uzunlugu"));
+                    if (!int.TryParse(y, out yparse)) yparse = 0;
+                    if (!int.TryParse(u, out uparse)) uparse = 0;
+                }
 
-                int yParse;
-                if (!int.TryParse(y, out yParse)) yParse = 0;
-                int uParse;
-                if (!int.TryParse(u, out uParse)) uParse = 0;
-                Pallet res = new Pallet(yParse, uParse,
+                Pallet res = new Pallet(yparse, uparse,
                     t, Convert.ToInt32(m));
                 rdr.Close();
                 return res;

@@ -91,17 +91,17 @@ namespace RobotProject.Form2Items.palletteStuff
 
         public void resetKat(int n)
         {
-            _pallettes[n].setCounts(0);
+            _pallettes[n].resetPallet();
         }
 
-        public void setPallette(int n, string no, string en, string boy, int cap)
+        public void setPallette(int n, string no, string en, string boy, int cap, int kat)
         {
-            _pallettes[n].setInfo(no,en,boy,cap);
+            _pallettes[n].setInfo(no,en,boy,cap, kat);
         }
 
-        public void setProdCount(int n, int? valueDefn=null, int? valueFill = null)
+        public void setProdCount(int n, int? valueDefn=null, int? valueFill = null, int? pDef = null, int? pFill = null)
         {
-            _pallettes[n].setCounts(valueDefn, valueFill);
+            _pallettes[n].setCounts(valueDefn, valueFill, pDef, pFill);
         }
 
         public void increaseProdCount(int n, int increment = 1)

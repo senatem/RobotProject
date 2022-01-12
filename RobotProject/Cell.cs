@@ -14,8 +14,11 @@ namespace RobotProject
         public int PalletZ { get; set; }
         
         public int KatMax { get; set; }
+        
+        public int PHolding { get; set; }
+        public int PDropped { get; set; }
 
-        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ, int katMax, int dropped)
+        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ, int katMax)
         {
             OrderNo = orderNo;
             RobotNo = robotNo;
@@ -24,17 +27,18 @@ namespace RobotProject
             PalletWidth = palletWidth;
             PalletZ = palletZ;
             KatMax = katMax;
-            Dropped = dropped;
         }
         
         public void AddProduct()
         {
             Holding++;
+            PHolding++;
         }
 
         public void Drop()
         {
             Dropped++;
+            PDropped++;
         }
 
         public int GetCounter()

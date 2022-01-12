@@ -180,10 +180,11 @@ namespace RobotProject
                     
                     // adjust the following line according to the returned index
                     var product = ConnectionManager.Sql.Select("Siparis_No", order);
-
-                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax());
                     int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
                         product.GetProductType());
+                    
+                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax(), k);
+
                     ConnectionManager.AssignCell(long.Parse(order), no+1, p, k);
                 }
             };
@@ -205,7 +206,7 @@ namespace RobotProject
                     emptyCell(nbp.RobotNo-1);
                     ConnectionManager.AssignNonBarcodeCell(nbp.RobotNo, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
                         int.Parse(info[6]), int.Parse(info[7]), int.Parse(info[8]));
-                    assignCell(nbp.RobotNo, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])));
+                    assignCell(nbp.RobotNo, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])), int.Parse(info[8]));
                     ConnectionManager.PatternMode = true;
                 }
             };
@@ -330,12 +331,12 @@ namespace RobotProject
             palleteVisuals.EmptyPallette(i);
         }
 
-        private void assignCell(int i, long orderNo, Pallet p)
+        private void assignCell(int i, long orderNo, Pallet p, int katMax = 0)
         {
             var no = i-1;
             try
             {
-                palleteVisuals.setPallette(no, orderNo.ToString(),p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax());
+                palleteVisuals.setPallette(no, orderNo.ToString(),p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax(), katMax);
             }
             catch (Exception e)
             {
@@ -386,9 +387,8 @@ namespace RobotProject
 
                 foreach (var cell in ConnectionManager.Cells)
                 {
-                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize);
-                    palleteVisuals.setProdCount(cell.RobotNo-1, valueDefn: cell.Holding);
-                    palleteVisuals.setProdCount(cell.RobotNo-1, valueFill: cell.Dropped);
+                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize, cell.KatMax);
+                    palleteVisuals.setProdCount(cell.RobotNo-1, valueDefn: cell.Holding, valueFill: cell.Dropped, pDef: cell.PHolding, pFill: cell.PDropped);
                 }
                 
                 using (var sr = new StreamReader(Path.Combine(docPath, "config")))
