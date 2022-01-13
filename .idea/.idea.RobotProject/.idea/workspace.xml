@@ -13,10 +13,7 @@
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisuals.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/OffsetCalculator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +46,7 @@
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/e9/018eb807/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/c5/5731f1ef/TimeSpanFormat.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/84/bcf8be09/Nullable`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/485db82a61b1468bbc9d4475ab6b2b8491700/9c/f2379265/Image.cs" root0="SKIP_HIGHLIGHTING" />
@@ -249,7 +247,11 @@
       <workItem from="1641823382984" duration="602000" />
       <workItem from="1641905412871" duration="91000" />
       <workItem from="1641909332554" duration="102000" />
-      <workItem from="1641994388411" duration="2938000" />
+      <workItem from="1641994388411" duration="2978000" />
+      <workItem from="1641997812361" duration="1201000" />
+      <workItem from="1642001939161" duration="1363000" />
+      <workItem from="1642068007021" duration="2105000" />
+      <workItem from="1642074124006" duration="622000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -426,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641798348219</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="hate">
+      <created>1641997385046</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1641997385046</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -482,7 +491,8 @@
     <MESSAGE value="error messages updated" />
     <MESSAGE value="minor adjustments" />
     <MESSAGE value="minor stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor stuff" />
+    <MESSAGE value="hate" />
+    <option name="LAST_COMMIT_MESSAGE" value="hate" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -512,6 +522,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs</url>
+          <line>859</line>
+          <properties documentPath="C:\Users\Lenovo\RiderProjects\RobotProject\RobotProject\Form2Items\ConnectionManager.cs" initialLine="859" containingFunctionPresentation="method 'ProcessOrder'">
+            <startOffsets>
+              <option value="26526" />
+            </startOffsets>
+            <endOffsets>
+              <option value="26541" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs</url>
+          <line>220</line>
+          <properties documentPath="C:\Users\Lenovo\RiderProjects\RobotProject\RobotProject\Form2Items\palletteStuff\PalleteVisual.cs" initialLine="220" containingFunctionPresentation="method 'palletFilled'">
+            <startOffsets>
+              <option value="8824" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8840" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

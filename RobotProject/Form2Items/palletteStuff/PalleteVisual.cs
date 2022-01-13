@@ -232,6 +232,10 @@ namespace RobotProject.Form2Items.palletteStuff
             {
                 _dynamicLabels[3].ForeColor = Color.Red;
             }
+            else if(katMax != currentDef)
+            {
+                _dynamicLabels[3].ForeColor = Color.Black;
+            }
 
             return $"{currentDef}/{katMax}";
         }

@@ -182,10 +182,11 @@ namespace RobotProject
                     var product = ConnectionManager.Sql.Select("Siparis_No", order);
                     int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
                         product.GetProductType());
-                    
-                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax(), k);
+                    int l = ConnectionManager.GetPalletMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
+                        product.GetProductType());
+                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax(), l);
 
-                    ConnectionManager.AssignCell(long.Parse(order), no+1, p, k);
+                    ConnectionManager.AssignCell(long.Parse(order), no+1, p, k, product);
                 }
             };
 
@@ -206,7 +207,8 @@ namespace RobotProject
                     emptyCell(nbp.RobotNo-1);
                     ConnectionManager.AssignNonBarcodeCell(nbp.RobotNo, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
                         int.Parse(info[6]), int.Parse(info[7]), int.Parse(info[8]));
-                    assignCell(nbp.RobotNo, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])), int.Parse(info[8]));
+                    int k = ConnectionManager.GetPalletMax(int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[4]), int.Parse(info[2]));
+                    assignCell(nbp.RobotNo, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])), k);
                     ConnectionManager.PatternMode = true;
                 }
             };
@@ -387,7 +389,9 @@ namespace RobotProject
 
                 foreach (var cell in ConnectionManager.Cells)
                 {
-                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize, cell.KatMax);
+                    var m = ConnectionManager.GetPalletMax(cell.Product.Height, cell.Product.Width, cell.Product.YontemKodu,
+                        cell.Product.Type);
+                    palleteVisuals.setPallette(cell.RobotNo-1, cell.OrderNo.ToString(), cell.PalletHeight.ToString(),cell.PalletWidth.ToString(),cell.OrderSize, m);
                     palleteVisuals.setProdCount(cell.RobotNo-1, valueDefn: cell.Holding, valueFill: cell.Dropped, pDef: cell.PHolding, pFill: cell.PDropped);
                 }
                 

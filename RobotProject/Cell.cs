@@ -3,6 +3,7 @@ namespace RobotProject
     public class Cell
     {
         public long OrderNo { get; set; }
+        public Product Product { get; set; }
         public int RobotNo { get; set; }
         public int OrderSize { get; set; }
         public int Holding { get; set; }
@@ -18,8 +19,9 @@ namespace RobotProject
         public int PHolding { get; set; }
         public int PDropped { get; set; }
 
-        public Cell(long orderNo, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ, int katMax)
+        public Cell(long orderNo, Product p, int robotNo, int orderSize, int palletHeight, int palletWidth, int palletZ, int katMax)
         {
+            Product = p;
             OrderNo = orderNo;
             RobotNo = robotNo;
             OrderSize = orderSize;

@@ -705,6 +705,8 @@ namespace RobotProject.Form2Items
 
             if (full == 1)
             {
+                c.OrderSize -= c.Holding;
+                c.Holding = 0;
                 c.PHolding = 0;
                 c.PDropped = 0;
                 OnCellFull(c.RobotNo-1);
@@ -729,6 +731,24 @@ namespace RobotProject.Form2Items
             }
         }
 
+        public static int GetPalletMax(int px, int py, int yontem, int type)
+        {            
+            string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+            int[] values = {yontem, type, px - px % 100, py - py % 100};
+            try
+            {
+                var k = (int) (double) Calculator.Er.Find(fields, values).Rows[0]["KatYuksekligi"];
+                var d = (int) (double) Calculator.Er.Find(fields, values).Rows[0]["PaletlemeSekli"];
+                if (d == 5) d = 2;
+                return k * d;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+            
+        }
+
         private static void ProcessOrder(long orderNum)
         {
             var product = Sql.Select("Siparis_No", orderNum.ToString());
@@ -749,7 +769,7 @@ namespace RobotProject.Form2Items
                     var p = Sql.GetPallet(orderNum.ToString());
                     if (IsHeavy(product) && Cells.Find(cell => cell.RobotNo == 2) == null)
                     {
-                        AssignCell(orderNum, 2, p!, katMax);
+                        AssignCell(orderNum, 2, p!, katMax, product);
                         OnCellAssigned(2, orderNum, p!, katMax);
                     }
                     else
@@ -761,7 +781,7 @@ namespace RobotProject.Form2Items
                         }
 
                         if (r > 3) return;
-                        AssignCell(orderNum, r, p!, katMax);
+                        AssignCell(orderNum, r, p!, katMax, product);
                         OnCellAssigned(r, orderNum, p!, katMax);
                     }
 
@@ -861,11 +881,9 @@ namespace RobotProject.Form2Items
             {
                 c.OrderSize -= c.Holding;
                 c.Holding = 0;
-            }
-
-            if (offsets.NextKat > c.KatMax)
-            {
-                OnCellFull(cNo - 1);
+                c.PHolding = 0;
+                c.PDropped = 0;
+                OnCellFull(c.RobotNo-1);
             }
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
 
@@ -886,19 +904,19 @@ namespace RobotProject.Form2Items
             return Cells.FirstOrDefault(cell => cell.GetCellType() == type);
         }
 
-        public static void AssignCell(long orderNo, int robotNo, Pallet pallet, int katMax)
+        public static void AssignCell(long orderNo, int robotNo, Pallet pallet, int katMax, Product p)
         {
             var orderSize = Sql.GetOrderSize(orderNo);
             if (katMax == 0) katMax = orderSize;
 
-            Cells.Add(new Cell(orderNo, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax));
+            Cells.Add(new Cell(orderNo, p, robotNo, orderSize, pallet.GetHeight(), pallet.GetLength(), 140, katMax));
         }
 
         public static void AssignNonBarcodeCell(int robotNo, int height, int width, int type, int orderSize,
             string yontemKodu, int palletH, int palletL, int palletZ, int katMax)
         {
             PatternProduct = new Product(height, width, type, orderSize, yontemKodu);
-            Cell c = new Cell(0, robotNo, orderSize, palletH, palletL, palletZ, katMax);
+            Cell c = new Cell(0, PatternProduct, robotNo, orderSize, palletH, palletL, palletZ, katMax);
             Cells.Add(c);
         }
 
@@ -930,12 +948,20 @@ namespace RobotProject.Form2Items
             if (c == null) return;
             c.Holding += fill;
             c.Dropped += drop;
+            c.PHolding += fill;
+            c.PDropped += drop;
 
             if (c.Holding > c.OrderSize) c.Holding = c.OrderSize;
             if (c.Holding < 0) c.Holding = 0;
             
             if (c.Dropped > c.OrderSize) c.Dropped = c.OrderSize;
             if (c.Dropped < 0) c.Dropped = 0;
+            
+            if (c.PHolding > c.OrderSize) c.PHolding = c.OrderSize;
+            if (c.PHolding < 0) c.PHolding = 0;
+            
+            if (c.PDropped > c.OrderSize) c.PDropped = c.OrderSize;
+            if (c.PDropped < 0) c.PDropped = 0;
         }
 
         #endregion
