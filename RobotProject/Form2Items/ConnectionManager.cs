@@ -824,12 +824,6 @@ namespace RobotProject.Form2Items
                 adjWidth += 80;
             }
 
-            if (product.GetYontem() == 1)
-            {
-                adjHeight += 5;
-                offadjY += 60;
-            }
-
             var a = product.GetProductType();
             var z = 0;
             if (boxed == 1)

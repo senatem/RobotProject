@@ -222,19 +222,15 @@ namespace RobotProject.Form2Items.palletteStuff
             {
                 return "???";
             }
-            if (katMax == currentDef)
-            {
-                _dynamicLabels[4].ForeColor = Color.Yellow;
-            }
             
             // this bit truns it red if overfilled also warns
             if (katMax == currentFill)
             {
-                _dynamicLabels[3].ForeColor = Color.Red;
+                _dynamicLabels[4].ForeColor = Color.Red;
             }
             else if(katMax != currentDef)
             {
-                _dynamicLabels[3].ForeColor = Color.Black;
+                _dynamicLabels[4].ForeColor = Color.Black;
             }
 
             return $"{currentDef}/{katMax}";
@@ -246,15 +242,6 @@ namespace RobotProject.Form2Items.palletteStuff
                 return "???";
             }
 
-            // this bit truns it red if overfilled also warns
-            if (_prodCap == _prodCountDefn)
-            {
-                _dynamicLabels[3].ForeColor = Color.Yellow;
-                // raises warning, can be turned off
-                //var gw = new GenericWarning($"Dikkat! Hücre {_palleteNo} doldu.");
-                //gw.ShowDialog();
-            }
-            
             // this bit truns it red if overfilled also warns
             if (_prodCap == _prodCountFill)
             {
@@ -291,12 +278,22 @@ namespace RobotProject.Form2Items.palletteStuff
         {
             _prodCountFill += incrementFill;
             if (_prodCountFill < 0) _prodCountFill = 0;
+            if (_prodCountFill > _prodCap) _prodCountFill = _prodCap;
             currentFill += incrementFill;
             if (currentFill < 0) currentFill = 0;
+            if (currentFill > katMax)
+            {
+                currentFill -= katMax;
+            }
             _prodCountDefn += incrementDefn;
             if (_prodCountDefn < 0) _prodCountDefn = 0;
+            if (_prodCountDefn > _prodCap) _prodCountDefn = _prodCap;
             currentDef += incrementDefn;
             if (currentDef < 0) currentDef = 0;
+            if (currentDef > katMax)
+            {
+                currentDef -= katMax;
+            }
             _dynamicLabels[3].Text = filled();
             _dynamicLabels[4].Text = palletFilled();
             _modifiedProgressBarDefined.Value = _prodCountDefn;

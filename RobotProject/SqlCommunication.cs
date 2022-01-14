@@ -98,7 +98,7 @@ namespace RobotProject
 
         public Pallet? GetPallet(string orderNo)
         {
-            string cmdString = $"SELECT Palet_Yuksekligi, Palet_uzunlugu, Toplam_Siparis_Miktar, Tip  FROM Ambalaj WHERE Siparis_No={orderNo};";
+            string cmdString = $"SELECT *  FROM Ambalaj WHERE Siparis_No={orderNo};";
             SqlCommand cmd = new SqlCommand(cmdString, _cnn);
             SqlDataReader rdr = cmd.ExecuteReader();
             
