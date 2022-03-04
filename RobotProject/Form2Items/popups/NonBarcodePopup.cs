@@ -119,7 +119,7 @@ namespace RobotProject.Form2Items
 
         private readonly List<string> _lineStrings = new List<string>
         {
-            "Ürün Yükseklik", "Ürün Uzunluk", "Ürün Tip", "Sipariş Miktarı", "Yöntem Kodu", "Palet Yükseklik", "Palet Uzunluk", "Palet Yerden Yükseklik", "Kat Yüksekliği"
+            "Ürün Yükseklik", "Ürün Uzunluk", "Ürün Tip", "Sipariş Miktarı", "Yöntem Kodu", "Palet Yükseklik", "Palet Uzunluk", "Palet Yerden Yükseklik"
         };
     }
 }

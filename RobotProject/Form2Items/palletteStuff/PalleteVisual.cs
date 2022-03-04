@@ -224,7 +224,7 @@ namespace RobotProject.Form2Items.palletteStuff
             }
             
             // this bit truns it red if overfilled also warns
-            if (katMax == currentFill)
+            if (katMax == currentDef)
             {
                 _dynamicLabels[4].ForeColor = Color.Red;
             }
@@ -243,7 +243,7 @@ namespace RobotProject.Form2Items.palletteStuff
             }
 
             // this bit truns it red if overfilled also warns
-            if (_prodCap == _prodCountFill)
+            if (_prodCap == _prodCountDefn)
             {
                 _dynamicLabels[3].ForeColor = Color.Red;
                 // raises warning, can be turned off

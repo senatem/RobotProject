@@ -8,10 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c9d50b-7ecc-45a2-b65a-53d445747729" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/RobotProject/ReportLogger.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobotProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/ConnectionManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Form2Items/popups/NonBarcodePopup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/Paletleme.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/RobotProject.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RobotProject/SqlCommunication.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,17 +43,19 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4dbcab297616e2d776f83c3b469417fff5011103aefc5a34d119515586ef5a/PlcSynchronous.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/bf/a49e655b/TimeSpan.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/08373b4687ef4399a6d9ad66ea47c2ed361378/d9/5f2a985c/SqlCommand.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/UiElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/93/8ea74ff1/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/Indicator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/e9/018eb807/List`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/c5/5731f1ef/TimeSpanFormat.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/84/bcf8be09/Nullable`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedLabel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RobotProject/uiElements/ModifiedButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/485db82a61b1468bbc9d4475ab6b2b8491700/9c/f2379265/Image.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RobotProject/Form2.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/bf/a49e655b/TimeSpan.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c665564ae3b14cb0a7dc8ff61d357a9f5a4f20/9d/96e83e3c/Button.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/e9/018eb807/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/c5/5731f1ef/TimeSpanFormat.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/84/bcf8be09/Nullable`1.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -253,7 +260,24 @@
       <workItem from="1642074124006" duration="775000" />
       <workItem from="1642075321207" duration="832000" />
       <workItem from="1642148425415" duration="109000" />
-      <workItem from="1642149364433" duration="636000" />
+      <workItem from="1642149364433" duration="681000" />
+      <workItem from="1642152759513" duration="205000" />
+      <workItem from="1642243821367" duration="4529000" />
+      <workItem from="1642406958110" duration="576000" />
+      <workItem from="1642408566117" duration="123000" />
+      <workItem from="1642773616575" duration="120000" />
+      <workItem from="1643715791099" duration="457000" />
+      <workItem from="1643716669312" duration="95000" />
+      <workItem from="1643786503279" duration="1991000" />
+      <workItem from="1644316319230" duration="115000" />
+      <workItem from="1644316660145" duration="67000" />
+      <workItem from="1644999670099" duration="1044000" />
+      <workItem from="1645010267736" duration="2840000" />
+      <workItem from="1645605425336" duration="1606000" />
+      <workItem from="1646134544002" duration="246000" />
+      <workItem from="1646221819085" duration="591000" />
+      <workItem from="1646379564711" duration="11113000" />
+      <workItem from="1646403403312" duration="1975000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1612859570245</created>
@@ -444,7 +468,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642074782622</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="up to date">
+      <created>1642150038373</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1642150038373</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -504,49 +535,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="up to date" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/OffsetCalculator.cs</url>
-          <line>72</line>
-          <properties documentPath="C:\Users\Lenovo\RiderProjects\RobotProject\RobotProject\OffsetCalculator.cs" initialLine="72" containingFunctionPresentation="method 'Calculate'">
-            <startOffsets>
-              <option value="2655" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2700" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/OffsetCalculator.cs</url>
-          <line>145</line>
-          <properties documentPath="C:\Users\Lenovo\RiderProjects\RobotProject\RobotProject\OffsetCalculator.cs" initialLine="147" containingFunctionPresentation="method 'PatternTwo'">
-            <startOffsets>
-              <option value="5493" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5935" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/RobotProject/Form2Items/palletteStuff/PalleteVisual.cs</url>
-          <line>220</line>
-          <properties documentPath="C:\Users\Lenovo\RiderProjects\RobotProject\RobotProject\Form2Items\palletteStuff\PalleteVisual.cs" initialLine="220" containingFunctionPresentation="method 'palletFilled'">
-            <startOffsets>
-              <option value="8824" />
-            </startOffsets>
-            <endOffsets>
-              <option value="8840" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#EasyModbus.ModbusClient" memberName="receiveData" />

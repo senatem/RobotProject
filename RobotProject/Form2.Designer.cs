@@ -180,12 +180,11 @@ namespace RobotProject
                     
                     // adjust the following line according to the returned index
                     var product = ConnectionManager.Sql.Select("Siparis_No", order);
-                    int k = ConnectionManager.GetKatMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
+                    int k = ConnectionManager.GetKatMax(product.GetHeight(), product.GetWidth(), product.GetYontem(),
                         product.GetProductType());
-                    int l = ConnectionManager.GetPalletMax(p.GetHeight(), p.GetLength(), product.GetYontem(),
+                    int l = ConnectionManager.GetPalletMax(product.GetHeight(), product.GetWidth(), product.GetYontem(),
                         product.GetProductType());
-                    palleteVisuals.setPallette(no, orders[pp.SelectedIndex],p.GetHeight().ToString(),p.GetLength().ToString(),p.GetMax(), l);
-
+                    assignCell(no + 1, long.Parse(orders[pp.SelectedIndex]), p, l);
                     ConnectionManager.AssignCell(long.Parse(order), no+1, p, k, product);
                 }
             };
@@ -205,9 +204,11 @@ namespace RobotProject
                     var info = nbp.GetLines;
                     ConnectionManager.EmptyCell(nbp.RobotNo-1);
                     emptyCell(nbp.RobotNo-1);
-                    ConnectionManager.AssignNonBarcodeCell(nbp.RobotNo, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
-                        int.Parse(info[6]), int.Parse(info[7]), int.Parse(info[8]));
                     int k = ConnectionManager.GetPalletMax(int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[4]), int.Parse(info[2]));
+                    int l = ConnectionManager.GetKatMax(int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[4]), int.Parse(info[2]));
+
+                    ConnectionManager.AssignNonBarcodeCell(nbp.RobotNo, int.Parse(info[0]), int.Parse(info[1]), int.Parse(info[2]), int.Parse(info[3]), info[4], int.Parse(info[5]),
+                        int.Parse(info[6]), int.Parse(info[7]), l);
                     assignCell(nbp.RobotNo, 0, new Pallet(int.Parse(info[5]), int.Parse(info[6]), int.Parse(info[2]), int.Parse(info[3])), k);
                     ConnectionManager.PatternMode = true;
                 }

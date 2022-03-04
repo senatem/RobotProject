@@ -43,10 +43,6 @@ namespace RobotProject
             PDropped++;
         }
 
-        public int GetCounter()
-        {
-            return Holding;
-        }
         public bool Full()
         {
             return Holding == OrderSize;

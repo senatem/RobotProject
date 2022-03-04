@@ -9,10 +9,10 @@ using System.Windows.Forms;
 using EasyModbus;
 using RobotProject.uiElements;
 using S7.Net;
-using System.Runtime.InteropServices;
 using S7.Net.Types;
 using DateTime = System.DateTime;
 using Timer = System.Timers.Timer;
+
 #pragma warning disable CS4014
 
 
@@ -30,9 +30,10 @@ namespace RobotProject.Form2Items
         public readonly int Boxed;
         public readonly int OffX;
         public readonly int OffY;
+        public readonly int KatMax;
 
         public Signal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull, int boxed, int offX,
-            int offY)
+            int offY, int katMax)
         {
             Cell = cell;
             Offsets = offsets;
@@ -44,6 +45,7 @@ namespace RobotProject.Form2Items
             Boxed = boxed;
             OffX = offX;
             OffY = offY;
+            KatMax = katMax;
         }
     }
 
@@ -71,10 +73,12 @@ namespace RobotProject.Form2Items
         public static readonly SqlCommunication Sql = new SqlCommunication();
 
         private static readonly Timer Timer = new Timer();
-        
+
         private static readonly List<DataItem> Items = new List<DataItem>();
 
-        private static readonly string File = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "processTimes");
+        private static readonly string File = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            "processTimes");
+
         public static bool TaperConnected;
         private static string? _receiveData;
         private static int _plcData;
@@ -171,7 +175,7 @@ namespace RobotProject.Form2Items
             _droppedFirst = (ushort) (Items[2].Value ?? 0);
             _droppedSecond = (ushort) (Items[3].Value ?? 0);
             _droppedThird = (ushort) (Items[4].Value ?? 0);
-            
+
             for (var i = 0; i < 9; i++)
             {
                 var index = 5 + i;
@@ -197,9 +201,9 @@ namespace RobotProject.Form2Items
                 sw.WriteLine("// read times //");
             }
 
-         //   AllocConsole();
-            
-            
+            //   AllocConsole();
+
+
             Items.Add(DataItem.FromAddress("DB57.DBW32"));
             Items.Add(DataItem.FromAddress("DB57.DBW78"));
             Items.Add(DataItem.FromAddress("DB57.DBW24"));
@@ -210,6 +214,7 @@ namespace RobotProject.Form2Items
                 var address = 86 + i * 2;
                 Items.Add(DataItem.FromAddress("DB57.DBW" + address));
             }
+
             Items.Add(DataItem.FromAddress("DB57.DBW100"));
             for (var i = 0; i < 3; i++)
             {
@@ -222,7 +227,7 @@ namespace RobotProject.Form2Items
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool AllocConsole();
         */
-        
+
         private static void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Timer.Enabled = false;
@@ -233,12 +238,12 @@ namespace RobotProject.Form2Items
             }
             catch
             {
-                 //ignored
+                //ignored
             }
 
             Timer.Enabled = true;
         }
-        
+
         private static void ConnectBarcode()
         {
             if (BarcodeClient.Connected) BarcodeClient.Disconnect();
@@ -267,13 +272,12 @@ namespace RobotProject.Form2Items
 
             _cancelBarcodeSource = new CancellationTokenSource();
             _cancelBarcode = _cancelBarcodeSource.Token;
-            
+
             var barcodeListener = new Task(() => Listen());
-            barcodeListener.ContinueWith(t =>
-            {
-                MessageBox.Show(@"Barkod okuyucu dinleyicisinde bilinmeyen bir hata gerçekleşti.");
-            }, TaskContinuationOptions.OnlyOnFaulted);
-            
+            barcodeListener.ContinueWith(
+                t => { MessageBox.Show(@"Barkod okuyucu dinleyicisinde bilinmeyen bir hata gerçekleşti."); },
+                TaskContinuationOptions.OnlyOnFaulted);
+
             barcodeListener.Start();
             var args = EventArgs.Empty;
             OnBarcodeConnectionChanged(args);
@@ -285,7 +289,7 @@ namespace RobotProject.Form2Items
             {
                 Plc.Close();
             }
-            
+
             try
             {
                 Plc.Open();
@@ -294,7 +298,7 @@ namespace RobotProject.Form2Items
             {
                 MessageBox.Show(@"Plc bağlantısı sağlanamadı. " + ex.Message);
             }
-           
+
             var args = EventArgs.Empty;
             OnPlcConnectionChanged(args);
         }
@@ -359,7 +363,6 @@ namespace RobotProject.Form2Items
             }
         }
 
-
         public static void SendFixSignal(double d)
         {
             ushort i = 0;
@@ -381,12 +384,12 @@ namespace RobotProject.Form2Items
         {
             ushort i = 0;
             if (val) i = 1;
-            
+
             Plc.Write("DB57.DBW98", i);
         }
 
         private static void SendSignal(int cell, Offsets offsets, int px, int py, int type, int count, int cellFull,
-            int boxed, int offX, int offY)
+            int boxed, int offX, int offY, int katMax)
         {
             int[] values =
             {
@@ -403,6 +406,7 @@ namespace RobotProject.Form2Items
 
             Plc.Write("DB57.DBW30", (ushort) offsets.Rotation);
             Plc.Write("DB57.DBW34", (ushort) offsets.NextRotation);
+            Plc.Write("DB57.DBW102", (ushort) katMax);
         }
 
         private static void SendFromBuffer(int r)
@@ -410,16 +414,16 @@ namespace RobotProject.Form2Items
             if (Buffer.Empty(r)) return;
             _inProcess = true;
             var s = Buffer.Pop(r);
-            SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed, s.OffX, s.OffY);
+            SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed, s.OffX, s.OffY, s.KatMax);
         }
 
         private static void SendPlcSignals(Signal s)
         {
-          /*  using (var sw = File.AppendText(file))
-            {
-                sw.WriteLine("Start: " + processStart.ToString("HH:mm:ss") + " End: " + processEnd.ToString("HH:mm:ss") + " Elapsed: " + processEnd.Subtract(processStart).TotalMilliseconds);
-            }
-            */
+            /*  using (var sw = File.AppendText(file))
+              {
+                  sw.WriteLine("Start: " + processStart.ToString("HH:mm:ss") + " End: " + processEnd.ToString("HH:mm:ss") + " Elapsed: " + processEnd.Subtract(processStart).TotalMilliseconds);
+              }
+              */
             if (_inProcess)
             {
                 Buffer.Add(s, 0);
@@ -427,7 +431,8 @@ namespace RobotProject.Form2Items
             else
             {
                 _inProcess = true;
-                SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed, s.OffX, s.OffY);
+                SendSignal(s.Cell, s.Offsets, s.Px, s.Py, s.Type, s.Count, s.CellFull, s.Boxed, s.OffX, s.OffY,
+                    s.KatMax);
             }
         }
 
@@ -446,6 +451,7 @@ namespace RobotProject.Form2Items
         #endregion
 
         #region listeners
+
         private static async Task Listen()
         {
             while (true)
@@ -483,7 +489,6 @@ namespace RobotProject.Form2Items
 
         private static void UpdatePlcData()
         {
-            
             if (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - Times[0] > 800)
             {
                 if (_plcData != _oldData)
@@ -588,24 +593,29 @@ namespace RobotProject.Form2Items
         private static void Interpret(string barcode)
         {
             Console.WriteLine("Barcode: " + barcode);
-            if (barcode.IndexOf('S') == -1)
+            if (barcode.IndexOf('?') == -1)
             {
-                //barkod okunamadı
-            }
-            else
-            {
-                var orderNo = "";
-                var b = barcode.Split(';');
-
-                foreach (var sub in b)
+                if (barcode.IndexOf('S') == -1)
                 {
-                    if (!sub.Contains('S')) continue;
-                    orderNo = sub.Split('S')[1].Substring(0, 7);
-                    break;
+                    // tip etiketi
+                    //TODO
                 }
+                else
+                {
+                    // barkod
+                    var orderNo = "";
+                    var b = barcode.Split(';');
 
-                var orderNum = long.Parse(orderNo);
-                ProcessOrder(orderNum);
+                    foreach (var sub in b)
+                    {
+                        if (!sub.Contains('S')) continue;
+                        orderNo = sub.Split('S')[1].Substring(0, 7);
+                        break;
+                    }
+
+                    var orderNum = long.Parse(orderNo);
+                    ProcessOrder(orderNum);
+                }
             }
         }
 
@@ -635,26 +645,20 @@ namespace RobotProject.Form2Items
                 _patternLast = 0;
             }
 
-            if (c!.Full()) return;
+            //if (c!.Full()) return;
 
             var adjWidth = 0;
             var adjHeight = 0;
             var offadjX = 0;
             var offadjY = 0;
             var boxed = 0;
-            if (PatternProduct!.GetYontem() == 156 || PatternProduct.GetYontem() == 223)
+            if (PatternProduct!.GetYontem() == 156 || PatternProduct.GetYontem() == 223 ||
+                PatternProduct.GetYontem() == 250)
             {
                 boxed = 1;
                 adjHeight += 80;
                 adjWidth += 80;
             }
-
-            if (PatternProduct.GetYontem() == 1)
-            {
-                adjHeight += 5;
-                offadjY += 60;
-            }
-
 
             var a = PatternProduct.GetProductType();
             var z = 0;
@@ -683,36 +687,40 @@ namespace RobotProject.Form2Items
 
             var cNo = c.GetRobotNo();
 
+            if (c.PHolding == 0)
+            {
+                OnCellFull(c.RobotNo - 1);
+            }
+
             c.AddProduct();
             //offset hesapları
 
-            var offsets = Calculator.Calculate(PatternProduct.GetHeight() + adjHeight, PatternProduct.GetWidth() + adjWidth,
+            var offsets = Calculator.Calculate(PatternProduct.GetHeight() + adjHeight,
+                PatternProduct.GetWidth() + adjWidth,
                 z,
-                c.GetCounter(),
+                c.PHolding,
                 PatternProduct.GetYontem(), PatternProduct.GetProductType(), c.GetPalletHeight(),
                 c.GetPalletWidth(), c.GetPalletZ());
             //gerekli sinyaller gönderilir
             var full = 0;
-            if (offsets.NextKat > c.KatMax)
+            if (offsets.NextKat > c.KatMax || c.Full())
             {
                 full = 1;
             }
 
             var s = new Signal(cNo, offsets, PatternProduct.GetHeight() + adjHeight,
                 PatternProduct.GetWidth() + adjWidth,
-                PatternProduct.GetProductType(), c.GetCounter(), full, boxed, offadjX, offadjY);
+                PatternProduct.GetProductType(), c.PHolding, full, boxed, offadjX, offadjY, c.KatMax);
             SendPlcSignals(s);
 
             if (full == 1)
             {
-                c.OrderSize -= c.Holding;
-                c.Holding = 0;
                 c.PHolding = 0;
                 c.PDropped = 0;
-                OnCellFull(c.RobotNo-1);
             }
 
             ProductAdd(cNo);
+            ReportLogger.AddRecord(PatternProduct.YontemKodu, PatternProduct.GetProductType(), PatternProduct.Height, PatternProduct.Width);
 
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
         }
@@ -732,7 +740,7 @@ namespace RobotProject.Form2Items
         }
 
         public static int GetPalletMax(int px, int py, int yontem, int type)
-        {            
+        {
             string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
             int[] values = {yontem, type, px - px % 100, py - py % 100};
             try
@@ -746,19 +754,158 @@ namespace RobotProject.Form2Items
             {
                 return 0;
             }
-            
         }
 
+        private static void ProcessByInfo(int yontem, int tip, int yukseklik, int uzunluk, int orderSize)
+        {
+            var product = new Product(yukseklik, uzunluk, tip, orderSize, yontem.ToString());
+            var cList = Cells.FindAll(cell =>
+                (cell.Product.Height == yukseklik) && (cell.Product.Width == uzunluk) &&
+                (cell.Product.GetProductType() == tip) && (cell.Product.YontemKodu == yontem));
+            
+            Cell? c = null;
+            
+            switch (cList.Count)
+            {
+                case 0 when Cells.Count < 3:
+                {/*
+                    var px = product.GetHeight();
+                    var py = product.GetWidth();
+                    var katMax = GetKatMax(px, py, product.GetYontem(), product.GetProductType());
+                    var k = GetPalletMax(px, py, product.GetYontem(), product.GetProductType());
+                    var p = new Pallet()//TODO
+                    
+                    if (IsHeavy(product) && Cells.Find(cell => cell.RobotNo == 2) == null)
+                    {
+                        AssignCell(-1, 2, p!, katMax, product);
+                        OnCellAssigned(2, -1, p!, k);
+                    }
+                    else
+                    {
+                        var r = 1;
+                        while (Cells.Find(c => c.RobotNo == r) != null)
+                        {
+                            r++;
+                        }
+
+                        if (r > 3) return;
+                        AssignCell(-1, r, p!, katMax, product);
+                        OnCellAssigned(r, -1, p!, k);
+                    }
+
+                    c = GetCell(-1)!;
+                    */
+                    break;
+                }
+                case 0 when Cells.Count == Cells.Capacity:
+                    return;
+                default:
+                {
+                    if (_patternLast < cList.Count)
+                    {
+                        c = cList[_patternLast];
+                        _patternLast += 1;
+                    }
+                    else
+                    {
+                        _patternLast = 0;
+                    }
+
+                    if (_patternLast == cList.Count)
+                    {
+                        _patternLast = 0;
+                    }
+
+                    break;
+                }
+            }
+            var adjWidth = 0;
+            var adjHeight = 0;
+            var offadjX = 0;
+            var offadjY = 0;
+
+            var boxed = 0;
+            if (product.GetYontem() == 156 || product.GetYontem() == 223 || product.GetYontem() == 250)
+            {
+                boxed = 1;
+                adjHeight += 80;
+                adjWidth += 80;
+            }
+
+            var a = product.GetProductType();
+            var z = 0;
+            if (boxed == 1)
+            {
+                z = a switch
+                {
+                    11 => 96,
+                    21 => 96,
+                    22 => 130,
+                    33 => 180,
+                    _ => z
+                };
+            }
+            else
+            {
+                z = a switch
+                {
+                    11 => 74,
+                    21 => 76,
+                    22 => 108,
+                    33 => 164,
+                    _ => z
+                };
+            }
+
+            var cNo = c!.GetRobotNo();
+
+            if (c.PHolding == 0)
+            {
+                OnCellFull(c.RobotNo - 1);
+            }
+
+            c.AddProduct();
+
+            //offset hesapları
+
+            var offsets = Calculator.Calculate(product.GetHeight() + adjHeight, product.GetWidth() + adjWidth, z,
+                c.PHolding,
+                product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(),
+                c.GetPalletZ());
+
+            //gerekli sinyaller gönderilir
+            int full = 0;
+            if (offsets.NextKat > c.KatMax || c.Full())
+            {
+                full = 1;
+            }
+
+
+            var s = new Signal(cNo, offsets, product.GetHeight() + adjHeight, product.GetWidth() + adjWidth,
+                product.GetProductType(), c.PHolding, full, boxed, offadjX, offadjY, c.KatMax);
+            SendPlcSignals(s);
+
+            if (full == 1)
+            {
+                c.PHolding = 0;
+                c.PDropped = 0;
+            }
+            //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
+
+            ProductAdd(cNo);
+            ReportLogger.AddRecord(product.YontemKodu, product.GetProductType(), product.Height, product.Width);
+        }
+        
         private static void ProcessOrder(long orderNum)
         {
             var product = Sql.Select("Siparis_No", orderNum.ToString());
 
             if (product == null) return;
-            
+
             var cList = Cells.FindAll(cell => cell.OrderNo == orderNum);
 
 
-            Cell c = null;
+            Cell? c = null;
             switch (cList.Count)
             {
                 case 0 when Cells.Count < 3:
@@ -766,23 +913,24 @@ namespace RobotProject.Form2Items
                     var px = product.GetHeight();
                     var py = product.GetWidth();
                     var katMax = GetKatMax(px, py, product.GetYontem(), product.GetProductType());
+                    var k = GetPalletMax(px, py, product.GetYontem(), product.GetProductType());
                     var p = Sql.GetPallet(orderNum.ToString());
                     if (IsHeavy(product) && Cells.Find(cell => cell.RobotNo == 2) == null)
                     {
                         AssignCell(orderNum, 2, p!, katMax, product);
-                        OnCellAssigned(2, orderNum, p!, katMax);
+                        OnCellAssigned(2, orderNum, p!, k);
                     }
                     else
                     {
                         var r = 1;
-                        while(Cells.Find(c => c.RobotNo == r)!=null)
+                        while (Cells.Find(c => c.RobotNo == r) != null)
                         {
                             r++;
                         }
 
                         if (r > 3) return;
                         AssignCell(orderNum, r, p!, katMax, product);
-                        OnCellAssigned(r, orderNum, p!, katMax);
+                        OnCellAssigned(r, orderNum, p!, k);
                     }
 
                     c = GetCell(orderNum)!;
@@ -809,6 +957,7 @@ namespace RobotProject.Form2Items
 
                     break;
                 }
+                
             }
 
             var adjWidth = 0;
@@ -817,7 +966,7 @@ namespace RobotProject.Form2Items
             var offadjY = 0;
 
             var boxed = 0;
-            if (product.GetYontem() == 156 || product.GetYontem() == 223)
+            if (product.GetYontem() == 156 || product.GetYontem() == 223 || product.GetYontem() == 250)
             {
                 boxed = 1;
                 adjHeight += 80;
@@ -830,9 +979,9 @@ namespace RobotProject.Form2Items
             {
                 z = a switch
                 {
-                    11 => 90,
-                    21 => 90,
-                    22 => 124,
+                    11 => 96,
+                    21 => 96,
+                    22 => 130,
                     33 => 180,
                     _ => z
                 };
@@ -850,38 +999,42 @@ namespace RobotProject.Form2Items
             }
 
             var cNo = c!.GetRobotNo();
-            
+
+            if (c.PHolding == 0)
+            {
+                OnCellFull(c.RobotNo - 1);
+            }
+
             c.AddProduct();
 
             //offset hesapları
 
             var offsets = Calculator.Calculate(product.GetHeight() + adjHeight, product.GetWidth() + adjWidth, z,
-                c.GetCounter(),
+                c.PHolding,
                 product.GetYontem(), product.GetProductType(), c.GetPalletHeight(), c.GetPalletWidth(),
                 c.GetPalletZ());
-            
+
             //gerekli sinyaller gönderilir
             int full = 0;
-            if (offsets.NextKat > c.KatMax)
+            if (offsets.NextKat > c.KatMax || c.Full())
             {
                 full = 1;
             }
 
+
             var s = new Signal(cNo, offsets, product.GetHeight() + adjHeight, product.GetWidth() + adjWidth,
-                product.GetProductType(), c.GetCounter(), full, boxed, offadjX, offadjY);
+                product.GetProductType(), c.PHolding, full, boxed, offadjX, offadjY, c.KatMax);
             SendPlcSignals(s);
-            
+
             if (full == 1)
             {
-                c.OrderSize -= c.Holding;
-                c.Holding = 0;
                 c.PHolding = 0;
                 c.PDropped = 0;
-                OnCellFull(c.RobotNo-1);
             }
             //cell, (x,y,z) offsets, dizilim şekli, en, boy, kat, tip, sayı, hücredolu, kutulu?
 
             ProductAdd(cNo);
+            ReportLogger.AddRecord(product.YontemKodu, product.GetProductType(), product.Height, product.Width);
         }
 
         #endregion
@@ -919,16 +1072,13 @@ namespace RobotProject.Form2Items
             try
             {
                 var c = Cells.Find(cell => cell.GetRobotNo() == i + 1);
-                if (c != null)
-                {
-                    Cells.Remove(c);
-                    
-                    if (Cells.Count == 0)
-                    {
-                        PatternMode = false;
-                    }
-                }
+                if (c == null) return;
+                Cells.Remove(c);
 
+                if (Cells.Count == 0)
+                {
+                    PatternMode = false;
+                }
             }
             catch (Exception)
             {
@@ -947,13 +1097,13 @@ namespace RobotProject.Form2Items
 
             if (c.Holding > c.OrderSize) c.Holding = c.OrderSize;
             if (c.Holding < 0) c.Holding = 0;
-            
+
             if (c.Dropped > c.OrderSize) c.Dropped = c.OrderSize;
             if (c.Dropped < 0) c.Dropped = 0;
-            
+
             if (c.PHolding > c.OrderSize) c.PHolding = c.OrderSize;
             if (c.PHolding < 0) c.PHolding = 0;
-            
+
             if (c.PDropped > c.OrderSize) c.PDropped = c.OrderSize;
             if (c.PDropped < 0) c.PDropped = 0;
         }

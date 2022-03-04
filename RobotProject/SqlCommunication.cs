@@ -17,14 +17,15 @@ namespace RobotProject
             try
             {
                 _cnn.Close();
-            } 
-            catch (Exception) {//ignore
             }
-            
+            catch (Exception)
+            {
+                //ignore
+            }
+
             string connectionString =
                 //@"Data Source=.\SQLEXPRESS;Initial Catalog=ELBA_SERVER;Integrated Security=False;User ID=sa;Password=acrobat;MultipleActiveResultSets=True;";
-
-                @"Data Source=10.100.11.148;Network Library=DBMSSOCN;Initial Catalog=ELBA_Server;User ID=sa;Password=acrobat;";
+                @"Data Source=10.56.2.194;Network Library=DBMSSOCN;Initial Catalog=ELBA_Server;User ID=sa;Password=acrobat;";
             _cnn = new SqlConnection(connectionString);
             try
             {
@@ -58,7 +59,7 @@ namespace RobotProject
                     var t = rdr.GetInt32(rdr.GetOrdinal("Tip"));
                     var m = rdr.GetDouble(rdr.GetOrdinal("Toplam_Siparis_Miktar"));
 
-                    res = new Product(y, u,t, (float) m, rdr.GetString(rdr.GetOrdinal("Yontem_Kodu")));
+                    res = new Product(y, u, t, (float) m, rdr.GetString(rdr.GetOrdinal("Yontem_Kodu")));
                 }
 
                 rdr.Close();
@@ -101,9 +102,40 @@ namespace RobotProject
             string cmdString = $"SELECT *  FROM Ambalaj WHERE Siparis_No={orderNo};";
             SqlCommand cmd = new SqlCommand(cmdString, _cnn);
             SqlDataReader rdr = cmd.ExecuteReader();
-            
+
+            Pallet res = new Pallet(0, 0, 0, 0);
             if (rdr.Read())
             {
+                var yontem = rdr.GetString(rdr.GetOrdinal("Yontem_Kodu"));
+                var t = rdr.GetInt32(rdr.GetOrdinal("Tip"));
+                var m = rdr.GetDouble(rdr.GetOrdinal("Toplam_Siparis_Miktar"));
+                var yparse = 0;
+                var uparse = 0;
+
+                var px = rdr.GetInt32(rdr.GetOrdinal("Yukseklik"));
+                var py = rdr.GetInt32(rdr.GetOrdinal("Uzunluk"));
+                string[] fields = {"YontemKodu", "Tip", "Yukseklik", "Uzunluk"};
+                int[] values = {int.Parse(yontem), t, px - px % 100, py - py % 100};
+
+
+                try
+                {
+                    yparse = (int) (double) ConnectionManager.Calculator.Er.Find(fields, values).Rows[0]["Palet H"];
+                    uparse = (int) (double) ConnectionManager.Calculator.Er.Find(fields, values).Rows[0]["Palet L"];
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show(@"Palet bilgisi okunamadı. Ürün bilgileri: YöntemKodu=" + values[0] + " Tip=" +
+                                    values[1] + " Yükseklik=" + (px - px % 100) + " Uzunluk=" + (py - py % 100));
+                }
+
+                res = new Pallet(yparse, uparse,
+                    t, Convert.ToInt32(m));
+
+
+                rdr.Close();
+                return res;
+                /*
                 var yontem = rdr.GetString(rdr.GetOrdinal("Yontem_Kodu"));
                 var t = rdr.GetInt32(rdr.GetOrdinal("Tip"));
                 var m = rdr.GetDouble(rdr.GetOrdinal("Toplam_Siparis_Miktar"));
@@ -132,7 +164,9 @@ namespace RobotProject
                     t, Convert.ToInt32(m));
                 rdr.Close();
                 return res;
+                */
             }
+
             rdr.Close();
             return null;
         }
